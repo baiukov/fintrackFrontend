@@ -9,20 +9,16 @@ import { Buttons } from '../../enums/Buttons'
 import { Pages } from '../../enums/Pages'
 import { RootState } from '../../storage/store'
 import { GlobalStyles } from '../../styles/GlobalStyles.styles'
-import { styles } from './LoginPage.styles'
+import { styles } from './SignupPage.styles'
 
-export const LoginPage = (props: any) => {
-	const validate = (login: string, password: string) => {
-		return login && password
-	}
-
-	const transferToSignup = () => {
-		props.navigation.navigate(Pages.SIGNUP)
-	}
-
+export const SignupPage = (props: any) => {
 	const language = useSelector(
 		(state: RootState) => state.language.language
 	) as unknown as Record<string, string>
+
+	function transferToLogin() {
+		props.navigation.navigate(Pages.LOGIN)
+	}
 
 	return (
 		<View style={GlobalStyles.page}>
@@ -32,35 +28,60 @@ export const LoginPage = (props: any) => {
 				start={{ x: -1, y: -1 }}
 				end={{ x: 1, y: 1 }}
 			>
-				<Formik initialValues={{ login: '', password: '' }} onSubmit={() => {}}>
-					{(props: FormikProps<{ login: string; password: string }>) => (
+				<Formik
+					initialValues={{
+						email: '',
+						username: '',
+						password: '',
+						repeatPassword: '',
+					}}
+					onSubmit={() => {}}
+				>
+					{(
+						props: FormikProps<{
+							email: string
+							username: string
+							password: string
+							repeatPassword: string
+						}>
+					) => (
 						<View style={styles.form}>
-							<Text
-								style={GlobalStyles.header}
-							>{`${language.LOGIN_PAGE}`}</Text>
+							<Text style={GlobalStyles.header}>
+								{`${language.SIGNUP_PAGE}`}
+							</Text>
 
 							<View style={styles.textFields}>
 								<TextField
-									value={props.values.login}
+									value={props.values.email}
 									placeholder={language.LOGIN}
-									handleChange={props.handleChange('login')}
+									handleChange={props.handleChange('email')}
+								/>
+								<TextField
+									value={props.values.username}
+									placeholder={language.USERNAME}
+									handleChange={props.handleChange('username')}
 								/>
 								<TextField
 									value={props.values.password}
 									placeholder={language.PASSWORD}
-									handleChange={props.handleChange('password')}
+									handleChange={props.handleChange('passowrd')}
+								/>
+								<TextField
+									value={props.values.repeatPassword}
+									placeholder={language.REPEAT_PASSWORD}
+									handleChange={props.handleChange('repeatPassword')}
 								/>
 							</View>
 							<View>
 								<MainButton
-									title={language.LOGIN}
+									title={language.SIGNUP}
 									variant={Buttons.PRIMARY}
 									callback={() => {}}
 								/>
 								<MainButton
-									title={language.SIGNUP}
+									title={language.LOGIN}
 									variant={Buttons.SECONDARY}
-									callback={transferToSignup}
+									callback={transferToLogin}
 								/>
 							</View>
 						</View>

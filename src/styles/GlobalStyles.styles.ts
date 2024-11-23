@@ -19,4 +19,20 @@ export const GlobalStyles = StyleSheet.create({
 		width: '100%',
 		height: '100%',
 	},
+
+	center: {
+		display: 'flex',
+		backgroundColor: 'red',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+
+	header: {
+		fontSize: 64,
+		textAlign: 'center',
+		color: 'white',
+		textTransform: 'uppercase',
+		fontWeight: 'bold',
+	},
 })

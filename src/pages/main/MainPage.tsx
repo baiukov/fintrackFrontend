@@ -12,11 +12,15 @@ export const MainPage = (props: any) => {
 		props.navigation.navigate(Pages.LOGIN)
 	}
 
+	const transferToSignup = () => {
+		props.navigation.navigate(Pages.SIGNUP)
+	}
+
 	return (
 		<View style={GlobalStyles.page}>
 			<LinearGradient
 				colors={['rgba(55, 63, 128, 1)', 'rgba(0, 0, 0, 1)']}
-				style={[GlobalStyles.background, styles.global]}
+				style={[GlobalStyles.background, GlobalStyles.center]}
 				start={{ x: -1, y: -1 }}
 				end={{ x: 1, y: 1 }}
 			>
@@ -34,7 +38,7 @@ export const MainPage = (props: any) => {
 				<MainButton
 					variant={Buttons.SECONDARY}
 					title='Sign up'
-					callback={() => {}}
+					callback={transferToSignup}
 				></MainButton>
 			</LinearGradient>
 		</View>
