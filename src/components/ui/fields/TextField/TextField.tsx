@@ -7,6 +7,9 @@ export interface TextFieldProps {
 	placeholder: string
 	handleChange: (text: string) => any
 	error?: string
+	secureTextEntry?: boolean
+	maxLength?: number
+	keyboardType?: 'default' | 'numeric' | 'email-address' | 'phone-pad'
 }
 
 export const TextField = (props: TextFieldProps) => {
@@ -17,8 +20,13 @@ export const TextField = (props: TextFieldProps) => {
 				placeholder={props.placeholder}
 				style={styles.input}
 				onChangeText={props.handleChange}
-			></TextInput>
-			{props.error ? <Text style={styles.error}></Text> : undefined}
+				secureTextEntry={props.secureTextEntry || false}
+				maxLength={props.maxLength}
+				keyboardType={props.keyboardType}
+			/>
+			{props.error ? (
+				<Text style={styles.error}>{props.error}</Text>
+			) : undefined}
 		</View>
 	)
 }

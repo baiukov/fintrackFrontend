@@ -12,6 +12,6 @@ export const styles = StyleSheet.create({
 		paddingVertical: 10,
 	},
 	error: {
-		color: '#820000',
+		color: '#B90000',
 	},
 })

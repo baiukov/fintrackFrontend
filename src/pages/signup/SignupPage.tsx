@@ -11,13 +11,47 @@ import { RootState } from '../../storage/store'
 import { GlobalStyles } from '../../styles/GlobalStyles.styles'
 import { styles } from './SignupPage.styles'
 
+interface FormProps {
+	email: string
+	username: string
+	password: string
+	repeatPassword: string
+}
+
 export const SignupPage = (props: any) => {
 	const language = useSelector(
 		(state: RootState) => state.language.language
 	) as unknown as Record<string, string>
 
 	function transferToLogin() {
-		props.navigation.navigate(Pages.LOGIN)
+		props.navigation.replace(Pages.LOGIN)
+	}
+
+	const validate = (values: FormProps) => {
+		const errors: {
+			email?: string
+			username?: string
+			password?: string
+			repeatPassword?: string
+		} = {}
+
+		if (!values.email) {
+			errors.email = language.MISSING_EMAIL
+		}
+
+		if (!values.password) {
+			errors.password = language.MISSING_PASSWORD
+		}
+
+		if (!values.username) {
+			errors.username = language.MISSING_USERNAME
+		}
+
+		if (!values.repeatPassword) {
+			errors.password = language.MISSING_REPEAT_PASSWORD
+		}
+
+		return errors
 	}
 
 	return (
@@ -35,16 +69,10 @@ export const SignupPage = (props: any) => {
 						password: '',
 						repeatPassword: '',
 					}}
+					validate={validate}
 					onSubmit={() => {}}
 				>
-					{(
-						props: FormikProps<{
-							email: string
-							username: string
-							password: string
-							repeatPassword: string
-						}>
-					) => (
+					{(props: FormikProps<FormProps>) => (
 						<View style={styles.form}>
 							<Text style={GlobalStyles.header}>
 								{`${language.SIGNUP_PAGE}`}

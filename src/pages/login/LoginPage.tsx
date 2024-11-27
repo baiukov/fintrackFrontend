@@ -12,17 +12,27 @@ import { GlobalStyles } from '../../styles/GlobalStyles.styles'
 import { styles } from './LoginPage.styles'
 
 export const LoginPage = (props: any) => {
-	const validate = (login: string, password: string) => {
-		return login && password
-	}
-
-	const transferToSignup = () => {
-		props.navigation.navigate(Pages.SIGNUP)
-	}
-
 	const language = useSelector(
 		(state: RootState) => state.language.language
 	) as unknown as Record<string, string>
+
+	const validate = (values: { login: string; password: string }) => {
+		const errors: { login?: string; password?: string } = {}
+
+		if (!values.login) {
+			errors.login = language.MISSING_LOGIN
+		}
+
+		if (!values.password) {
+			errors.password = language.MISSING_PASSWORD
+		}
+
+		return errors
+	}
+
+	const transferToSignup = () => {
+		props.navigation.replace(Pages.SIGNUP)
+	}
 
 	return (
 		<View style={GlobalStyles.page}>
@@ -32,30 +42,41 @@ export const LoginPage = (props: any) => {
 				start={{ x: -1, y: -1 }}
 				end={{ x: 1, y: 1 }}
 			>
-				<Formik initialValues={{ login: '', password: '' }} onSubmit={() => {}}>
+				<Formik
+					initialValues={{ login: '', password: '' }}
+					validate={validate}
+					onSubmit={() => {
+						props.navigation.navigate(Pages.PINCODE_LOGIN)
+					}}
+				>
 					{(props: FormikProps<{ login: string; password: string }>) => (
 						<View style={styles.form}>
-							<Text
-								style={GlobalStyles.header}
-							>{`${language.LOGIN_PAGE}`}</Text>
+							<Text style={GlobalStyles.header}>
+								{`${language.LOGIN_PAGE}`}
+							</Text>
 
 							<View style={styles.textFields}>
 								<TextField
 									value={props.values.login}
 									placeholder={language.LOGIN}
 									handleChange={props.handleChange('login')}
+									error={props.errors.login}
 								/>
 								<TextField
 									value={props.values.password}
 									placeholder={language.PASSWORD}
 									handleChange={props.handleChange('password')}
+									secureTextEntry={true}
+									error={props.errors.password}
 								/>
 							</View>
 							<View>
 								<MainButton
 									title={language.LOGIN}
 									variant={Buttons.PRIMARY}
-									callback={() => {}}
+									callback={() => {
+										props.handleSubmit()
+									}}
 								/>
 								<MainButton
 									title={language.SIGNUP}
