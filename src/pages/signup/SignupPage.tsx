@@ -35,20 +35,27 @@ export const SignupPage = (props: any) => {
 			repeatPassword?: string
 		} = {}
 
+		const regex =
+			/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+
 		if (!values.email) {
 			errors.email = language.MISSING_EMAIL
+		} else if (!regex.test(values.email)) {
+			errors.email = language.WRONG_EMAIL
 		}
 
 		if (!values.password) {
 			errors.password = language.MISSING_PASSWORD
 		}
 
-		if (!values.username) {
+		if (!values.username || values.username.length < 4) {
 			errors.username = language.MISSING_USERNAME
 		}
 
 		if (!values.repeatPassword) {
-			errors.password = language.MISSING_REPEAT_PASSWORD
+			errors.repeatPassword = language.MISSING_REPEAT_PASSWORD
+		} else if (values.password !== values.repeatPassword) {
+			errors.repeatPassword = language.PASSWORDS_DONT_MATCH
 		}
 
 		return errors
@@ -58,10 +65,13 @@ export const SignupPage = (props: any) => {
 		<View style={GlobalStyles.page}>
 			<LinearGradient
 				colors={['rgba(55, 63, 128, 1)', 'rgba(0, 0, 0, 1)']}
-				style={[GlobalStyles.background, GlobalStyles.center]}
+				style={[GlobalStyles.background]}
 				start={{ x: -1, y: -1 }}
 				end={{ x: 1, y: 1 }}
 			>
+				<View style={GlobalStyles.headerWrapper}>
+					<Text style={GlobalStyles.header}>{`${language.SIGNUP_PAGE}`}</Text>
+				</View>
 				<Formik
 					initialValues={{
 						email: '',
@@ -69,42 +79,44 @@ export const SignupPage = (props: any) => {
 						password: '',
 						repeatPassword: '',
 					}}
-					validate={validate}
-					onSubmit={() => {}}
+					// validate={validate}
+					onSubmit={() => {
+						props.navigation.navigate(Pages.MAIN_MENU)
+					}}
 				>
 					{(props: FormikProps<FormProps>) => (
 						<View style={styles.form}>
-							<Text style={GlobalStyles.header}>
-								{`${language.SIGNUP_PAGE}`}
-							</Text>
-
-							<View style={styles.textFields}>
+							<View style={[styles.textFields, GlobalStyles.center]}>
 								<TextField
 									value={props.values.email}
-									placeholder={language.LOGIN}
+									placeholder={language.EMAIL}
 									handleChange={props.handleChange('email')}
+									error={props.errors.email}
 								/>
 								<TextField
 									value={props.values.username}
 									placeholder={language.USERNAME}
 									handleChange={props.handleChange('username')}
+									error={props.errors.username}
 								/>
 								<TextField
 									value={props.values.password}
 									placeholder={language.PASSWORD}
-									handleChange={props.handleChange('passowrd')}
+									handleChange={props.handleChange('password')}
+									error={props.errors.password}
 								/>
 								<TextField
 									value={props.values.repeatPassword}
 									placeholder={language.REPEAT_PASSWORD}
 									handleChange={props.handleChange('repeatPassword')}
+									error={props.errors.repeatPassword}
 								/>
 							</View>
-							<View>
+							<View style={GlobalStyles.center}>
 								<MainButton
 									title={language.SIGNUP}
 									variant={Buttons.PRIMARY}
-									callback={() => {}}
+									callback={props.handleSubmit}
 								/>
 								<MainButton
 									title={language.LOGIN}

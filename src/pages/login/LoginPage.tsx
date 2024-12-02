@@ -38,10 +38,13 @@ export const LoginPage = (props: any) => {
 		<View style={GlobalStyles.page}>
 			<LinearGradient
 				colors={['rgba(55, 63, 128, 1)', 'rgba(0, 0, 0, 1)']}
-				style={[GlobalStyles.background, GlobalStyles.center]}
+				style={[GlobalStyles.background]}
 				start={{ x: -1, y: -1 }}
 				end={{ x: 1, y: 1 }}
 			>
+				<View style={GlobalStyles.headerWrapper}>
+					<Text style={GlobalStyles.header}>{`${language.LOGIN_PAGE}`}</Text>
+				</View>
 				<Formik
 					initialValues={{ login: '', password: '' }}
 					validate={validate}
@@ -51,11 +54,7 @@ export const LoginPage = (props: any) => {
 				>
 					{(props: FormikProps<{ login: string; password: string }>) => (
 						<View style={styles.form}>
-							<Text style={GlobalStyles.header}>
-								{`${language.LOGIN_PAGE}`}
-							</Text>
-
-							<View style={styles.textFields}>
+							<View style={[styles.textFields, GlobalStyles.center]}>
 								<TextField
 									value={props.values.login}
 									placeholder={language.LOGIN}
@@ -70,7 +69,7 @@ export const LoginPage = (props: any) => {
 									error={props.errors.password}
 								/>
 							</View>
-							<View>
+							<View style={GlobalStyles.center}>
 								<MainButton
 									title={language.LOGIN}
 									variant={Buttons.PRIMARY}

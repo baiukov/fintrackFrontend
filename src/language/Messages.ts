@@ -10,6 +10,7 @@ export const Messages = {
 		REPEAT_PASSWORD: 'Repeat password',
 		PINCODE: 'Pincode',
 		GO: 'Go',
+		ACCOUNTS: 'Accounts',
 
 		MISSING_EMAIL: 'E-mail is required',
 		WRONG_EMAIL: 'Invalid e-mail',
@@ -17,6 +18,10 @@ export const Messages = {
 		MISSING_PASSWORD: 'Password is required',
 		MISSING_USERNAME: 'Username is required',
 		MISSING_REPEAT_PASSWORD: 'Repeat password',
+		PASSWORDS_DONT_MATCH: "Passwords don't match",
+		MISSING_PINCODE: 'Pincode is required',
+		PINCODE_TOO_SHORT: 'Pincode is too short',
+		PINCODE_NOT_DIGITS: 'Pincode must contain only digits',
 	},
 
 	CZ: {

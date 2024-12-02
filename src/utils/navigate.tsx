@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { Provider } from 'react-redux'
 import { Pages } from '../enums/Pages'
 import { LoginPage } from '../pages/login/LoginPage'
+import { MainMenuPage } from '../pages/mainMenuPage/MainMenuPage'
 import { PincodeLoginPage } from '../pages/pincodeLogin/PincodeLoginPage'
 import { SignupPage } from '../pages/signup/SignupPage'
 import store from '../storage/store'
@@ -37,6 +38,10 @@ export default function navigate() {
 						name={Pages.PINCODE_LOGIN}
 						component={PincodeLoginPage}
 					/>
+					<Stack.Screen
+						name={Pages.MAIN_MENU}
+						component={MainMenuPage}
+					></Stack.Screen>
 				</Stack.Navigator>
 			</NavigationContainer>
 		</Provider>

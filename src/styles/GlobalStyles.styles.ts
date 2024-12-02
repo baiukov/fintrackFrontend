@@ -22,7 +22,6 @@ export const GlobalStyles = StyleSheet.create({
 
 	center: {
 		display: 'flex',
-		backgroundColor: 'red',
 		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -34,5 +33,12 @@ export const GlobalStyles = StyleSheet.create({
 		color: 'white',
 		textTransform: 'uppercase',
 		fontWeight: 'bold',
+	},
+
+	headerWrapper: {
+		height: 300,
+		display: 'flex',
+		justifyContent: 'flex-end',
+		marginBottom: 40,
 	},
 })

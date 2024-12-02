@@ -15,18 +15,38 @@ export const PincodeLoginPage = (props: any) => {
 		(state: RootState) => state.language.language
 	) as unknown as Record<string, string>
 
+	const validate = (values: { pincode: string }) => {
+		const errors: { pincode?: string } = {}
+
+		const digitReg = /^\d+$/
+
+		if (!values.pincode) {
+			errors.pincode = language.MISSING_PINCODE
+		} else if (values.pincode.length < 4) {
+			errors.pincode = language.PINCODE_TOO_SHORT
+		} else if (!digitReg.test(values.pincode)) {
+			errors.pincode = language.PINCODE_NOT_DIGITS
+		}
+
+		return errors
+	}
+
 	return (
 		<View style={GlobalStyles.page}>
 			<LinearGradient
 				colors={['rgba(55, 63, 128, 1)', 'rgba(0, 0, 0, 1)']}
-				style={[GlobalStyles.background, GlobalStyles.center]}
+				style={[GlobalStyles.background]}
 				start={{ x: -1, y: -1 }}
 				end={{ x: 1, y: 1 }}
 			>
+				<View style={GlobalStyles.headerWrapper}>
+					<Text style={GlobalStyles.header}>{`${language.PINCODE}`}</Text>
+				</View>
 				<Formik
 					initialValues={{
 						pincode: '',
 					}}
+					validate={validate}
 					onSubmit={() => {}}
 				>
 					{(
@@ -35,8 +55,6 @@ export const PincodeLoginPage = (props: any) => {
 						}>
 					) => (
 						<View style={styles.form}>
-							<Text style={GlobalStyles.header}>{`${language.PINCODE}`}</Text>
-
 							<View style={styles.textFields}>
 								<TextField
 									value={props.values.pincode}
@@ -45,9 +63,10 @@ export const PincodeLoginPage = (props: any) => {
 									secureTextEntry={true}
 									maxLength={4}
 									keyboardType={'numeric'}
+									error={props.errors.pincode}
 								/>
 							</View>
-							<View>
+							<View style={GlobalStyles.center}>
 								<MainButton
 									title={language.GO}
 									variant={Buttons.PRIMARY}

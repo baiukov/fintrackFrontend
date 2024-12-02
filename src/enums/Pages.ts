@@ -3,4 +3,5 @@ export enum Pages {
 	LOGIN = 'login',
 	SIGNUP = 'signup',
 	PINCODE_LOGIN = 'pincodeLogin',
+	MAIN_MENU = 'mainMenu',
 }
