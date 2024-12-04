@@ -11,6 +11,7 @@ export const Messages = {
 		PINCODE: 'Pincode',
 		GO: 'Go',
 		ACCOUNTS: 'Accounts',
+		ASSETS: 'Assets',
 
 		MISSING_EMAIL: 'E-mail is required',
 		WRONG_EMAIL: 'Invalid e-mail',

@@ -1,3 +1,4 @@
+import { Tabs, TabsProps } from 'antd'
 import { LinearGradient } from 'expo-linear-gradient'
 import React from 'react'
 import { Text, View } from 'react-native'
@@ -13,6 +14,24 @@ export const MainMenuPage = () => {
 		(state: RootState) => state.language.language
 	) as unknown as Record<string, string>
 
+	const items: TabsProps['items'] = [
+		{
+			key: '1',
+			label: 'Tab 1',
+			children: 'Content of Tab Pane 1',
+		},
+		{
+			key: '2',
+			label: 'Tab 2',
+			children: 'Content of Tab Pane 2',
+		},
+		{
+			key: '3',
+			label: 'Tab 3',
+			children: 'Content of Tab Pane 3',
+		},
+	]
+
 	return (
 		<View style={GlobalStyles.page}>
 			<LinearGradient
@@ -24,6 +43,7 @@ export const MainMenuPage = () => {
 				<View style={GlobalStyles.headerWrapper}>
 					<Text style={GlobalStyles.header}>{`${language.ACCOUNTS}`}</Text>
 				</View>
+				<Tabs defaultActiveKey='1' items={items} />;
 				<View style={GlobalStyles.center}>
 					<MenuGroup title='Family'>
 						<MenuItem
