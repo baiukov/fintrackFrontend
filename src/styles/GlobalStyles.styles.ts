@@ -41,4 +41,11 @@ export const GlobalStyles = StyleSheet.create({
 		justifyContent: 'flex-end',
 		marginBottom: 40,
 	},
+
+	tabs: {
+		width: '100%',
+		display: 'flex',
+		justifyContent: 'center',
+		color: 'white',
+	},
 })
