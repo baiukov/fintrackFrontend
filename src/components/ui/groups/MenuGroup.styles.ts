@@ -1,4 +1,6 @@
-export const styles = {
+import { StyleSheet } from 'react-native'
+
+export const styles = StyleSheet.create({
 	title: {
 		color: 'white',
 		fontSize: 30,
@@ -10,4 +12,4 @@ export const styles = {
 		marginLeft: 25,
 		gap: 5,
 	},
-}
+})
