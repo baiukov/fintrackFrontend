@@ -48,4 +48,5 @@ export const GlobalStyles = StyleSheet.create({
 		justifyContent: 'center',
 		color: 'white',
 	},
+
 })

@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native'
 
 export const styles = StyleSheet.create({
 	tabs: {
-		width: '30%',
+		width: 127.5,
 		display: 'flex',
 		justifyContent: 'center',
 		color: 'white',
