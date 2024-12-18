@@ -1,16 +1,8 @@
-import { configureStore } from '@reduxjs/toolkit'
-import languageReducer from './slices/languageSlice'
+import { create } from 'zustand'
+import { Messages } from '../language/Messages'
 
-export interface RootState {
-	language: {
-		language: string
-	}
-}
+export const useStore = create(set => ({
+	language: Messages.EN,
 
-const store = configureStore({
-	reducer: {
-		language: languageReducer,
-	},
-})
-
-export default store
+	setLanguage: (language: Record<string, string>) => set({ language }),
+}))

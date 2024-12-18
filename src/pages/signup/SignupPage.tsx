@@ -2,12 +2,11 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Formik, FormikProps } from 'formik'
 import React from 'react'
 import { Text, View } from 'react-native'
-import { useSelector } from 'react-redux'
 import { MainButton } from '../../components/ui/buttons/MainButton/MainButton'
 import { TextField } from '../../components/ui/fields/TextField/TextField'
 import { Buttons } from '../../enums/Buttons'
 import { Pages } from '../../enums/Pages'
-import { RootState } from '../../storage/store'
+import { useStore } from '../../storage/store'
 import { GlobalStyles } from '../../styles/GlobalStyles.styles'
 import { styles } from './SignupPage.styles'
 
@@ -19,9 +18,7 @@ interface FormProps {
 }
 
 export const SignupPage = (props: any) => {
-	const language = useSelector(
-		(state: RootState) => state.language.language
-	) as unknown as Record<string, string>
+	const language = useStore((state: any) => state.language)
 
 	function transferToLogin() {
 		props.navigation.replace(Pages.LOGIN)
@@ -79,7 +76,7 @@ export const SignupPage = (props: any) => {
 						password: '',
 						repeatPassword: '',
 					}}
-					// validate={validate}
+					validate={validate}
 					onSubmit={() => {
 						props.navigation.navigate(Pages.MAIN_MENU)
 					}}
