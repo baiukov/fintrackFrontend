@@ -76,7 +76,7 @@ export const SignupPage = (props: any) => {
 						password: '',
 						repeatPassword: '',
 					}}
-					validate={validate}
+					// validate={validate}
 					onSubmit={() => {
 						props.navigation.navigate(Pages.MAIN_MENU)
 					}}

@@ -28,7 +28,7 @@ export const GlobalStyles = StyleSheet.create({
 	},
 
 	header: {
-		fontSize: 64,
+		fontSize: 54,
 		textAlign: 'center',
 		color: 'white',
 		textTransform: 'uppercase',
@@ -48,5 +48,4 @@ export const GlobalStyles = StyleSheet.create({
 		justifyContent: 'center',
 		color: 'white',
 	},
-
 })
