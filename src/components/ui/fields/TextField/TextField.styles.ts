@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
 	input: {
 		color: '#A5A5A5',
 		width: 300,
-		height: 40,
+		height: 50,
 		borderBottomColor: 'white',
 		borderBottomWidth: 3,
 		paddingLeft: 5,

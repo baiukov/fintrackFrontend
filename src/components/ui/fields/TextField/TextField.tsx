@@ -22,6 +22,7 @@ export const TextField = (props: TextFieldProps) => {
 				onChangeText={props.handleChange}
 				secureTextEntry={props.secureTextEntry || false}
 				maxLength={props.maxLength}
+				placeholderTextColor='#717171'
 				keyboardType={props.keyboardType}
 			/>
 			{props.error ? (
