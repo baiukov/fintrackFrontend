@@ -3,10 +3,9 @@ import { Formik, FormikProps } from 'formik'
 import React, { useState } from 'react'
 import { Text, View } from 'react-native'
 import { MainButton } from '../../components/ui/buttons/MainButton/MainButton'
-import { DropDown } from '../../components/ui/dropdowns/dropdown/Dropdown'
-import { DropDownIcons } from '../../components/ui/dropdowns/dropdownItems/DropdownIcons'
-import { DropDownPalette } from '../../components/ui/dropdowns/dropdownPalette/DropdownPalette'
+import { Checkbox } from '../../components/ui/checkbox/Checkbox'
 import { TextField } from '../../components/ui/fields/TextField/TextField'
+import { Picker } from '../../components/ui/picker/Picker'
 import { AccountIcons } from '../../enums/AccountIcons'
 import { AccountTypes } from '../../enums/AccountTypes'
 import { Buttons } from '../../enums/Buttons'
@@ -42,10 +41,12 @@ export const AccountEditorPage1 = (props: AccountEditorProps) => {
 
 	const accountIcons = Object.keys(AccountIcons).map(key => {
 		return {
-			label: key,
-			value: key,
+			id: key,
+			element: AccountIcons[key as keyof typeof AccountIcons],
 		}
 	})
+
+	const [selectedColor, setSelectedColor] = useState('white')
 
 	return (
 		<View style={GlobalStyles.page}>
@@ -57,6 +58,7 @@ export const AccountEditorPage1 = (props: AccountEditorProps) => {
 			>
 				<View style={GlobalStyles.headerWrapper}>
 					<Text style={GlobalStyles.header}>{`${language.EDITOR}`}</Text>
+					<Text style={GlobalStyles.subheader}>{`${language.STEP} 1/3`}</Text>
 				</View>
 
 				<Formik
@@ -74,31 +76,38 @@ export const AccountEditorPage1 = (props: AccountEditorProps) => {
 				>
 					{(props: FormikProps<FormProps>) => (
 						<View style={GlobalStyles.form}>
-							<View style={[GlobalStyles.textFields, GlobalStyles.center]}>
+							<View style={[GlobalStyles.inputFields, GlobalStyles.center]}>
 								<TextField
 									value={props.values.title}
 									placeholder={language.TITLE}
 									handleChange={props.handleChange('title')}
 									error={props.errors.title}
 								/>
-								<DropDown
-									placeholder={language.CHOOSE_TYPE}
-									items={accountTypes}
-									currentValue={props.values.type}
-									handleChange={(value: string | null) => {
-										value
-											? props.handleChange('type')(value)
-											: props.handleChange('type')('none')
-									}}
-									error={props.errors.type}
+								<Picker
+									style='items'
+									data={accountIcons}
+									title={language.SELECT_ICON}
+									onSelect={props.handleChange('icon')}
+									itemFill={selectedColor}
 								/>
-								<DropDownIcons items={accountIcons}></DropDownIcons>
-
-								<DropDownPalette items={[]}></DropDownPalette>
+								<Picker
+									style='color'
+									data={null}
+									title={language.SELECT_COLOR}
+									onSelect={(color: string) => {
+										props.handleChange('color')(color)
+										setSelectedColor(color)
+									}}
+								/>
+								<Checkbox
+									title={language.BUSINESS_ACCOUNT}
+									onPress={props.handleChange('isBusiness')}
+									description={language.BUSINESS_ACCOUNT_DESCRIPTION}
+								></Checkbox>
 							</View>
 							<View style={GlobalStyles.center}>
 								<MainButton
-									title={language.SIGNUP}
+									title={language.GO}
 									variant={Buttons.PRIMARY}
 									callback={props.handleSubmit}
 								/>

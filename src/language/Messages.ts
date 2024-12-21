@@ -18,6 +18,7 @@ export const Messages = {
 		ICON: 'Icon',
 		COLOR: 'Color',
 		CLOSE: 'Close',
+		STEP: 'Step',
 
 		MISSING_EMAIL: 'E-mail is required',
 		WRONG_EMAIL: 'Invalid e-mail',
@@ -35,8 +36,13 @@ export const Messages = {
 		ADD_ACCOUNT: 'Add account',
 		ADD_GROUP: 'Add group',
 		CHOOSE_COLOR: 'Choose color',
+		SELECT_ICON: 'Select icon',
+		SELECT_COLOR: 'Select color',
+		BUSINESS_ACCOUNT: 'Business account',
 
 		NOTHING_TO_SHOW: 'Nothing to show!',
+
+		BUSINESS_ACCOUNT_DESCRIPTION: 'Special type of account for entrepreneurs',
 	},
 
 	CZ: {

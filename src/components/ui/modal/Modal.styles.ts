@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
 	modal: {
 		width: 300,
 		top: 0,
-		padding: 10,
+		padding: 5,
 		borderWidth: 5,
 		borderColor: '#3D4CC9',
 		backgroundColor: 'rgba(255, 255, 255, 0.9)',

@@ -35,6 +35,12 @@ export const GlobalStyles = StyleSheet.create({
 		fontWeight: 'bold',
 	},
 
+	subheader: {
+		fontSize: 24,
+		textAlign: 'center',
+		color: 'white',
+	},
+
 	headerWrapper: {
 		height: 300,
 		display: 'flex',
@@ -57,6 +63,12 @@ export const GlobalStyles = StyleSheet.create({
 		display: 'flex',
 		alignItems: 'center',
 		gap: 20,
+	},
+
+	inputFields: {
+		display: 'flex',
+		alignItems: 'center',
+		gap: 30,
 	},
 
 	bottomMenu: {

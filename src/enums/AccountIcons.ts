@@ -12,4 +12,5 @@ export const AccountIcons = {
 	MONEY: Money,
 	PROMOTION: Promotion,
 	WALLET: Wallet,
+	WALLET2: Wallet,
 }
