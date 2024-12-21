@@ -5,11 +5,11 @@ export const styles = StyleSheet.create({
 		color: 'white',
 		fontSize: 30,
 		fontWeight: 'bold',
-		marginBottom: 20,
+		marginBottom: 10,
+		alignSelf: 'center',
 	},
 
 	items: {
-		marginLeft: 25,
 		gap: 5,
 	},
 })

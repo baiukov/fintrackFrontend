@@ -1,6 +1,5 @@
 import React from 'react'
 import { Text, View } from 'react-native'
-import { GlobalStyles } from '../../../styles/GlobalStyles.styles'
 import { styles } from './MenuGroup.styles'
 
 interface MenuGroupProps {
@@ -10,7 +9,7 @@ interface MenuGroupProps {
 
 export const MenuGroup = (props: MenuGroupProps) => {
 	return (
-		<View style={GlobalStyles.scrollable}>
+		<View>
 			<Text style={styles.title}>{props.title}</Text>
 			<View style={styles.items}>{props.children}</View>
 		</View>

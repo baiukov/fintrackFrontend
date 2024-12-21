@@ -19,6 +19,9 @@ export const Messages = {
 		COLOR: 'Color',
 		CLOSE: 'Close',
 		STEP: 'Step',
+		BALANCE: 'Balance',
+		LOAN: 'Loan',
+		INTEREST_RATE: 'Interest rate',
 
 		MISSING_EMAIL: 'E-mail is required',
 		WRONG_EMAIL: 'Invalid e-mail',
@@ -32,9 +35,13 @@ export const Messages = {
 		PINCODE_NOT_DIGITS: 'Pincode must contain only digits',
 
 		SELECT_AN_OPTION: 'Select an option',
+		SELECT_ACCOUNT_TYPE: 'Select account type',
+		SELECT_CURRENCY: 'Select currency',
+		SELECT_ACCOUNT: 'Select account',
 		CHOOSE_TYPE: 'Choose type',
 		ADD_ACCOUNT: 'Add account',
 		ADD_GROUP: 'Add group',
+		ADD_ASSET: 'Add asset',
 		CHOOSE_COLOR: 'Choose color',
 		SELECT_ICON: 'Select icon',
 		SELECT_COLOR: 'Select color',

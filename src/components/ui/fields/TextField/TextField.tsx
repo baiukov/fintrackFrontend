@@ -10,6 +10,7 @@ export interface TextFieldProps {
 	secureTextEntry?: boolean
 	maxLength?: number
 	keyboardType?: 'default' | 'numeric' | 'email-address' | 'phone-pad'
+	onFocus?: () => void
 }
 
 export const TextField = (props: TextFieldProps) => {
@@ -24,6 +25,7 @@ export const TextField = (props: TextFieldProps) => {
 				maxLength={props.maxLength}
 				placeholderTextColor='#717171'
 				keyboardType={props.keyboardType}
+				onFocus={props.onFocus}
 			/>
 			{props.error ? (
 				<Text style={styles.error}>{props.error}</Text>

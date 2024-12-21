@@ -4,7 +4,10 @@ import { MainPage } from '../pages/main/MainPage'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { Pages } from '../enums/Pages'
-import { AccountEditorPage1 } from '../pages/editors/AccountEditorPage'
+import { AccountEditorPage1 } from '../pages/editors/AccountEditor/AccountEditorPage1'
+import { AccountEditorPage2 } from '../pages/editors/AccountEditor/AccountEditorPage2'
+import { AccountEditorPage3 } from '../pages/editors/AccountEditor/AccountEditorPage3'
+import { AssetEditorPage1 } from '../pages/editors/AssetEditor/AssetEditorPage1'
 import { LoginPage } from '../pages/login/LoginPage'
 import { MainMenuPage } from '../pages/mainMenuPage/MainMenuPage'
 import { PincodeLoginPage } from '../pages/pincodeLogin/PincodeLoginPage'
@@ -40,7 +43,24 @@ export default function navigate() {
 				<Stack.Screen
 					name={Pages.ACCOUNT_EDITOR}
 					component={AccountEditorPage1}
-				></Stack.Screen>
+				/>
+				<Stack.Screen
+					name={Pages.ACCOUNT_EDITOR2}
+					component={AccountEditorPage2}
+				/>
+				<Stack.Screen
+					name={Pages.ACCOUNT_EDITOR3}
+					component={AccountEditorPage3}
+				/>
+				<Stack.Screen name={Pages.ASSET_EDITOR} component={AssetEditorPage1} />
+				{/* <Stack.Screen
+					name={Pages.ACCOUNT_EDITOR2}
+					component={AccountEditorPage2}
+				/>
+				<Stack.Screen
+					name={Pages.ACCOUNT_EDITOR3}
+					component={AccountEditorPage3}
+				/> */}
 			</Stack.Navigator>
 		</NavigationContainer>
 	)

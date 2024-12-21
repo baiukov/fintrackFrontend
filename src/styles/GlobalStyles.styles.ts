@@ -1,7 +1,5 @@
 import { StyleSheet } from 'react-native'
 
-const backgroundColor = 'linear-gradient(45deg, #373F50 0%, #00000 100%)'
-
 export const GlobalStyles = StyleSheet.create({
 	main: {
 		backgroundColor: 'linear-gradient(90deg, #ff7e5f 0%, #feb47b 100%)',
@@ -42,7 +40,7 @@ export const GlobalStyles = StyleSheet.create({
 	},
 
 	headerWrapper: {
-		height: 300,
+		height: 250,
 		display: 'flex',
 		justifyContent: 'flex-end',
 		marginBottom: 40,
@@ -72,10 +70,6 @@ export const GlobalStyles = StyleSheet.create({
 	},
 
 	bottomMenu: {
-		marginBottom: 20,
-	},
-
-	scrollable: {
-		overflow: 'scroll',
+		marginBottom: 40,
 	},
 })

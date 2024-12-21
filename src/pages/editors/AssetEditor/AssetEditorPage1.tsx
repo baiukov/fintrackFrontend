@@ -2,42 +2,34 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Formik, FormikProps } from 'formik'
 import React, { useState } from 'react'
 import { Text, View } from 'react-native'
-import { MainButton } from '../../components/ui/buttons/MainButton/MainButton'
-import { Checkbox } from '../../components/ui/checkbox/Checkbox'
-import { TextField } from '../../components/ui/fields/TextField/TextField'
-import { Picker } from '../../components/ui/picker/Picker'
-import { AccountIcons } from '../../enums/AccountIcons'
-import { AccountTypes } from '../../enums/AccountTypes'
-import { Buttons } from '../../enums/Buttons'
-import { Pages } from '../../enums/Pages'
-import { useStore } from '../../storage/store'
-import { GlobalStyles } from '../../styles/GlobalStyles.styles'
+import { MainButton } from '../../../components/ui/buttons/MainButton/MainButton'
+import { DropDown } from '../../../components/ui/dropdowns/dropdown/Dropdown'
+import { TextField } from '../../../components/ui/fields/TextField/TextField'
+import { Picker } from '../../../components/ui/picker/Picker'
+import { AccountIcons } from '../../../enums/AccountIcons'
+import { Buttons } from '../../../enums/Buttons'
+import { Pages } from '../../../enums/Pages'
+import { useStore } from '../../../storage/store'
+import { GlobalStyles } from '../../../styles/GlobalStyles.styles'
 
-export interface AccountEditorProps {
+export interface AssetEditorProps {
 	navigation: any
-	title: string
-	type: AccountTypes
-	icon: string
-	color: string
-	isBusiness: boolean
+	title: string | undefined
+	account: string | undefined
+	icon: string | undefined
+	color: string | undefined
+	accounts: string[]
 }
 
 interface FormProps {
 	title: string
-	type: AccountTypes
+	account: string
 	icon: string
 	color: string
-	isBusiness: boolean
 }
 
-export const AccountEditorPage1 = (props: AccountEditorProps) => {
+export const AssetEditorPage1 = (props: AssetEditorProps) => {
 	const language = useStore((state: any) => state.language)
-
-	const [selectedValue, setSelectedValue] = useState('')
-
-	const accountTypes = Object.values(AccountTypes).map(type => {
-		return { label: type, value: type }
-	})
 
 	const accountIcons = Object.keys(AccountIcons).map(key => {
 		return {
@@ -47,6 +39,8 @@ export const AccountEditorPage1 = (props: AccountEditorProps) => {
 	})
 
 	const [selectedColor, setSelectedColor] = useState('white')
+
+	const availableAccounts = [{ label: 'Cash', value: 'Cash' }]
 
 	return (
 		<View style={GlobalStyles.page}>
@@ -64,14 +58,18 @@ export const AccountEditorPage1 = (props: AccountEditorProps) => {
 				<Formik
 					initialValues={{
 						title: props.title || '',
-						type: props.type || '',
+						account: props.account || '',
 						icon: props.icon || '',
 						color: props.color || '',
-						isBusiness: props.isBusiness || false,
 					}}
 					// validate={validate}
-					onSubmit={() => {
-						props.navigation.navigate(Pages.MAIN_MENU)
+					onSubmit={values => {
+						props.navigation.navigate(Pages.ACCOUNT_EDITOR2, {
+							title: values.title,
+							account: values.account,
+							icon: values.icon,
+							color: values.color,
+						})
 					}}
 				>
 					{(props: FormikProps<FormProps>) => (
@@ -82,6 +80,10 @@ export const AccountEditorPage1 = (props: AccountEditorProps) => {
 									placeholder={language.TITLE}
 									handleChange={props.handleChange('title')}
 									error={props.errors.title}
+								/>
+								<DropDown
+									placeholder={language.SELECT_ACCOUNT}
+									items={availableAccounts}
 								/>
 								<Picker
 									style='items'
@@ -99,11 +101,6 @@ export const AccountEditorPage1 = (props: AccountEditorProps) => {
 										setSelectedColor(color)
 									}}
 								/>
-								<Checkbox
-									title={language.BUSINESS_ACCOUNT}
-									onPress={props.handleChange('isBusiness')}
-									description={language.BUSINESS_ACCOUNT_DESCRIPTION}
-								></Checkbox>
 							</View>
 							<View style={GlobalStyles.center}>
 								<MainButton
