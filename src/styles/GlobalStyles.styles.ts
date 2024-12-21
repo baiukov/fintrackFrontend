@@ -48,4 +48,22 @@ export const GlobalStyles = StyleSheet.create({
 		justifyContent: 'center',
 		color: 'white',
 	},
+
+	form: {
+		gap: 80,
+	},
+
+	textFields: {
+		display: 'flex',
+		alignItems: 'center',
+		gap: 20,
+	},
+
+	bottomMenu: {
+		marginBottom: 20,
+	},
+
+	scrollable: {
+		overflow: 'scroll',
+	},
 })

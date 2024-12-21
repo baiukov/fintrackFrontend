@@ -12,6 +12,12 @@ export const Messages = {
 		GO: 'Go',
 		ACCOUNTS: 'Accounts',
 		ASSETS: 'Assets',
+		EDITOR: 'Editor',
+		TITLE: 'Title',
+		ACCOUNT_TYPE: 'Account type',
+		ICON: 'Icon',
+		COLOR: 'Color',
+		CLOSE: 'Close',
 
 		MISSING_EMAIL: 'E-mail is required',
 		WRONG_EMAIL: 'Invalid e-mail',
@@ -23,6 +29,14 @@ export const Messages = {
 		MISSING_PINCODE: 'Pincode is required',
 		PINCODE_TOO_SHORT: 'Pincode is too short',
 		PINCODE_NOT_DIGITS: 'Pincode must contain only digits',
+
+		SELECT_AN_OPTION: 'Select an option',
+		CHOOSE_TYPE: 'Choose type',
+		ADD_ACCOUNT: 'Add account',
+		ADD_GROUP: 'Add group',
+		CHOOSE_COLOR: 'Choose color',
+
+		NOTHING_TO_SHOW: 'Nothing to show!',
 	},
 
 	CZ: {

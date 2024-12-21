@@ -1,13 +1,16 @@
 import { LinearGradient } from 'expo-linear-gradient'
 import React, { useState } from 'react'
 import { Text, View } from 'react-native'
-import { Tabs } from '../../components/tabs/Tabs'
+import { MainButton } from '../../components/ui/buttons/MainButton/MainButton'
+import { Tabs } from '../../components/ui/tabs/Tabs'
+import { Buttons } from '../../enums/Buttons'
+import { Pages } from '../../enums/Pages'
 import { useStore } from '../../storage/store'
 import { GlobalStyles } from '../../styles/GlobalStyles.styles'
 import { Accounts } from './tabs/accounts/Accounts'
 import { Assets } from './tabs/assets/Assets'
 
-export const MainMenuPage = () => {
+export const MainMenuPage = (props: any) => {
 	const language = useStore((state: any) => state.language)
 	const [pageName, setPageName] = useState(language.ACCOUNTS)
 
@@ -23,6 +26,10 @@ export const MainMenuPage = () => {
 		setPageName(activeTab?.title || language.ACCOUNTS)
 	}
 
+	const transferToEditor = () => {
+		props.navigation.navigate(Pages.ACCOUNT_EDITOR)
+	}
+
 	return (
 		<View style={GlobalStyles.page}>
 			<LinearGradient
@@ -35,6 +42,19 @@ export const MainMenuPage = () => {
 					<Text style={GlobalStyles.header}>{`${pageName}`}</Text>
 				</View>
 				<Tabs tabs={tabs} callback={handleChange} />
+
+				<View style={[GlobalStyles.center, GlobalStyles.bottomMenu]}>
+					<MainButton
+						title={language.ADD_ACCOUNT}
+						variant={Buttons.PRIMARY}
+						callback={transferToEditor}
+					/>
+					<MainButton
+						title={language.ADD_GROUP}
+						variant={Buttons.SECONDARY}
+						callback={() => {}}
+					/>
+				</View>
 			</LinearGradient>
 		</View>
 	)

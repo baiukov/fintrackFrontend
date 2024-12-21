@@ -4,6 +4,7 @@ import { MainPage } from '../pages/main/MainPage'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { Pages } from '../enums/Pages'
+import { AccountEditorPage1 } from '../pages/editors/AccountEditorPage'
 import { LoginPage } from '../pages/login/LoginPage'
 import { MainMenuPage } from '../pages/mainMenuPage/MainMenuPage'
 import { PincodeLoginPage } from '../pages/pincodeLogin/PincodeLoginPage'
@@ -35,6 +36,10 @@ export default function navigate() {
 				<Stack.Screen
 					name={Pages.MAIN_MENU}
 					component={MainMenuPage}
+				></Stack.Screen>
+				<Stack.Screen
+					name={Pages.ACCOUNT_EDITOR}
+					component={AccountEditorPage1}
 				></Stack.Screen>
 			</Stack.Navigator>
 		</NavigationContainer>
