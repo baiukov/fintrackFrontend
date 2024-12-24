@@ -21,42 +21,42 @@ export const Assets = (props: any) => {
 			<ScrollView>
 				<MenuItem
 					icon={Icons.EDIT}
-					title={'Asset name'}
+					title={'Mercedes S-class 2015'}
 					callback={function () {
 						throw new Error('Function not implemented.')
 					}}
 				/>
 				<MenuItem
 					icon={Icons.EDIT}
-					title={'Asset name'}
+					title={'Mercedes V-class 2015'}
 					callback={function () {
 						throw new Error('Function not implemented.')
 					}}
 				/>
 				<MenuItem
 					icon={Icons.EDIT}
-					title={'Asset name'}
+					title={'Mercedes V-class 2015'}
 					callback={function () {
 						throw new Error('Function not implemented.')
 					}}
 				/>
 				<MenuItem
 					icon={Icons.EDIT}
-					title={'Asset name'}
+					title={'Mercedes V-class 2015'}
 					callback={function () {
 						throw new Error('Function not implemented.')
 					}}
 				/>
 				<MenuItem
 					icon={Icons.EDIT}
-					title={'Asset name'}
+					title={'Mercedes V-class 2015'}
 					callback={function () {
 						throw new Error('Function not implemented.')
 					}}
 				/>
 				<MenuItem
 					icon={Icons.EDIT}
-					title={'Asset name'}
+					title={'Mercedes V-class 2015'}
 					callback={function () {
 						throw new Error('Function not implemented.')
 					}}

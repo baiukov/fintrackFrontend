@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native'
 export const styles = StyleSheet.create({
 	title: {
 		color: 'white',
-		fontSize: 30,
+		fontSize: 26,
 		fontWeight: 'bold',
 		marginBottom: 10,
 		alignSelf: 'center',
@@ -11,5 +11,6 @@ export const styles = StyleSheet.create({
 
 	items: {
 		gap: 5,
+		marginBottom: 30,
 	},
 })

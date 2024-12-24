@@ -4,12 +4,11 @@ export const styles = StyleSheet.create({
 	input: {
 		color: '#A5A5A5',
 		width: 300,
-		height: 50,
+		height: 40,
 		borderBottomColor: 'white',
 		borderBottomWidth: 3,
 		paddingLeft: 5,
-		fontSize: 24,
-		paddingVertical: 10,
+		fontSize: 18,
 	},
 	error: {
 		color: '#B90000',

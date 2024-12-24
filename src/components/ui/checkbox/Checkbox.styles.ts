@@ -5,6 +5,7 @@ export const styles = StyleSheet.create({
 		width: 25,
 		height: 25,
 		backgroundColor: '#2C2C2C',
+		borderRadius: 5,
 	},
 
 	wrapper: {

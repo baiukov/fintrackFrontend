@@ -2,6 +2,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Formik, FormikProps } from 'formik'
 import React from 'react'
 import { Text, View } from 'react-native'
+import * as Yup from 'yup'
 import { MainButton } from '../../components/ui/buttons/MainButton/MainButton'
 import { TextField } from '../../components/ui/fields/TextField/TextField'
 import { Buttons } from '../../enums/Buttons'
@@ -13,19 +14,10 @@ import { styles } from './LoginPage.styles'
 export const LoginPage = (props: any) => {
 	const language = useStore((state: any) => state.language)
 
-	const validate = (values: { login: string; password: string }) => {
-		const errors: { login?: string; password?: string } = {}
-
-		if (!values.login) {
-			errors.login = language.MISSING_LOGIN
-		}
-
-		if (!values.password) {
-			errors.password = language.MISSING_PASSWORD
-		}
-
-		return errors
-	}
+	const validationSchema = Yup.object().shape({
+		login: Yup.string().required(language.MISSING_LOGIN),
+		password: Yup.string().required(language.MISSING_PASSWORD),
+	})
 
 	const transferToSignup = () => {
 		props.navigation.replace(Pages.SIGNUP)
@@ -44,7 +36,7 @@ export const LoginPage = (props: any) => {
 				</View>
 				<Formik
 					initialValues={{ login: '', password: '' }}
-					validate={validate}
+					validationSchema={validationSchema}
 					onSubmit={() => {
 						props.navigation.navigate(Pages.PINCODE_LOGIN)
 					}}

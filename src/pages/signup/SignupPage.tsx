@@ -2,6 +2,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Formik, FormikProps } from 'formik'
 import React from 'react'
 import { Text, View } from 'react-native'
+import * as Yup from 'yup'
 import { MainButton } from '../../components/ui/buttons/MainButton/MainButton'
 import { TextField } from '../../components/ui/fields/TextField/TextField'
 import { Buttons } from '../../enums/Buttons'
@@ -24,39 +25,28 @@ export const SignupPage = (props: any) => {
 		props.navigation.replace(Pages.LOGIN)
 	}
 
-	const validate = (values: FormProps) => {
-		const errors: {
-			email?: string
-			username?: string
-			password?: string
-			repeatPassword?: string
-		} = {}
-
-		const regex =
-			/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
-
-		if (!values.email) {
-			errors.email = language.MISSING_EMAIL
-		} else if (!regex.test(values.email)) {
-			errors.email = language.WRONG_EMAIL
-		}
-
-		if (!values.password) {
-			errors.password = language.MISSING_PASSWORD
-		}
-
-		if (!values.username || values.username.length < 4) {
-			errors.username = language.MISSING_USERNAME
-		}
-
-		if (!values.repeatPassword) {
-			errors.repeatPassword = language.MISSING_REPEAT_PASSWORD
-		} else if (values.password !== values.repeatPassword) {
-			errors.repeatPassword = language.PASSWORDS_DONT_MATCH
-		}
-
-		return errors
-	}
+	const validationSchema = Yup.object().shape({
+		email: Yup.string()
+			.email(language.WRONG_EMAIL)
+			.required(language.MISSING_EMAIL),
+		password: Yup.string()
+			.min(8, language.PASSWORD_TOO_SHORT)
+			.matches(/[A-Z]/, language.PASSWORD_NO_UPPERCASE)
+			.matches(/[a-z]/, language.PASSWORD_NO_LOWERCASE)
+			.matches(/\d/, language.PASSWORD_NO_DIGITS)
+			.test(
+				'no-spaces',
+				language.PASSWORD_CONTAINS_SPACES,
+				value => !/\s/.test(value || '')
+			)
+			.required(language.MISSING_PASSWORD),
+		username: Yup.string()
+			.min(4, language.USERNAME_TOO_SHORT)
+			.required(language.MISSING_USERNAME),
+		repeatPassword: Yup.string()
+			.oneOf([Yup.ref('password'), ''], language.PASSWORDS_DONT_MATCH)
+			.required(language.MISSING_REPEAT_PASSWORD),
+	})
 
 	return (
 		<View style={GlobalStyles.page}>
@@ -76,9 +66,12 @@ export const SignupPage = (props: any) => {
 						password: '',
 						repeatPassword: '',
 					}}
-					// validate={validate}
+					// validationSchema={validationSchema}
 					onSubmit={() => {
-						props.navigation.navigate(Pages.MAIN_MENU)
+						props.navigation.reset({
+							index: 0,
+							routes: [{ name: Pages.MAIN_MENU }],
+						})
 					}}
 				>
 					{(props: FormikProps<FormProps>) => (

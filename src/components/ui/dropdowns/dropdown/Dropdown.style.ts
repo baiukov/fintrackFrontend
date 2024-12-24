@@ -6,11 +6,14 @@ export const styles = StyleSheet.create({
 		height: 30,
 		width: 300,
 		borderRadius: 15,
+		borderWidth: 0,
+		paddingHorizontal: 20,
 	},
 
 	text: {
 		color: 'white',
 		fontSize: 18,
+		paddingVertical: 5,
 	},
 
 	container: {
@@ -29,6 +32,7 @@ export const styles = StyleSheet.create({
 	},
 
 	error: {
+		marginTop: 20,
 		color: '#B90000',
 	},
 })

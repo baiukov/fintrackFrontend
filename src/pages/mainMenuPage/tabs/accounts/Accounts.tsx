@@ -34,6 +34,8 @@ export const Accounts: React.FC = (props: any) => {
 							throw new Error('Function not implemented.')
 						}}
 					/>
+				</MenuGroup>
+				<MenuGroup title='Friends'>
 					<MenuItem
 						icon={Icons.EDIT}
 						title={'Account name'}

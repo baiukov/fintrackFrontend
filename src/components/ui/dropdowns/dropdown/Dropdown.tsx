@@ -9,7 +9,7 @@ export interface DropDownProps {
 	items: { label: string; value: string }[]
 	placeholder?: string
 	currentValue?: string
-	handleChange?: (value: string | null) => void
+	handleChange?: (value: string) => void
 	error?: string
 }
 
@@ -48,7 +48,9 @@ export const DropDown = (props: DropDownProps) => {
 						<Text style={styles.emptyText}>{language.NOTHING_TO_SHOW}</Text>
 					)
 				}}
-				onChangeValue={props.handleChange || (value => {})}
+				onChangeValue={(value: string | null) => {
+					props.handleChange && props.handleChange(value || '')
+				}}
 			/>
 			<Text style={styles.error}>{props.error}</Text>
 		</View>

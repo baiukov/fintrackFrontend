@@ -1,46 +1,80 @@
 import { LinearGradient } from 'expo-linear-gradient'
 import { Formik, FormikProps } from 'formik'
-import React, { useState } from 'react'
+import React from 'react'
 import { Text, View } from 'react-native'
+import * as Yup from 'yup'
 import { MainButton } from '../../../components/ui/buttons/MainButton/MainButton'
 import { DropDown } from '../../../components/ui/dropdowns/dropdown/Dropdown'
 import { TextField } from '../../../components/ui/fields/TextField/TextField'
 import { Picker } from '../../../components/ui/picker/Picker'
-import { AccountIcons } from '../../../enums/AccountIcons'
 import { Buttons } from '../../../enums/Buttons'
 import { Pages } from '../../../enums/Pages'
+import { Asset } from '../../../model/entities/Asset'
 import { useStore } from '../../../storage/store'
 import { GlobalStyles } from '../../../styles/GlobalStyles.styles'
 
 export interface AssetEditorProps {
 	navigation: any
-	title: string | undefined
-	account: string | undefined
-	icon: string | undefined
-	color: string | undefined
-	accounts: string[]
+	route: any
+	asset: Asset | undefined
 }
 
 interface FormProps {
 	title: string
 	account: string
-	icon: string
-	color: string
+	emoji: string
 }
 
 export const AssetEditorPage1 = (props: AssetEditorProps) => {
 	const language = useStore((state: any) => state.language)
 
-	const accountIcons = Object.keys(AccountIcons).map(key => {
-		return {
-			id: key,
-			element: AccountIcons[key as keyof typeof AccountIcons],
-		}
+	const availableAccounts = [
+		{
+			label: 'Cash',
+			value: 'Cash',
+		},
+	]
+
+	const assetForm: Asset =
+		props.route.params?.asset ||
+		new Asset(null, null, null, null, null, null, null, null, null)
+
+	const validationSchema = Yup.object().shape({
+		title: Yup.string().required(language.MISSING_TITLE),
+		account: Yup.string().required(language.MISSING_ACCOUNT),
+		emoji: Yup.string().required(language.MISSING_ICON),
 	})
 
-	const [selectedColor, setSelectedColor] = useState('white')
+	const handleSubmit = (values: FormProps) => {
+		assetForm.setName(values.title)
+		assetForm.setAccountName(values.account)
+		assetForm.setEmoji(values.emoji)
 
-	const availableAccounts = [{ label: 'Cash', value: 'Cash' }]
+		setTimeout(() => {
+			props.navigation.navigate(Pages.ASSET_EDITOR2, {
+				asset: assetForm,
+			})
+		}, 0)
+	}
+
+	const recent = [
+		{ emoji: '🚗' },
+		{ emoji: '🏠' },
+		{ emoji: '🚛' },
+		{ emoji: '🏢' },
+		{ emoji: '🛳️' },
+		{ emoji: '💸' },
+		{ emoji: '🦆' },
+		{ emoji: '🐓' },
+		{ emoji: '🐤' },
+		{ emoji: '🐔' },
+		{ emoji: '🐰' },
+		{ emoji: '🐮' },
+		{ emoji: '🐷' },
+		{ emoji: '🐱' },
+		{ emoji: '🐶' },
+		{ emoji: '🤖' },
+	]
 
 	return (
 		<View style={GlobalStyles.page}>
@@ -57,24 +91,23 @@ export const AssetEditorPage1 = (props: AssetEditorProps) => {
 
 				<Formik
 					initialValues={{
-						title: props.title || '',
-						account: props.account || '',
-						icon: props.icon || '',
-						color: props.color || '',
+						title: assetForm.getName() || '',
+						account: assetForm.getAccountName() || '',
+						emoji: assetForm.getEmoji() || '',
 					}}
-					// validate={validate}
-					onSubmit={values => {
-						props.navigation.navigate(Pages.ACCOUNT_EDITOR2, {
-							title: values.title,
-							account: values.account,
-							icon: values.icon,
-							color: values.color,
-						})
-					}}
+					validationSchema={validationSchema}
+					onSubmit={handleSubmit}
 				>
 					{(props: FormikProps<FormProps>) => (
 						<View style={GlobalStyles.form}>
 							<View style={[GlobalStyles.inputFields, GlobalStyles.center]}>
+								<View
+									style={{
+										flex: 1,
+										justifyContent: 'center',
+										alignItems: 'center',
+									}}
+								/>
 								<TextField
 									value={props.values.title}
 									placeholder={language.TITLE}
@@ -84,22 +117,15 @@ export const AssetEditorPage1 = (props: AssetEditorProps) => {
 								<DropDown
 									placeholder={language.SELECT_ACCOUNT}
 									items={availableAccounts}
+									handleChange={props.handleChange('account')}
+									error={props.errors.account}
 								/>
 								<Picker
-									style='items'
-									data={accountIcons}
+									style='emoji'
+									data={recent}
 									title={language.SELECT_ICON}
-									onSelect={props.handleChange('icon')}
-									itemFill={selectedColor}
-								/>
-								<Picker
-									style='color'
-									data={null}
-									title={language.SELECT_COLOR}
-									onSelect={(color: string) => {
-										props.handleChange('color')(color)
-										setSelectedColor(color)
-									}}
+									onSelect={props.handleChange('emoji')}
+									error={props.errors.emoji}
 								/>
 							</View>
 							<View style={GlobalStyles.center}>

@@ -40,7 +40,7 @@ export const GlobalStyles = StyleSheet.create({
 	},
 
 	headerWrapper: {
-		height: 250,
+		height: 180,
 		display: 'flex',
 		justifyContent: 'flex-end',
 		marginBottom: 40,
@@ -70,6 +70,7 @@ export const GlobalStyles = StyleSheet.create({
 	},
 
 	bottomMenu: {
+		marginTop: 40,
 		marginBottom: 40,
 	},
 })

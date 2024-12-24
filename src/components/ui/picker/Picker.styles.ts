@@ -9,13 +9,14 @@ export const styles = StyleSheet.create({
 		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
-		paddingHorizontal: 10,
+		paddingHorizontal: 20,
 		justifyContent: 'space-between',
 	},
 
 	text: {
 		color: 'white',
 		fontSize: 18,
+		paddingBottom: 5,
 	},
 
 	pickerItemList: {
@@ -28,5 +29,9 @@ export const styles = StyleSheet.create({
 		alignItems: 'flex-start',
 		alignContent: 'flex-start',
 		flexWrap: 'wrap',
+	},
+
+	error: {
+		color: '#B90000',
 	},
 })

@@ -1,7 +1,7 @@
-import { Ionicons } from '@expo/vector-icons'
 import React from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
+import { Image, Text, TouchableOpacity, View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import { Icons } from '../../../enums/Icons'
 import { styles } from './Checkbox.styles'
 
 export interface CheckBoxProps {
@@ -14,6 +14,7 @@ export interface CheckBoxProps {
 export const Checkbox = (props: CheckBoxProps) => {
 	const [checked, setChecked] = React.useState(false)
 
+	const icon = Icons.CHECKMARK as unknown as string
 	return (
 		<View style={styles.wrapper}>
 			<View>
@@ -36,7 +37,7 @@ export const Checkbox = (props: CheckBoxProps) => {
 						setChecked(isChecked)
 					}}
 				>
-					<Ionicons name='checkmark' size={28} color='white' />
+					<Image src={icon}></Image>
 				</TouchableOpacity>
 			</View>
 		</View>

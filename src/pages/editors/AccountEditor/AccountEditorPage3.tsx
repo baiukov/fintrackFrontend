@@ -2,26 +2,19 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Formik, FormikProps } from 'formik'
 import React from 'react'
 import { Text, View } from 'react-native'
+import * as Yup from 'yup'
 import { MainButton } from '../../../components/ui/buttons/MainButton/MainButton'
 import { TextField } from '../../../components/ui/fields/TextField/TextField'
-import { AccountTypes } from '../../../enums/AccountTypes'
 import { Buttons } from '../../../enums/Buttons'
-import { Currencies } from '../../../enums/Currencies'
 import { Pages } from '../../../enums/Pages'
+import { Account } from '../../../model/entities/Account'
 import { useStore } from '../../../storage/store'
 import { GlobalStyles } from '../../../styles/GlobalStyles.styles'
 
 export interface AccountEditorProps {
 	navigation: any
-	balance: string
-	currency: typeof Currencies
-	title: string | undefined
-	type: AccountTypes | undefined
-	icon: string | undefined
-	color: string | undefined
-	isBusiness: boolean | undefined
-	loan: string
-	interestRate: string
+	route: any
+	accountForm: Account | undefined
 }
 
 interface FormProps {
@@ -32,9 +25,32 @@ interface FormProps {
 export const AccountEditorPage3 = (props: AccountEditorProps) => {
 	const language = useStore((state: any) => state.language)
 
-	const currencies = Object.values(Currencies).map(currency => {
-		return { label: currency, value: currency }
+	const accountForm =
+		props.route.params?.accountForm ||
+		new Account(null, null, null, null, null, null, null, null)
+
+	const validationSchema = Yup.object().shape({
+		loan: Yup.number().typeError(language.WRONG_LOAN),
+		interestRate: Yup.number().typeError(language.WRONG_INTEREST_RATE),
 	})
+
+	const handleSubmit = (values: FormProps) => {
+		accountForm.setLoan(parseFloat(values.loan))
+		accountForm.setInterestRate(parseFloat(values.interestRate))
+
+		props.navigation.replace(Pages.MAIN_MENU, {
+			accountForm: accountForm,
+		})
+	}
+
+	const initialLoan = accountForm.getLoan()
+	const initialInterestRate = accountForm.getInterestRate()
+
+	const shownLoan = initialLoan === 0 ? '' : initialLoan.toString()
+	const shownInterestRate =
+		initialInterestRate === 1 || initialInterestRate === 0
+			? ''
+			: initialInterestRate.toString()
 
 	return (
 		<View style={GlobalStyles.page}>
@@ -51,21 +67,11 @@ export const AccountEditorPage3 = (props: AccountEditorProps) => {
 
 				<Formik
 					initialValues={{
-						loan: props.loan,
-						interestRate: props.interestRate,
+						loan: shownLoan,
+						interestRate: shownInterestRate,
 					}}
-					// validate={validate}
-					onSubmit={values => {
-						props.navigation.navigate(Pages.MAIN_MENU, {
-							title: props.title,
-							type: props.type,
-							icon: props.icon,
-							color: props.color,
-							isBusiness: props.isBusiness,
-							initialBalance: props.balance,
-							currency: props.currency,
-						})
-					}}
+					validationSchema={validationSchema}
+					onSubmit={handleSubmit}
 				>
 					{(props: FormikProps<FormProps>) => (
 						<View style={GlobalStyles.form}>

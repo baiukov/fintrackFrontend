@@ -2,6 +2,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Formik, FormikProps } from 'formik'
 import React from 'react'
 import { Text, View } from 'react-native'
+import * as Yup from 'yup'
 import { MainButton } from '../../components/ui/buttons/MainButton/MainButton'
 import { TextField } from '../../components/ui/fields/TextField/TextField'
 import { Buttons } from '../../enums/Buttons'
@@ -12,21 +13,13 @@ import { styles } from './PincodeLoginPage.styles'
 export const PincodeLoginPage = (props: any) => {
 	const language = useStore((state: any) => state.language)
 
-	const validate = (values: { pincode: string }) => {
-		const errors: { pincode?: string } = {}
-
-		const digitReg = /^\d+$/
-
-		if (!values.pincode) {
-			errors.pincode = language.MISSING_PINCODE
-		} else if (values.pincode.length < 4) {
-			errors.pincode = language.PINCODE_TOO_SHORT
-		} else if (!digitReg.test(values.pincode)) {
-			errors.pincode = language.PINCODE_NOT_DIGITS
-		}
-
-		return errors
-	}
+	const validationSchema = Yup.object().shape({
+		pincode: Yup.number()
+			.typeError(language.PINCODE_NOT_DIGITS)
+			.min(1000, language.PINCODE_TOO_SHORT)
+			.max(9999, language.PINCODE_TOO_LONG)
+			.required(language.MISSING_PINCODE),
+	})
 
 	return (
 		<View style={GlobalStyles.page}>
@@ -43,7 +36,7 @@ export const PincodeLoginPage = (props: any) => {
 					initialValues={{
 						pincode: '',
 					}}
-					validate={validate}
+					validationSchema={validationSchema}
 					onSubmit={() => {}}
 				>
 					{(

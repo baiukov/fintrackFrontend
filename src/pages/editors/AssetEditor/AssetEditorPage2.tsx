@@ -2,38 +2,70 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Formik, FormikProps } from 'formik'
 import React from 'react'
 import { Text, View } from 'react-native'
+import * as Yup from 'yup'
 import { MainButton } from '../../../components/ui/buttons/MainButton/MainButton'
 import { DropDown } from '../../../components/ui/dropdowns/dropdown/Dropdown'
 import { TextField } from '../../../components/ui/fields/TextField/TextField'
-import { AccountTypes } from '../../../enums/AccountTypes'
 import { Buttons } from '../../../enums/Buttons'
 import { Currencies } from '../../../enums/Currencies'
 import { Pages } from '../../../enums/Pages'
+import { Asset } from '../../../model/entities/Asset'
 import { useStore } from '../../../storage/store'
 import { GlobalStyles } from '../../../styles/GlobalStyles.styles'
 
 export interface AccountEditorProps {
 	navigation: any
-	balance: string
-	currency: typeof Currencies
-	title: string | undefined
-	type: AccountTypes | undefined
-	icon: string | undefined
-	color: string | undefined
-	isBusiness: boolean | undefined
+	route: any
+	asset: Asset | undefined
 }
 
 interface FormProps {
-	balance: string
-	currency: typeof Currencies
+	acquisitionPrice: string
+	deprecitationPrice: string
+	currency: keyof typeof Currencies
 }
 
-export const AccountEditorPage2 = (props: AccountEditorProps) => {
+export const AssetEditorPage2 = (props: AccountEditorProps) => {
 	const language = useStore((state: any) => state.language)
 
 	const currencies = Object.values(Currencies).map(currency => {
 		return { label: currency, value: currency }
 	})
+
+	const assetForm =
+		props.route.params?.asset ||
+		new Asset(null, null, null, null, null, null, null, null, null)
+
+	const handleSubmit = (values: FormProps) => {
+		assetForm.setAcquisitionPrice(parseFloat(values.acquisitionPrice))
+		assetForm.setDepreciationPrice(parseFloat(values.deprecitationPrice))
+		assetForm.setCurrency(values.currency)
+
+		setTimeout(() => {
+			props.navigation.navigate(Pages.ASSET_EDITOR3, {
+				asset: assetForm,
+			})
+		}, 0)
+	}
+
+	const validationSchema = Yup.object().shape({
+		acquisitionPrice: Yup.number()
+			.typeError(language.MUST_BE_A_NUMBER)
+			.positive(language.MUST_BE_POSITIVE)
+			.required(language.MISSING_ACQUISITION_PRICE),
+		deprecitationPrice: Yup.number()
+			.typeError(language.MUST_BE_A_NUMBER)
+			.positive(language.MUST_BE_POSITIVE)
+			.required(language.MISSING_DEPRECIATION_PRICE),
+		currency: Yup.string().required(language.MISSING_CURRENCY),
+	})
+
+	const acquisitionPrice = assetForm.getAcquisitionPrice()
+	const deprecitationPrice = assetForm.getDepreciationPrice()
+	const showAcquisitionPriceError =
+		acquisitionPrice === 0 ? '' : acquisitionPrice
+	const shownDepreciationPriceError =
+		deprecitationPrice === 0 ? '' : deprecitationPrice
 
 	return (
 		<View style={GlobalStyles.page}>
@@ -50,36 +82,37 @@ export const AccountEditorPage2 = (props: AccountEditorProps) => {
 
 				<Formik
 					initialValues={{
-						balance: props.balance,
-						currency: props.currency,
+						acquisitionPrice: showAcquisitionPriceError || '',
+						deprecitationPrice: shownDepreciationPriceError || '',
+						currency: assetForm.getCurrency() || '',
 					}}
-					// validate={validate}
-					onSubmit={values => {
-						props.navigation.navigate(Pages.ACCOUNT_EDITOR3, {
-							title: props.title,
-							type: props.type,
-							icon: props.icon,
-							color: props.color,
-							isBusiness: props.isBusiness,
-							initialBalance: parseFloat(values.balance),
-							currency: values.currency,
-						})
-					}}
+					validationSchema={validationSchema}
+					onSubmit={handleSubmit}
 				>
 					{(props: FormikProps<FormProps>) => (
 						<View style={GlobalStyles.form}>
 							<View style={[GlobalStyles.inputFields, GlobalStyles.center]}>
 								<TextField
-									value={props.values.balance}
+									value={props.values.acquisitionPrice}
 									keyboardType={'numeric'}
 									maxLength={15}
-									placeholder={language.BALANCE}
-									handleChange={props.handleChange('balance')}
-									error={props.errors.balance}
+									placeholder={language.ACQUISITION_PRICE}
+									handleChange={props.handleChange('acquisitionPrice')}
+									error={props.errors.acquisitionPrice}
+								/>
+								<TextField
+									value={props.values.deprecitationPrice}
+									keyboardType={'numeric'}
+									maxLength={15}
+									placeholder={language.DEPRECIATION_PRICE}
+									handleChange={props.handleChange('deprecitationPrice')}
+									error={props.errors.deprecitationPrice}
 								/>
 								<DropDown
 									placeholder={language.SELECT_CURRENCY}
 									items={currencies}
+									handleChange={props.handleChange('currency')}
+									error={props.errors.currency}
 								/>
 							</View>
 							<View style={GlobalStyles.center}>

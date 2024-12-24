@@ -1,61 +1,80 @@
 import { LinearGradient } from 'expo-linear-gradient'
 import { Formik, FormikProps } from 'formik'
-import React, { useState } from 'react'
+import React from 'react'
 import { Text, View } from 'react-native'
+import * as Yup from 'yup'
 import { MainButton } from '../../../components/ui/buttons/MainButton/MainButton'
 import { Checkbox } from '../../../components/ui/checkbox/Checkbox'
 import { DropDown } from '../../../components/ui/dropdowns/dropdown/Dropdown'
 import { TextField } from '../../../components/ui/fields/TextField/TextField'
 import { Picker } from '../../../components/ui/picker/Picker'
-import { AccountIcons } from '../../../enums/AccountIcons'
 import { AccountTypes } from '../../../enums/AccountTypes'
 import { Buttons } from '../../../enums/Buttons'
 import { Pages } from '../../../enums/Pages'
+import { Account } from '../../../model/entities/Account'
 import { useStore } from '../../../storage/store'
 import { GlobalStyles } from '../../../styles/GlobalStyles.styles'
 
 export interface AccountEditorProps {
 	navigation: any
-	title: string | undefined
-	type: AccountTypes | undefined
-	icon: string | undefined
-	color: string | undefined
-	isBusiness: boolean | undefined
+	route: any
+	accountForm: Account | undefined
 }
 
 interface FormProps {
 	title: string
-	type: AccountTypes | undefined
-	icon: string
-	color: string
+	type: AccountTypes | null
+	emoji: string
 	isBusiness: boolean
-}
-
-export interface AccountProps {
-	title: string | undefined
-	type: AccountTypes | undefined
-	icon: string | undefined
-	color: string | undefined
-	isBusiness: boolean | undefined
-	initialBalance: number | undefined
-	currency: string | undefined
 }
 
 export const AccountEditorPage1 = (props: AccountEditorProps) => {
 	const language = useStore((state: any) => state.language)
 
+	const accountForm =
+		props.route.params?.accountForm ||
+		new Account(null, null, null, null, null, null, null, null)
+
+	const validationSchema = Yup.object().shape({
+		title: Yup.string().required(language.MISSING_TITLE),
+		type: Yup.string()
+			.oneOf(Object.values(AccountTypes), language.WRONG_ACCOUNT_TYPE)
+			.required(language.MISSING_ACCOUNT_TYPE),
+		emoji: Yup.string().required(language.MISSING_ICON),
+	})
+
 	const accountTypes = Object.values(AccountTypes).map(type => {
 		return { label: type, value: type }
 	})
 
-	const accountIcons = Object.keys(AccountIcons).map(key => {
-		return {
-			id: key,
-			element: AccountIcons[key as keyof typeof AccountIcons],
-		}
-	})
+	const handleSubmit = (values: FormProps) => {
+		accountForm.setTitle(values.title)
+		accountForm.setType(values.type)
+		accountForm.setEmoji(values.emoji)
+		accountForm.setIsBusiness(values.isBusiness)
 
-	const [selectedColor, setSelectedColor] = useState('white')
+		setTimeout(() => {
+			props.navigation.navigate(Pages.ACCOUNT_EDITOR2, {
+				a: 1,
+				accountForm: accountForm,
+			})
+		}, 0)
+	}
+
+	const recent = [
+		{ emoji: '💵' },
+		{ emoji: '💴' },
+		{ emoji: '💶' },
+		{ emoji: '💷' },
+		{ emoji: '💸' },
+		{ emoji: '💳' },
+		{ emoji: '🧾' },
+		{ emoji: '📦' },
+		{ emoji: '💼' },
+		{ emoji: '📁' },
+		{ emoji: '📈' },
+		{ emoji: '📊' },
+	]
 
 	return (
 		<View style={GlobalStyles.page}>
@@ -72,22 +91,13 @@ export const AccountEditorPage1 = (props: AccountEditorProps) => {
 
 				<Formik
 					initialValues={{
-						title: props.title || '',
-						type: props.type || undefined,
-						icon: props.icon || '',
-						color: props.color || '',
-						isBusiness: props.isBusiness || false,
+						title: accountForm.getTitle() || '',
+						type: accountForm.getType(),
+						emoji: accountForm.getEmoji() || '',
+						isBusiness: accountForm.getIsBusiness() || false,
 					}}
-					// validate={validate}
-					onSubmit={values => {
-						props.navigation.navigate(Pages.ACCOUNT_EDITOR2, {
-							title: values.title,
-							type: values.type,
-							icon: values.icon,
-							color: values.color,
-							isBusiness: values.isBusiness,
-						})
-					}}
+					validationSchema={validationSchema}
+					onSubmit={handleSubmit}
 				>
 					{(props: FormikProps<FormProps>) => (
 						<View style={GlobalStyles.form}>
@@ -101,22 +111,15 @@ export const AccountEditorPage1 = (props: AccountEditorProps) => {
 								<DropDown
 									placeholder={language.SELECT_ACCOUNT_TYPE}
 									items={accountTypes}
+									handleChange={props.handleChange('type')}
+									error={props.errors.type}
 								/>
 								<Picker
-									style='items'
-									data={accountIcons}
+									style='emoji'
+									data={recent}
 									title={language.SELECT_ICON}
-									onSelect={props.handleChange('icon')}
-									itemFill={selectedColor}
-								/>
-								<Picker
-									style='color'
-									data={null}
-									title={language.SELECT_COLOR}
-									onSelect={(color: string) => {
-										props.handleChange('color')(color)
-										setSelectedColor(color)
-									}}
+									onSelect={props.handleChange('emoji')}
+									error={props.errors.emoji}
 								/>
 								<Checkbox
 									title={language.BUSINESS_ACCOUNT}
