@@ -10,6 +10,9 @@ import { AccountEditorPage3 } from '../pages/editors/AccountEditor/AccountEditor
 import { AssetEditorPage1 } from '../pages/editors/AssetEditor/AssetEditorPage1'
 import { AssetEditorPage2 } from '../pages/editors/AssetEditor/AssetEditorPage2'
 import { AssetEditorPage3 } from '../pages/editors/AssetEditor/AssetEditorPage3'
+import { GroupEditorPage1 } from '../pages/editors/GroupEditor/GroupEditorPage1'
+import { GroupEditorPage2 } from '../pages/editors/GroupEditor/GroupEditorPage2'
+import { GroupEditorPage3 } from '../pages/editors/GroupEditor/GroupEditorPage3'
 import { LoginPage } from '../pages/login/LoginPage'
 import { MainMenuPage } from '../pages/mainMenuPage/MainMenuPage'
 import { PincodeLoginPage } from '../pages/pincodeLogin/PincodeLoginPage'
@@ -57,6 +60,9 @@ export default function navigate() {
 				<Stack.Screen name={Pages.ASSET_EDITOR} component={AssetEditorPage1} />
 				<Stack.Screen name={Pages.ASSET_EDITOR2} component={AssetEditorPage2} />
 				<Stack.Screen name={Pages.ASSET_EDITOR3} component={AssetEditorPage3} />
+				<Stack.Screen name={Pages.GROUP_EDITOR} component={GroupEditorPage1} />
+				<Stack.Screen name={Pages.GROUP_EDITOR2} component={GroupEditorPage2} />
+				<Stack.Screen name={Pages.GROUP_EDITOR3} component={GroupEditorPage3} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	)

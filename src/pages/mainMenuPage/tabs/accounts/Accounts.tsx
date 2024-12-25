@@ -16,6 +16,10 @@ export const Accounts: React.FC = (props: any) => {
 		props.navigation.navigate(Pages.ACCOUNT_EDITOR)
 	}
 
+	const transferToGroupEditor = () => {
+		props.navigation.navigate(Pages.GROUP_EDITOR)
+	}
+
 	return (
 		<View style={GlobalStyles.center}>
 			<ScrollView>
@@ -61,7 +65,7 @@ export const Accounts: React.FC = (props: any) => {
 				<MainButton
 					title={language.ADD_GROUP}
 					variant={Buttons.SECONDARY}
-					callback={() => {}}
+					callback={transferToGroupEditor}
 				/>
 			</View>
 		</View>

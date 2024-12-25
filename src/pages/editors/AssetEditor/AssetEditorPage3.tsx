@@ -115,9 +115,14 @@ export const AssetEditorPage3 = (props: AssetEditorProps) => {
 							</View>
 							<View style={GlobalStyles.center}>
 								<MainButton
-									title={language.GO}
+									title={language.SAVE}
 									variant={Buttons.PRIMARY}
-									callback={props.handleSubmit}
+									callback={props.submitForm}
+								/>
+								<MainButton
+									title={language.DELETE}
+									variant={Buttons.SECONDARY}
+									callback={props.submitForm}
 								/>
 							</View>
 						</View>

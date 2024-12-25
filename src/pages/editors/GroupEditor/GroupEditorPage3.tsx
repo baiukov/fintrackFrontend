@@ -2,55 +2,36 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Formik, FormikProps } from 'formik'
 import React from 'react'
 import { Text, View } from 'react-native'
-import * as Yup from 'yup'
 import { MainButton } from '../../../components/ui/buttons/MainButton/MainButton'
-import { TextField } from '../../../components/ui/fields/TextField/TextField'
+import { List } from '../../../components/ui/list/List'
 import { Buttons } from '../../../enums/Buttons'
 import { Pages } from '../../../enums/Pages'
-import { Account } from '../../../model/entities/Account'
+import { Group } from '../../../model/entities/Group'
 import { useStore } from '../../../storage/store'
 import { GlobalStyles } from '../../../styles/GlobalStyles.styles'
 
-export interface AccountEditorProps {
+export interface GroupEditorProps {
 	navigation: any
 	route: any
-	accountForm: Account | undefined
+	groupFrom: Group | undefined
 }
 
 interface FormProps {
-	loan: string
-	interestRate: string
+	userNames: string[]
 }
 
-export const AccountEditorPage3 = (props: AccountEditorProps) => {
+export const GroupEditorPage3 = (props: GroupEditorProps) => {
 	const language = useStore((state: any) => state.language)
 
-	const accountForm =
-		props.route.params?.accountForm ||
-		new Account(null, null, null, null, null, null, null, null)
-
-	const validationSchema = Yup.object().shape({
-		loan: Yup.number().typeError(language.WRONG_LOAN),
-		interestRate: Yup.number().typeError(language.WRONG_INTEREST_RATE),
-	})
+	const groupForm = props.route.params?.groupFrom || new Group(null, null, null)
 
 	const handleSubmit = (values: FormProps) => {
-		accountForm.setLoan(parseFloat(values.loan))
-		accountForm.setInterestRate(parseFloat(values.interestRate))
+		groupForm.setUserNames(values.userNames)
 
 		props.navigation.replace(Pages.MAIN_MENU, {
-			accountForm: accountForm,
+			groupForm: groupForm,
 		})
 	}
-
-	const initialLoan = accountForm.getLoan()
-	const initialInterestRate = accountForm.getInterestRate()
-
-	const shownLoan = initialLoan === 0 ? '' : initialLoan.toString()
-	const shownInterestRate =
-		initialInterestRate === 1 || initialInterestRate === 0
-			? ''
-			: initialInterestRate.toString()
 
 	return (
 		<View style={GlobalStyles.page}>
@@ -67,30 +48,39 @@ export const AccountEditorPage3 = (props: AccountEditorProps) => {
 
 				<Formik
 					initialValues={{
-						loan: shownLoan,
-						interestRate: shownInterestRate,
+						userNames: groupForm.getUserNames(),
 					}}
-					validationSchema={validationSchema}
 					onSubmit={handleSubmit}
 				>
 					{(props: FormikProps<FormProps>) => (
 						<View style={GlobalStyles.form}>
 							<View style={[GlobalStyles.inputFields, GlobalStyles.center]}>
-								<TextField
-									value={props.values.loan}
-									keyboardType={'numeric'}
-									maxLength={15}
-									placeholder={language.LOAN}
-									handleChange={props.handleChange('loan')}
-									error={props.errors.loan}
-								/>
-								<TextField
-									value={props.values.interestRate}
-									keyboardType={'numeric'}
-									maxLength={15}
-									placeholder={language.INTEREST_RATE}
-									handleChange={props.handleChange('interestRate')}
-									error={props.errors.interestRate}
+								<List
+									placeholder={language.SEARCH}
+									onChangeText={() => {}}
+									title={language.USERS}
+									items={[
+										{ key: '12', label: 'User name 1', onPress: () => {} },
+										{ key: '13', label: 'User name 2', onPress: () => {} },
+										{ key: '14', label: 'User name 3', onPress: () => {} },
+										{ key: '15', label: 'User name 4', onPress: () => {} },
+										{
+											key: '16',
+											label: 'Account name 55555',
+											onPress: () => {},
+										},
+										{ key: '17', label: 'User name 6', onPress: () => {} },
+										{ key: '18', label: 'User name 7 ', onPress: () => {} },
+										{ key: '19', label: 'User 8', onPress: () => {} },
+									]}
+									options={[
+										{ key: '12', label: 'User name 1' },
+										{ key: '13', label: 'User name 2' },
+										{ key: '14', label: 'User name 3' },
+										{ key: '15', label: 'User name 4' },
+										{ key: '16', label: 'User name 5' },
+										{ key: '17', label: 'User name 6' },
+									]}
 								/>
 							</View>
 							<View style={GlobalStyles.center}>

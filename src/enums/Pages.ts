@@ -10,4 +10,7 @@ export enum Pages {
 	ASSET_EDITOR = 'assetEditor',
 	ASSET_EDITOR2 = 'assetEditor2',
 	ASSET_EDITOR3 = 'assetEditor3',
+	GROUP_EDITOR = 'groupEditor',
+	GROUP_EDITOR2 = 'groupEditor2',
+	GROUP_EDITOR3 = 'groupEditor3',
 }

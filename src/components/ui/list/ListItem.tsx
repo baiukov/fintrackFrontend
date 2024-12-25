@@ -1,0 +1,28 @@
+import Ionicons from '@expo/vector-icons/Ionicons'
+import React from 'react'
+import { Text, TouchableOpacity, View } from 'react-native'
+import { styles } from './List.styles'
+
+interface ListItemProps {
+	key: string
+	label: string
+	onPress: ({ key, label }: { key: string; label: string }) => void
+}
+
+export const ListItem = (props: ListItemProps) => {
+	const text =
+		props.label.length > 14 ? props.label.substring(0, 14) + '...' : props.label
+
+	return (
+		<View style={styles.listItem}>
+			<TouchableOpacity
+				onPress={() => {
+					props.onPress({ key: props.key, label: props.label })
+				}}
+			>
+				<Ionicons name='trash-sharp' size={32} color='gray' />
+			</TouchableOpacity>
+			<Text style={styles.listItemText}>{text}</Text>
+		</View>
+	)
+}

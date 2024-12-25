@@ -125,7 +125,7 @@ export const AccountEditorPage1 = (props: AccountEditorProps) => {
 									title={language.BUSINESS_ACCOUNT}
 									onPress={props.handleChange('isBusiness')}
 									description={language.BUSINESS_ACCOUNT_DESCRIPTION}
-								></Checkbox>
+								/>
 							</View>
 							<View style={GlobalStyles.center}>
 								<MainButton
