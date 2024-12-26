@@ -6,6 +6,7 @@ export enum Pages {
 	MAIN_MENU = 'mainMenu',
 	HOME_PAGE = 'homePage',
 	GRAPH = 'graph',
+	SETTINGS = 'settings',
 	ACCOUNT_EDITOR = 'accountEditor',
 	ACCOUNT_EDITOR2 = 'accountEditor2',
 	ACCOUNT_EDITOR3 = 'accountEditor3',

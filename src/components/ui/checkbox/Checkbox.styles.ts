@@ -8,9 +8,16 @@ export const styles = StyleSheet.create({
 		borderRadius: 5,
 	},
 
+	icon: {
+		top: 2,
+		left: 2,
+		width: 24,
+		height: 24,
+	},
+
 	wrapper: {
 		display: 'flex',
-		flexDirection: 'row-reverse',
+		flexDirection: 'row',
 		height: 50,
 	},
 

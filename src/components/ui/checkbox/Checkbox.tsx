@@ -12,15 +12,11 @@ export interface CheckBoxProps {
 }
 
 export const Checkbox = (props: CheckBoxProps) => {
-	const [checked, setChecked] = React.useState(false)
+	const [checked, setChecked] = React.useState(props.isChecked || false)
 
-	const icon = Icons.CHECKMARK as unknown as string
+	const icon = Icons.CHECKMARK
 	return (
 		<View style={styles.wrapper}>
-			<View>
-				<Text style={styles.title}>{props.title}</Text>
-				<Text style={styles.description}>{props.description}</Text>
-			</View>
 			<View style={styles.checkBoxWrapper}>
 				<TouchableWithoutFeedback
 					style={styles.checkBoxWrapper}
@@ -37,8 +33,12 @@ export const Checkbox = (props: CheckBoxProps) => {
 						setChecked(isChecked)
 					}}
 				>
-					<Image src={icon}></Image>
+					<Image style={styles.icon} source={icon}></Image>
 				</TouchableOpacity>
+			</View>
+			<View>
+				<Text style={styles.title}>{props.title}</Text>
+				<Text style={styles.description}>{props.description}</Text>
 			</View>
 		</View>
 	)

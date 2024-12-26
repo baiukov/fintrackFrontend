@@ -19,6 +19,7 @@ import { LoginPage } from '../pages/login/LoginPage'
 import { MainPage } from '../pages/main/MainPage'
 import { MainMenuPage } from '../pages/mainMenuPage/MainMenuPage'
 import { PincodeLoginPage } from '../pages/pincodeLogin/PincodeLoginPage'
+import { Settings } from '../pages/settings/Settings'
 import { SignupPage } from '../pages/signup/SignupPage'
 
 const Stack = createStackNavigator()
@@ -46,6 +47,7 @@ export default function navigate() {
 				<Stack.Screen name={Pages.PINCODE_LOGIN} component={PincodeLoginPage} />
 				<Stack.Screen name={Pages.MAIN_MENU} component={MainMenuPage} />
 				<Stack.Screen name={Pages.HOME_PAGE} component={HomePage} />
+				<Stack.Screen name={Pages.SETTINGS} component={Settings} />
 				<Stack.Screen
 					name={Pages.ACCOUNT_EDITOR}
 					component={AccountEditorPage1}

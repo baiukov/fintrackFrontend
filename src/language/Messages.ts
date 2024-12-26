@@ -32,6 +32,11 @@ export const Messages = {
 		GRAPH: 'Graph',
 		INCOME: 'Income',
 		EXPENSE: 'Expense',
+		SETTINGS: 'Settings',
+		TOTAL: 'Total',
+		INCOMES: 'Incomes',
+		EXPENSES: 'Expenses',
+		NET_WORTH: 'Net worth',
 
 		MISSING_EMAIL: 'E-mail is required',
 		WRONG_EMAIL: 'Invalid e-mail',
@@ -98,6 +103,13 @@ export const Messages = {
 		START_DATE: 'Start date',
 		END_DATE: 'End date',
 		BUSINESS_ACCOUNT_DESCRIPTION: 'Special type of account for entrepreneurs',
+		CATEGORIES: 'Categories',
+		SET_PINCODE: 'Set pincode',
+		GENERATE_GENERAL_STATEMENT: 'Generate general statement',
+		SHOW_ON_THE_MAIN_PAGE: 'Show on the main page',
+
+		EN: 'English',
+		CZ: 'Čeština',
 	},
 
 	CZ: {

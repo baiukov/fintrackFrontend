@@ -10,13 +10,21 @@ export const TopMenu = (props: { navigation: any }) => {
 		props.navigation.navigate(Pages.GRAPH)
 	}
 
+	const transferToSettings = () => {
+		props.navigation.navigate(Pages.SETTINGS)
+	}
+
+	const transferToMainMenu = () => {
+		props.navigation.replace(Pages.MAIN_MENU)
+	}
+
 	return (
 		<View style={styles.topMenu}>
-			<TouchableOpacity onPress={transferToGraph}>
+			<TouchableOpacity onPress={transferToMainMenu}>
 				<Ionicons name='menu' size={32} color='white' />
 			</TouchableOpacity>
 			<View style={styles.topLeftMenu}>
-				<TouchableOpacity>
+				<TouchableOpacity onPress={transferToSettings}>
 					<Ionicons name='settings-sharp' size={32} color='white' />
 				</TouchableOpacity>
 				<TouchableOpacity onPress={transferToGraph}>
