@@ -27,6 +27,7 @@ export const Messages = {
 		NAME: 'Name',
 		SAVE: 'Save',
 		DELETE: 'Delete',
+		TRANSACTIONS: 'Transactions',
 
 		MISSING_EMAIL: 'E-mail is required',
 		WRONG_EMAIL: 'Invalid e-mail',

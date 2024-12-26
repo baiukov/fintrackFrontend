@@ -13,6 +13,7 @@ import { AssetEditorPage3 } from '../pages/editors/AssetEditor/AssetEditorPage3'
 import { GroupEditorPage1 } from '../pages/editors/GroupEditor/GroupEditorPage1'
 import { GroupEditorPage2 } from '../pages/editors/GroupEditor/GroupEditorPage2'
 import { GroupEditorPage3 } from '../pages/editors/GroupEditor/GroupEditorPage3'
+import { HomePage } from '../pages/home/HomePage'
 import { LoginPage } from '../pages/login/LoginPage'
 import { MainMenuPage } from '../pages/mainMenuPage/MainMenuPage'
 import { PincodeLoginPage } from '../pages/pincodeLogin/PincodeLoginPage'
@@ -41,10 +42,8 @@ export default function navigate() {
 				<Stack.Screen name={Pages.LOGIN} component={LoginPage} />
 				<Stack.Screen name={Pages.SIGNUP} component={SignupPage} />
 				<Stack.Screen name={Pages.PINCODE_LOGIN} component={PincodeLoginPage} />
-				<Stack.Screen
-					name={Pages.MAIN_MENU}
-					component={MainMenuPage}
-				></Stack.Screen>
+				<Stack.Screen name={Pages.MAIN_MENU} component={MainMenuPage} />
+				<Stack.Screen name={Pages.HOME_PAGE} component={HomePage} />
 				<Stack.Screen
 					name={Pages.ACCOUNT_EDITOR}
 					component={AccountEditorPage1}
@@ -57,6 +56,7 @@ export default function navigate() {
 					name={Pages.ACCOUNT_EDITOR3}
 					component={AccountEditorPage3}
 				/>
+
 				<Stack.Screen name={Pages.ASSET_EDITOR} component={AssetEditorPage1} />
 				<Stack.Screen name={Pages.ASSET_EDITOR2} component={AssetEditorPage2} />
 				<Stack.Screen name={Pages.ASSET_EDITOR3} component={AssetEditorPage3} />

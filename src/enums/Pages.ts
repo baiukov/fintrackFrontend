@@ -4,6 +4,7 @@ export enum Pages {
 	SIGNUP = 'signup',
 	PINCODE_LOGIN = 'pincodeLogin',
 	MAIN_MENU = 'mainMenu',
+	HOME_PAGE = 'homePage',
 	ACCOUNT_EDITOR = 'accountEditor',
 	ACCOUNT_EDITOR2 = 'accountEditor2',
 	ACCOUNT_EDITOR3 = 'accountEditor3',

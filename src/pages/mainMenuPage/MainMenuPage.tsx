@@ -34,7 +34,7 @@ export const MainMenuPage = (props: any) => {
 				<View style={GlobalStyles.headerWrapper}>
 					<Text style={GlobalStyles.header}>{`${pageName}`}</Text>
 				</View>
-				<Tabs tabs={tabs} callback={handleChange} />
+				<Tabs style={{ width: '60%' }} tabs={tabs} callback={handleChange} />
 			</LinearGradient>
 		</View>
 	)

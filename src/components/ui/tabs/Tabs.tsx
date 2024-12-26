@@ -1,9 +1,17 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import React from 'react'
+import { DimensionValue } from 'react-native/Libraries/StyleSheet/StyleSheetTypes'
 
 export interface TabsProps {
 	tabs: { title: string; component: React.ComponentType }[]
 	callback?: (tabId: string) => any
+	style?: {
+		width?: DimensionValue
+		fontSize?: number
+		tabBarScrollEnabled?: boolean
+		itemWidth?: DimensionValue
+		tabBarLabelPadding?: number
+	}
 }
 
 export const Tabs = (props: TabsProps) => {
@@ -14,15 +22,14 @@ export const Tabs = (props: TabsProps) => {
 			screenOptions={{
 				tabBarLabelStyle: {
 					backgroundColor: 'none',
-					padding: 0,
+					padding: props.style?.tabBarLabelPadding || 0,
 					margin: 0,
-					fontSize: 24,
+					fontSize: props.style?.fontSize || 20,
 				},
 				tabBarStyle: {
 					backgroundColor: 'none',
-					padding: 0,
 					alignSelf: 'center',
-					width: '60%',
+					width: props.style?.width || '100%',
 					marginBottom: 20,
 				},
 				tabBarContentContainerStyle: {
@@ -33,16 +40,17 @@ export const Tabs = (props: TabsProps) => {
 					borderBottomWidth: 2,
 					borderBottomColor: 'rgba(255, 255, 255, 0.5)',
 					padding: 0,
+					width: props.style?.itemWidth || undefined,
 				},
 				tabBarIndicatorStyle: {
 					backgroundColor: 'white',
 				},
-				tabBarIndicatorContainerStyle: {},
 				tabBarActiveTintColor: 'white',
 				tabBarInactiveTintColor: 'rgba(255, 255, 255, 0.5)',
 				sceneStyle: {
 					backgroundColor: 'none',
 				},
+				tabBarScrollEnabled: props.style?.tabBarScrollEnabled || false,
 			}}
 			screenListeners={{
 				state: event => {

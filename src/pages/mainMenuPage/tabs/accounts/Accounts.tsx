@@ -27,8 +27,11 @@ export const Accounts: React.FC = (props: any) => {
 					<MenuItem
 						icon={Icons.EDIT}
 						title={'Account name'}
-						callback={function () {
-							throw new Error('Function not implemented.')
+						callback={() => {
+							props.navigation.reset({
+								index: 0,
+								routes: [{ name: Pages.HOME_PAGE }],
+							})
 						}}
 					/>
 					<MenuItem
