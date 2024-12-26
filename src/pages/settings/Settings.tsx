@@ -5,6 +5,7 @@ import { NarrowButton } from '../../components/ui/buttons/NarrowButton/NarrowBut
 import { Checkbox } from '../../components/ui/checkbox/Checkbox'
 import { DropDown } from '../../components/ui/dropdowns/dropdown/Dropdown'
 import { Currencies } from '../../enums/Currencies'
+import { Pages } from '../../enums/Pages'
 import { Messages } from '../../language/Messages'
 import { useStore } from '../../storage/store'
 import { GlobalStyles } from '../../styles/GlobalStyles.styles'
@@ -20,6 +21,22 @@ export const Settings = (props: any) => {
 	const languages = Object.keys(Messages).map(lang => {
 		return { label: language[lang], value: lang }
 	})
+
+	const transferToCategories = () => {
+		props.navigation.navigate(Pages.CATEGORIES)
+	}
+
+	const transferToGeneralStatement = () => {
+		props.navigation.navigate(Pages.GENERAL_STATEMENT)
+	}
+
+	const transferToSetPincode = () => {
+		setTimeout(() => {
+			props.navigation.navigate(Pages.PINCODE_LOGIN, {
+				isLogin: false,
+			})
+		}, 0)
+	}
 
 	return (
 		<View style={GlobalStyles.page}>
@@ -43,11 +60,17 @@ export const Settings = (props: any) => {
 					handleChange={() => {}}
 				/>
 				<View style={{ gap: 20 }}>
-					<NarrowButton title={language.CATEGORIES} onPress={() => {}} />
-					<NarrowButton title={language.SET_PINCODE} onPress={() => {}} />
+					<NarrowButton
+						title={language.CATEGORIES}
+						onPress={transferToCategories}
+					/>
+					<NarrowButton
+						title={language.SET_PINCODE}
+						onPress={transferToSetPincode}
+					/>
 					<NarrowButton
 						title={language.GENERATE_GENERAL_STATEMENT}
-						onPress={() => {}}
+						onPress={transferToGeneralStatement}
 					/>
 					<View style={styles.list}>
 						<Text style={styles.listTitle}>

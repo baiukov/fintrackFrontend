@@ -10,7 +10,11 @@ import { useStore } from '../../storage/store'
 import { GlobalStyles } from '../../styles/GlobalStyles.styles'
 import { styles } from './PincodeLoginPage.styles'
 
-export const PincodeLoginPage = (props: any) => {
+interface PincodeProps {
+	route: any
+}
+
+export const PincodeLoginPage = (props: PincodeProps) => {
 	const language = useStore((state: any) => state.language)
 
 	const validationSchema = Yup.object().shape({
@@ -20,6 +24,8 @@ export const PincodeLoginPage = (props: any) => {
 			.max(9999, language.PINCODE_TOO_LONG)
 			.required(language.MISSING_PINCODE),
 	})
+
+	const isLogin = props.route.params?.isLogin
 
 	return (
 		<View style={GlobalStyles.page}>
@@ -58,7 +64,7 @@ export const PincodeLoginPage = (props: any) => {
 							</View>
 							<View style={GlobalStyles.center}>
 								<MainButton
-									title={language.GO}
+									title={isLogin ? language.GO : language.SAVE}
 									variant={Buttons.PRIMARY}
 									callback={props.handleSubmit}
 								/>

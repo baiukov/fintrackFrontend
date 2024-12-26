@@ -37,6 +37,7 @@ export const Messages = {
 		INCOMES: 'Incomes',
 		EXPENSES: 'Expenses',
 		NET_WORTH: 'Net worth',
+		GENERATE: 'Generate',
 
 		MISSING_EMAIL: 'E-mail is required',
 		WRONG_EMAIL: 'Invalid e-mail',
@@ -74,6 +75,7 @@ export const Messages = {
 		WRONG_CURRENCY: 'Wrong currency',
 		WRONG_INTEREST_RATE: 'Invalid interest rate',
 		ACQUISITION_DATE: 'Acquisition date',
+		DEPRECIATION_DATE: 'Depreciation date',
 		ACQUISITION_PRICE: 'Acquisition price',
 		DEPRECIATION_PRICE: 'Depreciation price',
 		SELECT_AN_OPTION: 'Select an option',
@@ -107,6 +109,7 @@ export const Messages = {
 		SET_PINCODE: 'Set pincode',
 		GENERATE_GENERAL_STATEMENT: 'Generate general statement',
 		SHOW_ON_THE_MAIN_PAGE: 'Show on the main page',
+		ADD_CATEGORY: 'Add category',
 
 		EN: 'English',
 		CZ: 'Čeština',

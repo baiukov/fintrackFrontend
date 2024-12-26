@@ -38,7 +38,11 @@ export const LoginPage = (props: any) => {
 					initialValues={{ login: '', password: '' }}
 					validationSchema={validationSchema}
 					onSubmit={() => {
-						props.navigation.navigate(Pages.PINCODE_LOGIN)
+						setTimeout(() => {
+							props.navigation.navigate(Pages.PINCODE_LOGIN, {
+								isLogin: true,
+							})
+						}, 0)
 					}}
 				>
 					{(props: FormikProps<{ login: string; password: string }>) => (

@@ -2,17 +2,20 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import React from 'react'
 import { Pages } from '../enums/Pages'
+import { Categories } from '../pages/categories/Categories'
 import { AccountEditorPage1 } from '../pages/editors/AccountEditor/AccountEditorPage1'
 import { AccountEditorPage2 } from '../pages/editors/AccountEditor/AccountEditorPage2'
 import { AccountEditorPage3 } from '../pages/editors/AccountEditor/AccountEditorPage3'
 import { AssetEditorPage1 } from '../pages/editors/AssetEditor/AssetEditorPage1'
 import { AssetEditorPage2 } from '../pages/editors/AssetEditor/AssetEditorPage2'
 import { AssetEditorPage3 } from '../pages/editors/AssetEditor/AssetEditorPage3'
+import { CategoryEditor } from '../pages/editors/CategoryEditor.tsx/CategoryEditor'
 import { GroupEditorPage1 } from '../pages/editors/GroupEditor/GroupEditorPage1'
 import { GroupEditorPage2 } from '../pages/editors/GroupEditor/GroupEditorPage2'
 import { GroupEditorPage3 } from '../pages/editors/GroupEditor/GroupEditorPage3'
 import { StandingOrderEditor } from '../pages/editors/StandingOrderEditor/StandingOrderEditor'
 import { TransactionEditor } from '../pages/editors/TransactionEditor/TransactionEditor'
+import { GeneralStatement } from '../pages/generalStatement/GeneralStatement'
 import { Graph } from '../pages/graph/Graph'
 import { HomePage } from '../pages/home/HomePage'
 import { LoginPage } from '../pages/login/LoginPage'
@@ -48,6 +51,12 @@ export default function navigate() {
 				<Stack.Screen name={Pages.MAIN_MENU} component={MainMenuPage} />
 				<Stack.Screen name={Pages.HOME_PAGE} component={HomePage} />
 				<Stack.Screen name={Pages.SETTINGS} component={Settings} />
+				<Stack.Screen name={Pages.CATEGORIES} component={Categories} />
+				<Stack.Screen name={Pages.GRAPH} component={Graph} />
+				<Stack.Screen
+					name={Pages.GENERAL_STATEMENT}
+					component={GeneralStatement}
+				/>
 				<Stack.Screen
 					name={Pages.ACCOUNT_EDITOR}
 					component={AccountEditorPage1}
@@ -75,7 +84,7 @@ export default function navigate() {
 					name={Pages.STANDING_ORDER_EDITOR}
 					component={StandingOrderEditor}
 				/>
-				<Stack.Screen name={Pages.GRAPH} component={Graph} />
+				<Stack.Screen name={Pages.CATEGORY_EDITOR} component={CategoryEditor} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	)

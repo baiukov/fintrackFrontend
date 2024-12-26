@@ -7,6 +7,8 @@ export enum Pages {
 	HOME_PAGE = 'homePage',
 	GRAPH = 'graph',
 	SETTINGS = 'settings',
+	CATEGORIES = 'categories',
+	GENERAL_STATEMENT = 'generalStatement',
 	ACCOUNT_EDITOR = 'accountEditor',
 	ACCOUNT_EDITOR2 = 'accountEditor2',
 	ACCOUNT_EDITOR3 = 'accountEditor3',
@@ -18,4 +20,5 @@ export enum Pages {
 	GROUP_EDITOR3 = 'groupEditor3',
 	TRANSACTION_EDITOR = 'transactionEditor',
 	STANDING_ORDER_EDITOR = 'standingOrderEditor',
+	CATEGORY_EDITOR = 'categoryEditor',
 }
