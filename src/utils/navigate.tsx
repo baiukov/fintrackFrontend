@@ -1,8 +1,6 @@
-import React from 'react'
-import { MainPage } from '../pages/main/MainPage'
-
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
+import React from 'react'
 import { Pages } from '../enums/Pages'
 import { AccountEditorPage1 } from '../pages/editors/AccountEditor/AccountEditorPage1'
 import { AccountEditorPage2 } from '../pages/editors/AccountEditor/AccountEditorPage2'
@@ -13,8 +11,12 @@ import { AssetEditorPage3 } from '../pages/editors/AssetEditor/AssetEditorPage3'
 import { GroupEditorPage1 } from '../pages/editors/GroupEditor/GroupEditorPage1'
 import { GroupEditorPage2 } from '../pages/editors/GroupEditor/GroupEditorPage2'
 import { GroupEditorPage3 } from '../pages/editors/GroupEditor/GroupEditorPage3'
+import { StandingOrderEditor } from '../pages/editors/StandingOrderEditor/StandingOrderEditor'
+import { TransactionEditor } from '../pages/editors/TransactionEditor/TransactionEditor'
+import { Graph } from '../pages/graph/Graph'
 import { HomePage } from '../pages/home/HomePage'
 import { LoginPage } from '../pages/login/LoginPage'
+import { MainPage } from '../pages/main/MainPage'
 import { MainMenuPage } from '../pages/mainMenuPage/MainMenuPage'
 import { PincodeLoginPage } from '../pages/pincodeLogin/PincodeLoginPage'
 import { SignupPage } from '../pages/signup/SignupPage'
@@ -63,6 +65,15 @@ export default function navigate() {
 				<Stack.Screen name={Pages.GROUP_EDITOR} component={GroupEditorPage1} />
 				<Stack.Screen name={Pages.GROUP_EDITOR2} component={GroupEditorPage2} />
 				<Stack.Screen name={Pages.GROUP_EDITOR3} component={GroupEditorPage3} />
+				<Stack.Screen
+					name={Pages.TRANSACTION_EDITOR}
+					component={TransactionEditor}
+				/>
+				<Stack.Screen
+					name={Pages.STANDING_ORDER_EDITOR}
+					component={StandingOrderEditor}
+				/>
+				<Stack.Screen name={Pages.GRAPH} component={Graph} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	)

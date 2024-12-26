@@ -28,6 +28,10 @@ export const Messages = {
 		SAVE: 'Save',
 		DELETE: 'Delete',
 		TRANSACTIONS: 'Transactions',
+		AMOUNT: 'Amount',
+		GRAPH: 'Graph',
+		INCOME: 'Income',
+		EXPENSE: 'Expense',
 
 		MISSING_EMAIL: 'E-mail is required',
 		WRONG_EMAIL: 'Invalid e-mail',
@@ -82,9 +86,17 @@ export const Messages = {
 		BUSINESS_ACCOUNT: 'Business account',
 		WRONG_LOAN: 'Invalid loan',
 		MISSING_LOAN: 'Loan is required',
-
+		CHOOSE_RECEIVER: 'Choose receiver',
+		SELECT_ASSET: 'Select asset',
 		NOTHING_TO_SHOW: 'Nothing to show!',
-
+		TRANSACTION_DATE: 'Transaction date',
+		STANDING_ORDER: 'Standing order',
+		DESCRIPTION: 'Description',
+		CHOOSE_FREQUENCY: 'Choose frequency',
+		DAYS_FOR_REMIND: 'Days for remind',
+		MISSING_FREQUENCY: 'Frequency is required',
+		START_DATE: 'Start date',
+		END_DATE: 'End date',
 		BUSINESS_ACCOUNT_DESCRIPTION: 'Special type of account for entrepreneurs',
 	},
 

@@ -7,6 +7,7 @@ import { SearchField } from '../../components/ui/fields/SearchField/SearchField'
 import { MenuGroup } from '../../components/ui/groups/MenuGroup'
 import { Tabs } from '../../components/ui/tabs/Tabs'
 import { Transaction } from '../../components/ui/transaction/Transaction'
+import { Pages } from '../../enums/Pages'
 import { useStore } from '../../storage/store'
 import { GlobalStyles } from '../../styles/GlobalStyles.styles'
 import { styles } from './HomePages.styles'
@@ -14,10 +15,17 @@ import { DataBoxPanel } from './components/DataBoxPanel'
 import { Title } from './components/Title'
 import { TopMenu } from './components/TopMenu'
 
-interface HomePageProps {}
+interface HomePageProps {
+	navigation: any
+	route: any
+}
 
 export const HomePage = (props: HomePageProps) => {
 	const language = useStore((state: any) => state.language)
+
+	const transferToEditor = () => {
+		props.navigation.navigate(Pages.TRANSACTION_EDITOR)
+	}
 
 	return (
 		<View style={GlobalStyles.page}>
@@ -28,7 +36,7 @@ export const HomePage = (props: HomePageProps) => {
 				end={{ x: 1, y: 1 }}
 			>
 				<ScrollView contentContainerStyle={{ paddingBottom: 200 }}>
-					<TopMenu />
+					<TopMenu navigation={props.navigation} />
 
 					<Title style={{ top: 100 }} emoji='🏠' title='MY ACCOUNT' />
 					<DataBoxPanel
@@ -128,7 +136,7 @@ export const HomePage = (props: HomePageProps) => {
 					</View>
 				</ScrollView>
 				<View style={styles.bottomButton}>
-					<TouchableOpacity>
+					<TouchableOpacity onPress={transferToEditor}>
 						<FontAwesome name='plus' size={32} color='#3D4CC9' />
 					</TouchableOpacity>
 				</View>

@@ -5,6 +5,7 @@ export enum Pages {
 	PINCODE_LOGIN = 'pincodeLogin',
 	MAIN_MENU = 'mainMenu',
 	HOME_PAGE = 'homePage',
+	GRAPH = 'graph',
 	ACCOUNT_EDITOR = 'accountEditor',
 	ACCOUNT_EDITOR2 = 'accountEditor2',
 	ACCOUNT_EDITOR3 = 'accountEditor3',
@@ -14,4 +15,6 @@ export enum Pages {
 	GROUP_EDITOR = 'groupEditor',
 	GROUP_EDITOR2 = 'groupEditor2',
 	GROUP_EDITOR3 = 'groupEditor3',
+	TRANSACTION_EDITOR = 'transactionEditor',
+	STANDING_ORDER_EDITOR = 'standingOrderEditor',
 }
