@@ -4,10 +4,13 @@ import { Image, View } from 'react-native'
 import { MainButton } from '../../components/ui/buttons/MainButton/MainButton'
 import { Buttons } from '../../enums/Buttons'
 import { Pages } from '../../enums/Pages'
+import { useStore } from '../../storage/store'
 import { GlobalStyles } from '../../styles/GlobalStyles.styles'
 import { styles } from './MainPage.styles'
 
 export const MainPage = (props: any) => {
+	const language = useStore((state: any) => state.language)
+
 	const transferToLogin = () => {
 		props.navigation.navigate(Pages.LOGIN)
 	}
@@ -31,15 +34,15 @@ export const MainPage = (props: any) => {
 
 				<MainButton
 					variant={Buttons.PRIMARY}
-					title='Log in'
+					title={language.LOGIN}
 					callback={transferToLogin}
-				></MainButton>
+				/>
 
 				<MainButton
 					variant={Buttons.SECONDARY}
-					title='Sign up'
+					title={language.SIGNUP}
 					callback={transferToSignup}
-				></MainButton>
+				/>
 			</LinearGradient>
 		</View>
 	)

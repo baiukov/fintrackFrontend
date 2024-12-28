@@ -1,18 +1,21 @@
 import { LinearGradient } from 'expo-linear-gradient'
 import { Formik, FormikProps } from 'formik'
 import React from 'react'
-import { Text, View } from 'react-native'
+import { ActivityIndicator, Text, View } from 'react-native'
 import * as Yup from 'yup'
 import { MainButton } from '../../components/ui/buttons/MainButton/MainButton'
 import { TextField } from '../../components/ui/fields/TextField/TextField'
+import { ModalWindow } from '../../components/ui/modal/Modal'
 import { Buttons } from '../../enums/Buttons'
 import { Pages } from '../../enums/Pages'
+import { UserService } from '../../services/User.service'
 import { useStore } from '../../storage/store'
 import { GlobalStyles } from '../../styles/GlobalStyles.styles'
 import { styles } from './LoginPage.styles'
 
 export const LoginPage = (props: any) => {
 	const language = useStore((state: any) => state.language)
+	const [loading, setLoading] = React.useState(false)
 
 	const validationSchema = Yup.object().shape({
 		login: Yup.string().required(language.MISSING_LOGIN),
@@ -21,6 +24,24 @@ export const LoginPage = (props: any) => {
 
 	const transferToSignup = () => {
 		props.navigation.replace(Pages.SIGNUP)
+	}
+
+	const handleSubmit = async (values: { login: string; password: string }) => {
+		const service = UserService.getInstance()
+
+		setLoading(true)
+		try {
+			const response = await service.login(
+				values.login,
+				values.login,
+				values.password
+			)
+			console.log('Login successful:', response)
+		} catch (error) {
+			console.error('Login failed:', error)
+		} finally {
+			setLoading(false)
+		}
 	}
 
 	return (
@@ -37,16 +58,20 @@ export const LoginPage = (props: any) => {
 				<Formik
 					initialValues={{ login: '', password: '' }}
 					validationSchema={validationSchema}
-					onSubmit={() => {
-						setTimeout(() => {
-							props.navigation.navigate(Pages.PINCODE_LOGIN, {
-								isLogin: true,
-							})
-						}, 0)
-					}}
+					onSubmit={handleSubmit}
 				>
 					{(props: FormikProps<{ login: string; password: string }>) => (
 						<View style={styles.form}>
+							{loading ? (
+								<ModalWindow
+									isVisible={loading}
+									setModalVisible={setLoading}
+									element={<ActivityIndicator size='large' color='#0000ff' />}
+								/>
+							) : (
+								<></>
+							)}
+
 							<View style={[styles.textFields, GlobalStyles.center]}>
 								<TextField
 									value={props.values.login}
@@ -66,9 +91,7 @@ export const LoginPage = (props: any) => {
 								<MainButton
 									title={language.LOGIN}
 									variant={Buttons.PRIMARY}
-									callback={() => {
-										props.handleSubmit()
-									}}
+									callback={props.handleSubmit}
 								/>
 								<MainButton
 									title={language.SIGNUP}

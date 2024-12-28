@@ -10,7 +10,7 @@ import { DropDown } from '../../../components/ui/dropdowns/dropdown/Dropdown'
 import { Buttons } from '../../../enums/Buttons'
 import { DepreciationBasis } from '../../../enums/DepreciationBasis'
 import { Pages } from '../../../enums/Pages'
-import { Asset } from '../../../model/entities/Asset'
+import { Asset } from '../../../model/ui/Asset'
 import { useStore } from '../../../storage/store'
 import { GlobalStyles } from '../../../styles/GlobalStyles.styles'
 

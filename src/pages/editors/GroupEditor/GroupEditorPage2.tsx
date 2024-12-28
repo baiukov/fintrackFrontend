@@ -6,7 +6,7 @@ import { MainButton } from '../../../components/ui/buttons/MainButton/MainButton
 import { List } from '../../../components/ui/list/List'
 import { Buttons } from '../../../enums/Buttons'
 import { Pages } from '../../../enums/Pages'
-import { Group } from '../../../model/entities/Group'
+import { Group } from '../../../model/ui/Group'
 import { useStore } from '../../../storage/store'
 import { GlobalStyles } from '../../../styles/GlobalStyles.styles'
 

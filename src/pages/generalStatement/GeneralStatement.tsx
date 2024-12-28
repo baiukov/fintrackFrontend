@@ -7,7 +7,7 @@ import * as Yup from 'yup'
 import { MainButton } from '../../components/ui/buttons/MainButton/MainButton'
 import { DatePicker } from '../../components/ui/datePicker/DatePicker'
 import { Buttons } from '../../enums/Buttons'
-import { Asset } from '../../model/entities/Asset'
+import { Asset } from '../../model/ui/Asset'
 import { useStore } from '../../storage/store'
 import { GlobalStyles } from '../../styles/GlobalStyles.styles'
 

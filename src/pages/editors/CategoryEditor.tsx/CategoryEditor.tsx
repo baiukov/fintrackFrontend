@@ -8,7 +8,7 @@ import { TextField } from '../../../components/ui/fields/TextField/TextField'
 import { Picker } from '../../../components/ui/picker/Picker'
 import { Buttons } from '../../../enums/Buttons'
 import { Pages } from '../../../enums/Pages'
-import { Category } from '../../../model/entities/Category'
+import { Category } from '../../../model/ui/Category'
 import { useStore } from '../../../storage/store'
 import { GlobalStyles } from '../../../styles/GlobalStyles.styles'
 

@@ -9,7 +9,7 @@ import { TextField } from '../../../components/ui/fields/TextField/TextField'
 import { Picker } from '../../../components/ui/picker/Picker'
 import { Buttons } from '../../../enums/Buttons'
 import { Pages } from '../../../enums/Pages'
-import { Asset } from '../../../model/entities/Asset'
+import { Asset } from '../../../model/ui/Asset'
 import { useStore } from '../../../storage/store'
 import { GlobalStyles } from '../../../styles/GlobalStyles.styles'
 

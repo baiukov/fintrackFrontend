@@ -11,7 +11,7 @@ import { DropDown } from '../../../components/ui/dropdowns/dropdown/Dropdown'
 import { TextField } from '../../../components/ui/fields/TextField/TextField'
 import { Buttons } from '../../../enums/Buttons'
 import { Frequencies } from '../../../enums/Frequencies'
-import { StandingOrder } from '../../../model/entities/StandingOrder'
+import { StandingOrder } from '../../../model/ui/StandingOrder'
 import { useStore } from '../../../storage/store'
 import { GlobalStyles } from '../../../styles/GlobalStyles.styles'
 

@@ -9,7 +9,7 @@ import { TextField } from '../../../components/ui/fields/TextField/TextField'
 import { Buttons } from '../../../enums/Buttons'
 import { Currencies } from '../../../enums/Currencies'
 import { Pages } from '../../../enums/Pages'
-import { Account } from '../../../model/entities/Account'
+import { Account } from '../../../model/ui/Account'
 import { useStore } from '../../../storage/store'
 import { GlobalStyles } from '../../../styles/GlobalStyles.styles'
 

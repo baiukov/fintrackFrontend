@@ -13,7 +13,7 @@ import { Buttons } from '../../../enums/Buttons'
 import { Currencies } from '../../../enums/Currencies'
 import { Pages } from '../../../enums/Pages'
 import { TransactionTypes } from '../../../enums/TransactionTypes'
-import { Transaction } from '../../../model/entities/Transaction'
+import { Transaction } from '../../../model/ui/Transaction'
 import { useStore } from '../../../storage/store'
 import { GlobalStyles } from '../../../styles/GlobalStyles.styles'
 

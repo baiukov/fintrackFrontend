@@ -11,6 +11,7 @@ export interface ModalProps {
 	element: JSX.Element
 	mainButtonTitle?: string
 	onClose?: () => any
+	withoutCloseButton?: boolean
 }
 
 export const ModalWindow = (props: ModalProps) => {
@@ -21,16 +22,18 @@ export const ModalWindow = (props: ModalProps) => {
 			<View style={styles.modalBackground}>
 				<View style={styles.modal}>
 					{props.element}
-					<TouchableOpacity onPress={() => props.setModalVisible(false)}>
-						<ModalMainButton
-							title={props.mainButtonTitle || language.CLOSE}
-							variant={Buttons.PRIMARY}
-							callback={() => {
-								props.onClose && props.onClose()
-								props.setModalVisible(false)
-							}}
-						/>
-					</TouchableOpacity>
+					{props.withoutCloseButton ? (
+						<TouchableOpacity onPress={() => props.setModalVisible(false)}>
+							<ModalMainButton
+								title={props.mainButtonTitle || language.CLOSE}
+								variant={Buttons.PRIMARY}
+								callback={() => {
+									props.onClose && props.onClose()
+									props.setModalVisible(false)
+								}}
+							/>
+						</TouchableOpacity>
+					) : null}
 				</View>
 			</View>
 		</Modal>
