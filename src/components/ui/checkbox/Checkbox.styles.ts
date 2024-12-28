@@ -6,13 +6,14 @@ export const styles = StyleSheet.create({
 		height: 25,
 		backgroundColor: '#2C2C2C',
 		borderRadius: 5,
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 
 	icon: {
-		top: 2,
-		left: 2,
-		width: 24,
-		height: 24,
+		width: 18,
+		height: 18,
 	},
 
 	wrapper: {
@@ -36,7 +37,5 @@ export const styles = StyleSheet.create({
 
 	checkMark: {
 		position: 'absolute',
-		top: -2,
-		left: -1,
 	},
 })

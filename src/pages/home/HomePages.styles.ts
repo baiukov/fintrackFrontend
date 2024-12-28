@@ -19,6 +19,7 @@ export const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		gap: 10,
+		letterSpacing: 1,
 	},
 
 	titleText: {
@@ -89,6 +90,10 @@ export const styles = StyleSheet.create({
 		top: 120,
 		display: 'flex',
 		alignItems: 'center',
+	},
+
+	items: {
+		gap: 10,
 	},
 
 	bottomButton: {

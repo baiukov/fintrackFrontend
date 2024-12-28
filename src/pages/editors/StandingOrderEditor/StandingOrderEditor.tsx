@@ -58,7 +58,6 @@ export const StandingOrderEditor = (props: StandingOrderEditorProps) => {
 			>
 				<View style={GlobalStyles.headerWrapper}>
 					<Text style={GlobalStyles.header}>{`${language.EDITOR}`}</Text>
-					<Text style={GlobalStyles.subheader}>{`${language.STEP} 1/3`}</Text>
 				</View>
 
 				<Formik

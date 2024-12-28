@@ -24,10 +24,8 @@ export const Graph = (props: GraphProps) => {
 	]
 
 	const series = [
-		{ value: 430, color: '#fbd203' },
-		{ value: 321, color: '#ffb300' },
-		{ value: 185, color: '#ff9100' },
-		{ value: 123, color: '#ff6c00' },
+		{ value: 430, color: '#fff' },
+		{ value: 321, color: '#777' },
 	]
 
 	return (

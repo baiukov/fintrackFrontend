@@ -35,7 +35,7 @@ export const Transaction = (props: TransactionProps) => {
 				</View>
 			</View>
 			<View>
-				<Text style={styles.amount}>300$</Text>
+				<Text style={styles.amount}>{props.amount}</Text>
 			</View>
 		</TouchableOpacity>
 	)

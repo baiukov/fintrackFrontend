@@ -41,10 +41,10 @@ export const HomePage = (props: HomePageProps) => {
 					<Title style={{ top: 100 }} emoji='🏠' title='MY ACCOUNT' />
 					<DataBoxPanel
 						boxes={{
-							leftTop: { title: 'Total', data: '1000$' },
-							rightTop: { title: 'Total', data: '1000$' },
-							leftBottom: { title: 'Total', data: '1000$' },
-							rightBottom: { title: 'Total', data: '1000$' },
+							leftTop: { title: language.TOTAL, data: '1000$' },
+							rightTop: { title: language.NET_WORTH, data: '1000$' },
+							leftBottom: { title: language.INCOMES, data: '1000$' },
+							rightBottom: { title: language.EXPENSES, data: '1000$' },
 						}}
 					/>
 
@@ -85,7 +85,7 @@ export const HomePage = (props: HomePageProps) => {
 							style={{ fontSize: 20 }}
 							title={'May 2024'}
 							children={
-								<View>
+								<View style={styles.items}>
 									<Transaction
 										emoji={'🍔'}
 										category={'Food'}
@@ -93,10 +93,10 @@ export const HomePage = (props: HomePageProps) => {
 										amount={'20$'}
 									></Transaction>
 									<Transaction
-										emoji={'🍔'}
-										category={'Food'}
-										description={'Burger, rice'}
-										amount={'20$'}
+										emoji={'🏠'}
+										category={'Home'}
+										description={''}
+										amount={'2000$'}
 									></Transaction>
 								</View>
 							}
@@ -105,7 +105,7 @@ export const HomePage = (props: HomePageProps) => {
 							style={{ fontSize: 20 }}
 							title={'May 2024'}
 							children={
-								<View>
+								<View style={styles.items}>
 									<Transaction
 										emoji={'🍔'}
 										category={'Food'}
