@@ -9,6 +9,7 @@ import { Picker } from '../../../components/ui/picker/Picker'
 import { Buttons } from '../../../enums/Buttons'
 import { Pages } from '../../../enums/Pages'
 import { Category } from '../../../model/ui/Category'
+import { CategoryService } from '../../../services/Category.service'
 import { useStore } from '../../../storage/store'
 import { GlobalStyles } from '../../../styles/GlobalStyles.styles'
 
@@ -25,6 +26,7 @@ interface FormProps {
 
 export const CategoryEditor = (props: CategoryEditorProps) => {
 	const language = useStore((state: any) => state.language)
+	const user = useStore((state: any) => state.user)
 
 	const categoryForm: Category =
 		props.route.params?.asset || new Category(null, null)
@@ -35,6 +37,9 @@ export const CategoryEditor = (props: CategoryEditorProps) => {
 	})
 
 	const handleSubmit = (values: FormProps) => {
+		const service = CategoryService.getInstance()
+		service.create(user.id, values.name, values.emoji)
+
 		props.navigation.replace(Pages.CATEGORIES)
 	}
 

@@ -1,5 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient'
-import React from 'react'
+import React, { useState } from 'react'
 import { Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { MainButton } from '../../components/ui/buttons/MainButton/MainButton'
@@ -7,15 +7,21 @@ import { MenuItem } from '../../components/ui/buttons/MenuItem/MenuItem'
 import { Buttons } from '../../enums/Buttons'
 import { Icons } from '../../enums/Icons'
 import { Pages } from '../../enums/Pages'
+import { CategoryService } from '../../services/Category.service'
 import { useStore } from '../../storage/store'
 import { GlobalStyles } from '../../styles/GlobalStyles.styles'
 
 export const Categories = (props: any) => {
+	const language = useStore((state: any) => state.language)
+	const user = useStore((state: any) => state.user)
+
+	const service = CategoryService.getInstance()
+
+	const [categories, setCategories] = useState(service.getAll(user.id))
+
 	const transferToCategoryEditor = () => {
 		props.navigation.navigate(Pages.CATEGORY_EDITOR)
 	}
-
-	const language = useStore((state: any) => state.language)
 
 	return (
 		<View style={GlobalStyles.page}>
