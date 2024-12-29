@@ -6,16 +6,18 @@ import * as Yup from 'yup'
 import { MainButton } from '../../components/ui/buttons/MainButton/MainButton'
 import { TextField } from '../../components/ui/fields/TextField/TextField'
 import { Buttons } from '../../enums/Buttons'
+import { UserService } from '../../services/User.service'
 import { useStore } from '../../storage/store'
 import { GlobalStyles } from '../../styles/GlobalStyles.styles'
-import { styles } from './PincodeLoginPage.styles'
+import { styles } from './PincodePage.styles'
 
 interface PincodeProps {
 	route: any
 }
 
-export const PincodeLoginPage = (props: PincodeProps) => {
+export const PincodePage = (props: PincodeProps) => {
 	const language = useStore((state: any) => state.language)
+	const user = useStore((state: any) => state.user)
 
 	const validationSchema = Yup.object().shape({
 		pincode: Yup.number()
@@ -26,6 +28,17 @@ export const PincodeLoginPage = (props: PincodeProps) => {
 	})
 
 	const isLogin = props.route.params?.isLogin
+
+	const handleSubmit = async (values: { pincode: string }) => {
+		const service = UserService.getInstance()
+		const userId = user.id
+
+		if (isLogin) {
+			// login
+		} else {
+			service.setPincode(userId, values.pincode)
+		}
+	}
 
 	return (
 		<View style={GlobalStyles.page}>
@@ -43,7 +56,7 @@ export const PincodeLoginPage = (props: PincodeProps) => {
 						pincode: '',
 					}}
 					validationSchema={validationSchema}
-					onSubmit={() => {}}
+					onSubmit={handleSubmit}
 				>
 					{(
 						props: FormikProps<{

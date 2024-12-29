@@ -21,7 +21,7 @@ import { HomePage } from '../pages/home/HomePage'
 import { LoginPage } from '../pages/login/LoginPage'
 import { MainPage } from '../pages/main/MainPage'
 import { MainMenuPage } from '../pages/mainMenuPage/MainMenuPage'
-import { PincodeLoginPage } from '../pages/pincodeLogin/PincodeLoginPage'
+import { PincodePage } from '../pages/pincode/PincodePage'
 import { Settings } from '../pages/settings/Settings'
 import { SignupPage } from '../pages/signup/SignupPage'
 
@@ -47,7 +47,7 @@ export default function navigate() {
 				/>
 				<Stack.Screen name={Pages.LOGIN} component={LoginPage} />
 				<Stack.Screen name={Pages.SIGNUP} component={SignupPage} />
-				<Stack.Screen name={Pages.PINCODE_LOGIN} component={PincodeLoginPage} />
+				<Stack.Screen name={Pages.PINCODE} component={PincodePage} />
 				<Stack.Screen name={Pages.MAIN_MENU} component={MainMenuPage} />
 				<Stack.Screen name={Pages.HOME_PAGE} component={HomePage} />
 				<Stack.Screen name={Pages.SETTINGS} component={Settings} />

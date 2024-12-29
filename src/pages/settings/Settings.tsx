@@ -32,7 +32,7 @@ export const Settings = (props: any) => {
 
 	const transferToSetPincode = () => {
 		setTimeout(() => {
-			props.navigation.navigate(Pages.PINCODE_LOGIN, {
+			props.navigation.navigate(Pages.PINCODE, {
 				isLogin: false,
 			})
 		}, 0)

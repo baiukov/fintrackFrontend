@@ -2,7 +2,7 @@ export enum Pages {
 	MAIN = 'main',
 	LOGIN = 'login',
 	SIGNUP = 'signup',
-	PINCODE_LOGIN = 'pincodeLogin',
+	PINCODE = 'pincode',
 	MAIN_MENU = 'mainMenu',
 	HOME_PAGE = 'homePage',
 	GRAPH = 'graph',

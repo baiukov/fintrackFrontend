@@ -37,4 +37,15 @@ export class UserService extends Service {
 
 		return user
 	}
+
+	public async setPincode(id: string, pincode: string) {
+		const endpoint = '/setPincode'
+		const uri = this.baseUrl + endpoint
+		const response = await this.api.post(uri, {
+			id,
+			pincode,
+		})
+
+		return response.data
+	}
 }
