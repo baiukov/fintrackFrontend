@@ -71,7 +71,7 @@ export const styles = StyleSheet.create({
 		flexWrap: 'wrap',
 		justifyContent: 'space-between',
 		marginTop: 10,
-		top: 100,
+		top: 90,
 	},
 
 	tabs: {

@@ -1,4 +1,5 @@
 import Constants from 'expo-constants'
+import { Endpoints } from '../enums/Endpoints'
 import { Category } from '../model/Category'
 import { Service } from './Service'
 
@@ -20,8 +21,7 @@ export class CategoryService extends Service {
 	}
 
 	public async create(userId: string, name: string, emoji: string) {
-		const endpoint = '/create'
-		const uri = this.baseUrl + endpoint
+		const uri = this.baseUrl + Endpoints.CATEGORY_CREATE
 
 		console.log(emoji.toString())
 
@@ -36,8 +36,7 @@ export class CategoryService extends Service {
 	}
 
 	public async getAll(userId: string): Promise<Category[]> {
-		const endpoint = '/getAll'
-		const uri = this.baseUrl + endpoint
+		const uri = this.baseUrl + Endpoints.CATEGORY_GETALL
 
 		const response = await this.api.get(uri, {
 			params: {

@@ -1,0 +1,50 @@
+import Constants from 'expo-constants'
+import { Endpoints } from '../enums/Endpoints'
+import { Account } from '../model/Account'
+import { Service } from './Service'
+
+export class AccountService extends Service {
+	protected static instance: AccountService | null = null
+
+	protected baseUrl: string = Constants.expoConfig?.extra?.API_URL + '/account'
+
+	private constructor() {
+		super()
+	}
+
+	public static getInstance(): AccountService {
+		if (AccountService.instance === null) {
+			AccountService.instance = new AccountService()
+		}
+
+		return AccountService.instance
+	}
+
+	public async retrieveAll(userId: string): Promise<Account[]> {
+		const uri = this.baseUrl + Endpoints.RETRIEVE_ALL
+		console.log(userId)
+		const response = await this.api.get(uri, {
+			params: {
+				userId,
+			},
+		})
+		console.log(response.data)
+		return response.data
+	}
+
+	public async getNetworth(
+		id: string,
+		fromDate?: Date,
+		endDate?: Date
+	): Promise<number> {
+		const uri = this.baseUrl + Endpoints.GET_NETWORTH
+		const response = await this.api.get(uri, {
+			params: {
+				id,
+				fromDate,
+				endDate,
+			},
+		})
+		return response.data
+	}
+}

@@ -1,16 +1,29 @@
 import React from 'react'
-import { ScrollView, View } from 'react-native'
+import { ActivityIndicator, ScrollView, View } from 'react-native'
 import { MainButton } from '../../../../components/ui/buttons/MainButton/MainButton'
 import { MenuItem } from '../../../../components/ui/buttons/MenuItem/MenuItem'
 import { MenuGroup } from '../../../../components/ui/groups/MenuGroup'
 import { Buttons } from '../../../../enums/Buttons'
 import { Icons } from '../../../../enums/Icons'
 import { Pages } from '../../../../enums/Pages'
+import { Account } from '../../../../model/Account'
+import { AccountService } from '../../../../services/Account.service'
 import { useStore } from '../../../../storage/store'
 import { GlobalStyles } from '../../../../styles/GlobalStyles.styles'
 
 export const Accounts: React.FC = (props: any) => {
 	const language = useStore((state: any) => state.language)
+	const user = useStore((state: any) => state.user)
+
+	const [accounts, setAccounts] = React.useState<null | Account[]>(null)
+
+	const fetchData = () => {
+		const service = AccountService.getInstance()
+		service.retrieveAll(user.id).then(data => {
+			setAccounts(data)
+		})
+	}
+	fetchData()
 
 	const transferToAccountEditor = () => {
 		props.navigation.navigate(Pages.ACCOUNT_EDITOR)
@@ -24,6 +37,25 @@ export const Accounts: React.FC = (props: any) => {
 		<View style={GlobalStyles.center}>
 			<ScrollView>
 				<MenuGroup title='Family'>
+					{accounts === null ? (
+						<ActivityIndicator
+							// style={{ alignSelf: 'flex-start', top: 7, left: 5 }}
+							size='large'
+							color='white'
+						/>
+					) : (
+						accounts.map(account => {
+							return (
+								<MenuItem
+									icon={Icons.EDIT}
+									title={account.name}
+									callback={function () {
+										throw new Error('Function not implemented.')
+									}}
+								/>
+							)
+						})
+					)}
 					<MenuItem
 						icon={Icons.EDIT}
 						title={'Account name'}

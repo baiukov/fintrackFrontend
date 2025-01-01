@@ -5,7 +5,7 @@ import { DataBox } from './DataBox'
 
 interface DataBoxPanelProps {
 	boxes: {
-		leftTop: { title: string; data: string }
+		leftTop: { title: string; data: string | null }
 		rightTop: { title: string; data: string }
 		leftBottom: { title: string; data: string }
 		rightBottom: { title: string; data: string }

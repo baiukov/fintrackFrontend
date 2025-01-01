@@ -1,4 +1,5 @@
 import Constants from 'expo-constants'
+import { Endpoints } from '../enums/Endpoints'
 import { useStore } from '../storage/store'
 import { Service } from './Service'
 
@@ -24,8 +25,7 @@ export class UserService extends Service {
 		login: string | null,
 		password: string
 	) {
-		const endpoint = '/login'
-		const uri = this.baseUrl + endpoint
+		const uri = this.baseUrl + Endpoints.LOGIN
 		const response = await this.api.post(uri, {
 			email,
 			login,
@@ -39,8 +39,7 @@ export class UserService extends Service {
 	}
 
 	public async setPincode(id: string, pincode: string) {
-		const endpoint = '/setPincode'
-		const uri = this.baseUrl + endpoint
+		const uri = this.baseUrl + Endpoints.SET_PINCODE
 		const response = await this.api.post(uri, {
 			id,
 			pincode,

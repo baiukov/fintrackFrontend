@@ -8,6 +8,7 @@ import { MenuGroup } from '../../components/ui/groups/MenuGroup'
 import { Tabs } from '../../components/ui/tabs/Tabs'
 import { Transaction } from '../../components/ui/transaction/Transaction'
 import { Pages } from '../../enums/Pages'
+import { AccountService } from '../../services/Account.service'
 import { useStore } from '../../storage/store'
 import { GlobalStyles } from '../../styles/GlobalStyles.styles'
 import { styles } from './HomePages.styles'
@@ -22,10 +23,22 @@ interface HomePageProps {
 
 export const HomePage = (props: HomePageProps) => {
 	const language = useStore((state: any) => state.language)
+	const user = useStore((state: any) => state.user)
 
 	const transferToEditor = () => {
 		props.navigation.navigate(Pages.TRANSACTION_EDITOR)
 	}
+
+	const [networth, setNeworth] = React.useState<number | null>(null)
+
+	const fetchData = () => {
+		if (!user) return
+		const service = AccountService.getInstance()
+		service.getNetworth(user.id).then(data => {
+			setNeworth(data)
+		})
+	}
+	fetchData()
 
 	return (
 		<View style={GlobalStyles.page}>
@@ -39,15 +52,6 @@ export const HomePage = (props: HomePageProps) => {
 					<TopMenu navigation={props.navigation} />
 
 					<Title style={{ top: 100 }} emoji='🏠' title='MY ACCOUNT' />
-					<DataBoxPanel
-						boxes={{
-							leftTop: { title: language.TOTAL, data: '1000$' },
-							rightTop: { title: language.NET_WORTH, data: '1000$' },
-							leftBottom: { title: language.INCOMES, data: '1000$' },
-							rightBottom: { title: language.EXPENSES, data: '1000$' },
-						}}
-					/>
-
 					<View style={styles.tabs}>
 						<Tabs
 							tabs={[
@@ -71,6 +75,14 @@ export const HomePage = (props: HomePageProps) => {
 							callback={() => {}}
 						/>
 					</View>
+					<DataBoxPanel
+						boxes={{
+							leftTop: { title: language.TOTAL, data: networth },
+							rightTop: { title: language.NET_WORTH, data: '1000$' },
+							leftBottom: { title: language.INCOMES, data: '1000$' },
+							rightBottom: { title: language.EXPENSES, data: '1000$' },
+						}}
+					/>
 					<Title style={{ top: 100 }} title={language.TRANSACTIONS} />
 					<View style={styles.searchWrapper}>
 						<SearchField
