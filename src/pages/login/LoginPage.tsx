@@ -37,7 +37,10 @@ export const LoginPage = (props: any) => {
 				values.password
 			)
 			console.log('Login successful:', response)
-			props.navigation.replace(Pages.MAIN_MENU)
+			props.navigation.reset({
+				index: 0,
+				routes: [{ name: Pages.MAIN_MENU }],
+			})
 		} catch (error) {
 			console.error('Login failed:', error)
 		} finally {

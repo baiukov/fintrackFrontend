@@ -1,12 +1,14 @@
 import { LinearGradient } from 'expo-linear-gradient'
 import { Formik, FormikProps } from 'formik'
 import React from 'react'
-import { Text, View } from 'react-native'
+import { ActivityIndicator, Text, View } from 'react-native'
 import * as Yup from 'yup'
 import { MainButton } from '../../components/ui/buttons/MainButton/MainButton'
 import { TextField } from '../../components/ui/fields/TextField/TextField'
+import { ModalWindow } from '../../components/ui/modal/Modal'
 import { Buttons } from '../../enums/Buttons'
 import { Pages } from '../../enums/Pages'
+import { UserService } from '../../services/User.service'
 import { useStore } from '../../storage/store'
 import { GlobalStyles } from '../../styles/GlobalStyles.styles'
 import { styles } from './SignupPage.styles'
@@ -20,8 +22,9 @@ interface FormProps {
 
 export const SignupPage = (props: any) => {
 	const language = useStore((state: any) => state.language)
+	const [loading, setLoading] = React.useState(false)
 
-	function transferToLogin() {
+	const transferToLogin = () => {
 		props.navigation.replace(Pages.LOGIN)
 	}
 
@@ -48,6 +51,77 @@ export const SignupPage = (props: any) => {
 			.required(language.MISSING_REPEAT_PASSWORD),
 	})
 
+	const serverErrors = {
+		email: [{
+			errorName: "EMAIL_EXISTS",
+			errorMessage: language.EMAIL_EXISTS,
+		}],
+		username: [{
+			errorName: "USERNAME_EXISTS",
+			errorMessage: language.USERNAME_EXISTS,
+		}],
+		password: [
+			{
+				errorName: "PASSWORD_LESS_THAN_8_CHARS",
+				errorMessage: language.PASSWORD_TOO_SHORT,
+			},
+			{
+				errorName: "PASSWORD_DOESNT_CONTAIN_UPPERCASE_LETTER",
+				errorMessage: language.PASSWORD_NO_UPPERCASE,
+			},
+			{
+				errorName: "PASSWORD_DOESNT_CONTAIN_LOWERCASE_LETTER",
+				errorMessage: language.PASSWORD_NO_LOWERCASE,
+			},
+			{
+				errorName: "PASSWORD_DOESNT_CONTAIN_DIGIT",
+				errorMessage: language.PASSWORD_NO_DIGITS,
+			},
+			{
+				errorName: "PASSWORD_CONTAINS_WHITESPACES",
+				errorMessage: language.PASSWORD_CONTAINS_SPACES,
+			},
+		]
+	}
+
+
+	const fetchErrors = (error : string, setFieldError: any) => {
+		if (!serverErrors) { return }
+		Object.keys(serverErrors).forEach((key) => {
+			const currentServerError = serverErrors[key as keyof typeof serverErrors]
+
+			currentServerError.forEach((currentError) => { 
+				if (error === currentError.errorName) {
+					setFieldError(key, currentError.errorMessage)
+				}
+			})
+		 })
+		}
+
+	const handleSubmit = async (values: FormProps, {setFieldError}: any) => { 
+		const service = UserService.getInstance()
+
+		setLoading(true)
+		try {
+			const response = await service.register(
+				values.email,
+				values.username,
+				values.password
+			)
+			console.log('Register successful:', response)
+			props.navigation.reset({
+				index: 0,
+				routes: [{ name: Pages.MAIN_MENU }],
+			})
+		} catch (error : any) {
+			if (error && error.response && error.response.data) {
+				fetchErrors(error.response.data, setFieldError)
+			}
+		} finally {
+			setLoading(false)
+		}
+	}
+
 	return (
 		<View style={GlobalStyles.page}>
 			<LinearGradient
@@ -66,17 +140,22 @@ export const SignupPage = (props: any) => {
 						password: '',
 						repeatPassword: '',
 					}}
-					// validationSchema={validationSchema}
-					onSubmit={() => {
-						props.navigation.reset({
-							index: 0,
-							routes: [{ name: Pages.MAIN_MENU }],
-						})
-					}}
+					validationSchema={validationSchema}
+					onSubmit={handleSubmit}
 				>
 					{(props: FormikProps<FormProps>) => (
 						<View style={styles.form}>
 							<View style={[styles.textFields, GlobalStyles.center]}>
+							{loading ? (
+								<ModalWindow
+									isVisible={loading}
+									setModalVisible={setLoading}
+									element={<ActivityIndicator size='large' color='#0000ff' />}
+								/>
+							) : (
+								<></>
+							)}
+
 								<TextField
 									value={props.values.email}
 									placeholder={language.EMAIL}

@@ -20,6 +20,25 @@ export class UserService extends Service {
 		return UserService.instance
 	}
 
+	public async register(
+		email: string | null,
+		userName: string | null,
+		password: string | null
+	) {
+		const uri = this.baseUrl + Endpoints.REGISTER
+		const response = await this.api.post(uri, {
+			email,
+			userName,
+			password
+		})
+
+		const user = response.data
+		useStore.setState({ user: user })
+
+		return user
+
+	}
+
 	public async login(
 		email: string | null,
 		login: string | null,

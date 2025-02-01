@@ -4,5 +4,6 @@ export enum Endpoints {
 	CATEGORY_CREATE = '/create',
 	CATEGORY_GETALL = '/getAll',
 	LOGIN = '/login',
+	REGISTER = '/register',
 	SET_PINCODE = '/setPincode',
 }

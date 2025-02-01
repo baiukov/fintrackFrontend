@@ -44,6 +44,8 @@ export const Messages = {
 		MISSING_LOGIN: 'Login is required',
 		MISSING_PASSWORD: 'Password is required',
 		MISSING_USERNAME: 'Username is required',
+		USERNAME_EXISTS: 'Username already exists',	
+		EMAIL_EXISTS: 'E-mail already exists',
 		USERNAME_TOO_SHORT: 'Username is too short',
 		MISSING_REPEAT_PASSWORD: 'Repeat password',
 		PASSWORDS_DONT_MATCH: "Passwords don't match",
