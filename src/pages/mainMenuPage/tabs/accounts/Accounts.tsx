@@ -23,7 +23,7 @@ export const Accounts: React.FC = (props: any) => {
 			setAccounts(data)
 		})
 	}
-	fetchData()
+	// fetchData()
 
 	const transferToAccountEditor = () => {
 		props.navigation.navigate(Pages.ACCOUNT_EDITOR)

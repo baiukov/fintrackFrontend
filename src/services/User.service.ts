@@ -66,4 +66,17 @@ export class UserService extends Service {
 
 		return response.data
 	}
+
+	public async fetchByUserName(name: string, limit: number) 
+	{ 
+		const uri = this.baseUrl + Endpoints.FETCH_BY_USERNAME
+		const response = await this.api.get(uri, {
+			params: {
+				name,
+				limit,
+			},
+		})
+
+		return response.data
+	}
 }

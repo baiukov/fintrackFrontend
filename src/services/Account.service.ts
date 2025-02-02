@@ -28,7 +28,6 @@ export class AccountService extends Service {
 				userId,
 			},
 		})
-		console.log(response.data)
 		return response.data
 	}
 
@@ -45,6 +44,20 @@ export class AccountService extends Service {
 				endDate,
 			},
 		})
+		return response.data
+	}
+
+	public async fetchByUserIdAndAccountName(userId: string, name: string, limit: number) 
+	{ 
+		const uri = this.baseUrl + Endpoints.FETCH_ACCOUNT_BY_USER_ID_AND_ACCOUNT_NAME
+		const response = await this.api.get(uri, {
+			params: {
+				userId,
+				name,
+				limit,
+			},
+		})
+
 		return response.data
 	}
 }

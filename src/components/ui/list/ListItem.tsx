@@ -4,20 +4,23 @@ import { Text, TouchableOpacity, View } from 'react-native'
 import { styles } from './List.styles'
 
 interface ListItemProps {
-	key: string
+	itemKey: string
 	label: string
-	onPress: ({ key, label }: { key: string; label: string }) => void
+	onPress: (key: string, label: string) => void
 }
 
 export const ListItem = (props: ListItemProps) => {
+	console.log(props)
+	if (!props.label) { return }
 	const text =
 		props.label.length > 14 ? props.label.substring(0, 14) + '...' : props.label
-
 	return (
 		<View style={styles.listItem}>
 			<TouchableOpacity
 				onPress={() => {
-					props.onPress({ key: props.key, label: props.label })
+					if (props.onPress) {
+						props.onPress(props.itemKey, props.label)
+					}
 				}}
 			>
 				<Ionicons name='trash-sharp' size={32} color='gray' />

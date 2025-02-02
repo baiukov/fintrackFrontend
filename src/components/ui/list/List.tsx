@@ -13,11 +13,13 @@ export interface ListProps extends SearchFieldProps {
 	items: {
 		key: string
 		label: string
-		onPress: ({ key, label }: { key: string; label: string }) => void
+		onPress: (key: string, label: string) => void
 	}[]
 }
 
 export const List = (props: ListProps) => {
+	console.log(props.items)
+
 	return (
 		<View style={styles.box}>
 			<View>
@@ -25,11 +27,9 @@ export const List = (props: ListProps) => {
 				<ScrollView style={styles.itemsList}>
 					{props.items.map(item => (
 						<ListItem
-							key={item.key}
+							itemKey={item.key}
 							label={item.label}
-							onPress={() => {
-								item.onPress({ key: item.key, label: item.label })
-							}}
+							onPress={item.onPress}
 						/>
 					))}
 				</ScrollView>

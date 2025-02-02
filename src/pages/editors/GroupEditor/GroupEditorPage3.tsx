@@ -7,6 +7,7 @@ import { List } from '../../../components/ui/list/List'
 import { Buttons } from '../../../enums/Buttons'
 import { Pages } from '../../../enums/Pages'
 import { Group } from '../../../model/ui/Group'
+import { UserService } from '../../../services/User.service'
 import { useStore } from '../../../storage/store'
 import { GlobalStyles } from '../../../styles/GlobalStyles.styles'
 
@@ -17,11 +18,19 @@ export interface GroupEditorProps {
 }
 
 interface FormProps {
-	userNames: string[]
+	users: User[]
+}
+
+interface User {
+	id: string
+	name: string
 }
 
 export const GroupEditorPage3 = (props: GroupEditorProps) => {
 	const language = useStore((state: any) => state.language)
+	const [options, setOptions] = React.useState([] as { key: string; label: string }[])
+	const [searchValue, setSeatchValue] = React.useState('')
+	const [selectedUsers, setSelectedUsers] = React.useState([] as User[])
 
 	const groupForm = props.route.params?.groupFrom || new Group(null, null, null)
 
@@ -31,6 +40,39 @@ export const GroupEditorPage3 = (props: GroupEditorProps) => {
 		props.navigation.replace(Pages.MAIN_MENU, {
 			groupForm: groupForm,
 		})
+	}
+
+	const handleSelectUser = (key: string, label: string) => {
+		const alreadySelectedUsers = selectedUsers.slice()
+		if (alreadySelectedUsers.find((user: User) => user.id === key)) { 
+			return
+		}
+		alreadySelectedUsers.push({id: key, name: label})
+		setSelectedUsers(alreadySelectedUsers)
+	}
+	
+	const handleRemoveUser = (key: string, _: string) => {
+		const alreadySelectedUsers = selectedUsers.slice()
+		alreadySelectedUsers.find((user: User, index: number) => { 
+			if (user.id === key) { 
+				alreadySelectedUsers.splice(index, 1)
+			}
+		})
+		setSelectedUsers(alreadySelectedUsers)
+	}
+
+	const handleSearchChange = async (text: string) => { 
+		setSeatchValue(text)
+		const service = UserService.getInstance()
+
+		const limit = 5
+		const users = await service.fetchByUserName(text, limit)
+		const options = [] as { key: string; label: string }[]
+		users.forEach((user: User) => { 
+			options.push({ key: user.id, label: user.name })
+		})
+		console.log(options)
+		setOptions(options)
 	}
 
 	return (
@@ -57,30 +99,18 @@ export const GroupEditorPage3 = (props: GroupEditorProps) => {
 							<View style={[GlobalStyles.inputFields, GlobalStyles.center]}>
 								<List
 									placeholder={language.SEARCH}
-									onChangeText={() => {}}
+									onChangeText={handleSearchChange}
 									title={language.USERS}
-									items={[
-										{ key: '12', label: 'User name 1', onPress: () => {} },
-										{ key: '13', label: 'User name 2', onPress: () => {} },
-										{ key: '14', label: 'User name 3', onPress: () => {} },
-										{ key: '15', label: 'User name 4', onPress: () => {} },
-										{
-											key: '16',
-											label: 'Account name 55555',
-											onPress: () => {},
-										},
-										{ key: '17', label: 'User name 6', onPress: () => {} },
-										{ key: '18', label: 'User name 7 ', onPress: () => {} },
-										{ key: '19', label: 'User 8', onPress: () => {} },
-									]}
-									options={[
-										{ key: '12', label: 'User name 1' },
-										{ key: '13', label: 'User name 2' },
-										{ key: '14', label: 'User name 3' },
-										{ key: '15', label: 'User name 4' },
-										{ key: '16', label: 'User name 5' },
-										{ key: '17', label: 'User name 6' },
-									]}
+									items={
+									selectedUsers.map((user: User) => {
+										return { 
+											key: user.id, 
+											label: user.name, 
+											onPress: () => handleRemoveUser(user.id, user.name) }
+									})}
+									options={options}
+									value={searchValue}
+									onPress={handleSelectUser}
 								/>
 							</View>
 							<View style={GlobalStyles.center}>

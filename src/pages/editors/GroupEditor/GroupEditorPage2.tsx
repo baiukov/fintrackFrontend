@@ -7,6 +7,7 @@ import { List } from '../../../components/ui/list/List'
 import { Buttons } from '../../../enums/Buttons'
 import { Pages } from '../../../enums/Pages'
 import { Group } from '../../../model/ui/Group'
+import { AccountService } from '../../../services/Account.service'
 import { useStore } from '../../../storage/store'
 import { GlobalStyles } from '../../../styles/GlobalStyles.styles'
 
@@ -20,8 +21,18 @@ interface FormProps {
 	accountNames: string[]
 }
 
+interface Account {
+	id: string
+	name: string
+}
+
 export const GroupEditorPage2 = (props: GroupEditorProps) => {
 	const language = useStore((state: any) => state.language)
+	const user = useStore((state: any) => state.user)
+
+	const [options, setOptions] = React.useState([] as { key: string; label: string }[])
+	const [searchValue, setSeatchValue] = React.useState('')
+	const [selectedAccount, setSelectedAccounts] = React.useState([] as Account[])
 
 	const groupForm = props.route.params?.groupForm || new Group(null, null, null)
 
@@ -31,6 +42,38 @@ export const GroupEditorPage2 = (props: GroupEditorProps) => {
 				groupForm: groupForm,
 			})
 		}, 0)
+	}
+
+	const handleSelectAccount = (key: string, label: string) => {
+		const alreadySelectedAccounts = selectedAccount.slice()
+		if (alreadySelectedAccounts.find((account: Account) => account.id === key)) { 
+			return
+		}
+		alreadySelectedAccounts.push({id: key, name: label})
+		setSelectedAccounts(alreadySelectedAccounts)
+	}
+	
+	const handleRemoveAccount = (key: string, _: string) => {
+		const alreadySelectedAccounts = selectedAccount.slice()
+		alreadySelectedAccounts.find((account: Account, index: number) => { 
+			if (account.id === key) { 
+				alreadySelectedAccounts.splice(index, 1)
+			}
+		})
+		setSelectedAccounts(alreadySelectedAccounts)
+	}
+
+	const handleSearchChange = async (text: string) => { 
+		setSeatchValue(text)
+		const service = AccountService.getInstance()
+
+		const limit = 5
+		const accounts = await service.fetchByUserIdAndAccountName(user.id, text, limit)
+		const options = [] as { key: string; label: string }[]
+		accounts.forEach((account: Account) => { 
+			options.push({ key: account.id, label: account.name })
+		})
+		setOptions(options)
 	}
 
 	return (
@@ -57,30 +100,18 @@ export const GroupEditorPage2 = (props: GroupEditorProps) => {
 							<View style={[GlobalStyles.inputFields, GlobalStyles.center]}>
 								<List
 									placeholder={language.SEARCH}
-									onChangeText={() => {}}
+									onChangeText={handleSearchChange}
 									title={language.ACCOUNTS}
-									items={[
-										{ key: '12', label: 'Account name 1', onPress: () => {} },
-										{ key: '13', label: 'Account name 2', onPress: () => {} },
-										{ key: '14', label: 'Account name 3', onPress: () => {} },
-										{ key: '15', label: 'Account name 4', onPress: () => {} },
-										{
-											key: '16',
-											label: 'Account name 55555',
-											onPress: () => {},
-										},
-										{ key: '17', label: 'Account name 6', onPress: () => {} },
-										{ key: '18', label: 'Account name 7 ', onPress: () => {} },
-										{ key: '19', label: 'Account 8', onPress: () => {} },
-									]}
-									options={[
-										{ key: '12', label: 'Account name 1' },
-										{ key: '13', label: 'Account name 2' },
-										{ key: '14', label: 'Account name 3' },
-										{ key: '15', label: 'Account name 4' },
-										{ key: '16', label: 'Account name 5' },
-										{ key: '17', label: 'Account name 6' },
-									]}
+									items={
+										selectedAccount.map((account: Account) => {
+											return { 
+												key: account.id,
+												label: account.name, 
+												onPress: () => handleRemoveAccount(account.id, account.name) }
+										})}
+									options={options}
+									value={searchValue}
+									onPress={handleSelectAccount}
 								/>
 							</View>
 							<View style={GlobalStyles.center}>
