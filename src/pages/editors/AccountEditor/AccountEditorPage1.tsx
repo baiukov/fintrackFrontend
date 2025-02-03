@@ -24,6 +24,7 @@ export interface AccountEditorProps {
 interface FormProps {
 	title: string
 	type: AccountTypes | null
+	group: string
 	emoji: string
 	isBusiness: boolean
 }
@@ -31,9 +32,9 @@ interface FormProps {
 export const AccountEditorPage1 = (props: AccountEditorProps) => {
 	const language = useStore((state: any) => state.language)
 
-	const accountForm =
-		props.route.params?.accountForm ||
-		new Account(null, null, null, null, null, null, null, null)
+	const [accountForm, setAccountForm] = React.useState(props.route.params?.accountForm 
+		|| {} as Account)
+
 
 	const validationSchema = Yup.object().shape({
 		title: Yup.string().required(language.MISSING_TITLE),
@@ -48,14 +49,13 @@ export const AccountEditorPage1 = (props: AccountEditorProps) => {
 	})
 
 	const handleSubmit = (values: FormProps) => {
-		accountForm.setTitle(values.title)
-		accountForm.setType(values.type)
-		accountForm.setEmoji(values.emoji)
-		accountForm.setIsBusiness(values.isBusiness)
+		accountForm.name = values.title
+		accountForm.type = Object.keys(AccountTypes).find(key => AccountTypes[key as keyof typeof AccountTypes] === values.type) as AccountTypes
+		accountForm.emoji = values.emoji
+		accountForm.isBusiness = values.isBusiness
 
 		setTimeout(() => {
 			props.navigation.navigate(Pages.ACCOUNT_EDITOR2, {
-				a: 1,
 				accountForm: accountForm,
 			})
 		}, 0)
@@ -91,10 +91,11 @@ export const AccountEditorPage1 = (props: AccountEditorProps) => {
 
 				<Formik
 					initialValues={{
-						title: accountForm.getTitle() || '',
-						type: accountForm.getType(),
-						emoji: accountForm.getEmoji() || '',
-						isBusiness: accountForm.getIsBusiness() || false,
+						title: accountForm.name || '',
+						type: accountForm.type,
+						group: accountForm.group || '',
+						emoji: accountForm.emoji || '',
+						isBusiness: accountForm.isBusiness || false,
 					}}
 					validationSchema={validationSchema}
 					onSubmit={handleSubmit}

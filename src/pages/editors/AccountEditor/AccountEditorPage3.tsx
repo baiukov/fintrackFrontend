@@ -8,6 +8,7 @@ import { TextField } from '../../../components/ui/fields/TextField/TextField'
 import { Buttons } from '../../../enums/Buttons'
 import { Pages } from '../../../enums/Pages'
 import { Account } from '../../../model/ui/Account'
+import { AccountService } from '../../../services/Account.service'
 import { useStore } from '../../../storage/store'
 import { GlobalStyles } from '../../../styles/GlobalStyles.styles'
 
@@ -24,10 +25,10 @@ interface FormProps {
 
 export const AccountEditorPage3 = (props: AccountEditorProps) => {
 	const language = useStore((state: any) => state.language)
+	const user = useStore((state: any) => state.user)
 
-	const accountForm =
-		props.route.params?.accountForm ||
-		new Account(null, null, null, null, null, null, null, null)
+	const [accountForm, setAccountForm] = React.useState(props.route.params?.accountForm 
+		|| {} as Account)
 
 	const validationSchema = Yup.object().shape({
 		loan: Yup.number().typeError(language.WRONG_LOAN),
@@ -35,16 +36,27 @@ export const AccountEditorPage3 = (props: AccountEditorProps) => {
 	})
 
 	const handleSubmit = (values: FormProps) => {
-		accountForm.setLoan(parseFloat(values.loan))
-		accountForm.setInterestRate(parseFloat(values.interestRate))
+		accountForm.loan = parseFloat(values.loan)
+		accountForm.interestRate = parseFloat(values.interestRate)
+
+		const service = AccountService.getInstance()
+		service.save(user.id, 
+			accountForm.name,
+			accountForm.type,
+			accountForm.currency,
+			accountForm.initialBalance,
+			accountForm.interestRate,
+			0,
+			0,
+		)
 
 		props.navigation.replace(Pages.MAIN_MENU, {
 			accountForm: accountForm,
 		})
 	}
 
-	const initialLoan = accountForm.getLoan()
-	const initialInterestRate = accountForm.getInterestRate()
+	const initialLoan = accountForm.loan || 0
+	const initialInterestRate = accountForm.interestRate || 0
 
 	const shownLoan = initialLoan === 0 ? '' : initialLoan.toString()
 	const shownInterestRate =

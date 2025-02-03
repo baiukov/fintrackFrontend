@@ -28,8 +28,16 @@ export const Accounts: React.FC = (props: any) => {
 		fetchData()
 	}, [user.id])
 
-	const transferToAccountEditor = () => {
-		props.navigation.navigate(Pages.ACCOUNT_EDITOR)
+	const transferToAccountEditor = (account: Account | null = null) => {
+		if (account) {
+			setTimeout(() => {
+				props.navigation.navigate(Pages.ACCOUNT_EDITOR, {
+					account: account,
+				})
+			}, 0)
+		} else {
+			props.navigation.navigate(Pages.ACCOUNT_EDITOR)
+		}
 	}
 
 	const transferToGroupEditor = () => {
@@ -46,8 +54,7 @@ export const Accounts: React.FC = (props: any) => {
 							color='white'
 						/>
 					) : (
-						groups.map(group => {
-							console.log(groups)
+						groups?.filter(group => group != null).filter(group => group.name).map(group => {
 							return (
 								<MenuGroup title={group.name}>
 									{group.accounts?.map((account: Account) => {
@@ -55,9 +62,7 @@ export const Accounts: React.FC = (props: any) => {
 											<MenuItem
 												icon={Icons.EDIT}
 												title={account.name}
-												callback={function () {
-													throw new Error('Function not implemented.')
-												}}
+												callback={() => transferToAccountEditor(account)}
 											/>
 										)
 									})}
@@ -66,6 +71,24 @@ export const Accounts: React.FC = (props: any) => {
 						})
 					)}
 			</ScrollView>
+			{
+				groups?.filter(group => group != null).find(group => group.name === null) ?
+					<MenuGroup title={language.OTHERS}>
+						{
+							groups?.filter(group => group != null)
+								.filter(group => !group.name)[0]?.accounts?.map((account: Account) => {
+								return (
+									<MenuItem
+										icon={Icons.EDIT}
+										title={account.name}
+										callback={() => transferToAccountEditor(account)}
+									/>
+								)
+							})
+						}
+					</MenuGroup>
+					: <></>
+			}
 			<View style={[GlobalStyles.center, GlobalStyles.bottomMenu]}>
 				<MainButton
 					title={language.ADD_ACCOUNT}

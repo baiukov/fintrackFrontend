@@ -72,6 +72,7 @@ export const Messages = {
 		MISSING_BASIS: 'Depreciation basis is required',
 		MISSING_START_DATE: 'Start date is required',
 		MISSING_END_DATE: 'End date is required',
+		MISSING_GROUP: 'Group is required',
 		AT_LEAST_4_CHARS: 'At least 4 characters',
 		MUST_BE_A_NUMBER: 'Must be a number',
 		MUST_BE_POSITIVE: 'Must be positive',
@@ -93,6 +94,7 @@ export const Messages = {
 		CHOOSE_COLOR: 'Choose color',
 		SELECT_ICON: 'Select icon',
 		SELECT_COLOR: 'Select color',
+		SELECT_GROUP: 'Select group',
 		BUSINESS_ACCOUNT: 'Business account',
 		WRONG_LOAN: 'Invalid loan',
 		MISSING_LOAN: 'Loan is required',
@@ -113,6 +115,7 @@ export const Messages = {
 		GENERATE_GENERAL_STATEMENT: 'Generate general statement',
 		SHOW_ON_THE_MAIN_PAGE: 'Show on the main page',
 		ADD_CATEGORY: 'Add category',
+		OTHERS: 'Others',
 
 		EN: 'English',
 		CZ: 'Čeština',

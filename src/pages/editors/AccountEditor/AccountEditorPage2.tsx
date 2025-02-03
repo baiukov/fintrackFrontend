@@ -27,9 +27,8 @@ interface FormProps {
 export const AccountEditorPage2 = (props: AccountEditorProps) => {
 	const language = useStore((state: any) => state.language)
 
-	const accountForm =
-		props.route.params?.accountForm ||
-		new Account(null, null, null, null, null, null, null, null)
+	const [accountForm, setAccountForm] = React.useState(props.route.params?.accountForm 
+		|| {} as Account)
 
 	const validationSchema = Yup.object().shape({
 		balance: Yup.number().typeError(language.WRONG_BALANCE),
@@ -41,15 +40,17 @@ export const AccountEditorPage2 = (props: AccountEditorProps) => {
 	})
 
 	const handleSubmit = (values: FormProps) => {
-		accountForm.setInitialBalance(parseFloat(values.balance))
-		accountForm.setCurrency(values.currency)
+		const updatedForm = { ...accountForm, initialBalance: parseFloat(values.balance), currency: values.currency }
+		setAccountForm(updatedForm)
 
-		props.navigation.navigate(Pages.ACCOUNT_EDITOR3, {
-			accountForm: accountForm,
-		})
+		setTimeout(() => {
+			props.navigation.navigate(Pages.ACCOUNT_EDITOR3, {
+				accountForm: updatedForm,
+			})
+		}, 0)
 	}
 
-	const initialBalance = accountForm.getInitialBalance()
+	const initialBalance = accountForm.initialBalance || 0
 	const shownBalance = initialBalance === 0 ? '' : initialBalance.toString()
 
 	return (
@@ -68,7 +69,7 @@ export const AccountEditorPage2 = (props: AccountEditorProps) => {
 				<Formik
 					initialValues={{
 						balance: shownBalance,
-						currency: accountForm.getCurrency() || null,
+						currency: accountForm.currency || null,
 					}}
 					validationSchema={validationSchema}
 					onSubmit={handleSubmit}

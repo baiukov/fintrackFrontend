@@ -4,7 +4,7 @@ import { Currencies } from '../enums/Currencies'
 export interface Account {
 	id: string
 	name: string
-	type: AccountTypes
+	type: keyof AccountTypes
 	currency: keyof typeof Currencies
 	initialAmount: number
 	interestRate: number

@@ -1,5 +1,7 @@
 import Constants from 'expo-constants'
+import { AccountTypes } from '../enums/AccountTypes'
 import { Endpoints } from '../enums/Endpoints'
+import { Account } from '../model/Account'
 import { Group } from '../model/Group'
 import { Service } from './Service'
 
@@ -56,6 +58,33 @@ export class AccountService extends Service {
 				name,
 				limit,
 			},
+		})
+
+		return response.data
+	}
+
+	public async save(
+		ownerId: string,
+		name: string,
+		type: AccountTypes,
+		currency: string,
+		initialAmount: number,
+		interestRate: number,
+		goalAmount: number,
+		alreadyPaidAmount: number,
+	): Promise<Account> {
+		const uri = this.baseUrl + Endpoints.ADD_ACCOUNT
+		const removed = false
+		const response = await this.api.post(uri, {
+			ownerId,
+			name,
+			type,
+			currency,
+			initialAmount,
+			interestRate,
+			goalAmount,
+			alreadyPaidAmount,
+			removed
 		})
 
 		return response.data

@@ -9,5 +9,6 @@ export enum Endpoints {
 	SET_PINCODE = '/setPincode',
 	FETCH_BY_USERNAME = '/getAllByName',
 	FETCH_ACCOUNT_BY_USER_ID_AND_ACCOUNT_NAME = '/retrievaAllByName',
-	ADD_GROUP = '/add'
+	ADD_GROUP = '/add',
+	ADD_ACCOUNT = '/add'
 }
