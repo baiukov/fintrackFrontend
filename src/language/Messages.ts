@@ -72,6 +72,7 @@ export const Messages = {
 		MISSING_BASIS: 'Depreciation basis is required',
 		MISSING_START_DATE: 'Start date is required',
 		MISSING_END_DATE: 'End date is required',
+		AT_LEAST_4_CHARS: 'At least 4 characters',
 		MUST_BE_A_NUMBER: 'Must be a number',
 		MUST_BE_POSITIVE: 'Must be positive',
 		WRONG_CURRENCY: 'Wrong currency',

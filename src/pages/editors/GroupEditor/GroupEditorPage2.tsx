@@ -30,22 +30,26 @@ export const GroupEditorPage2 = (props: GroupEditorProps) => {
 	const language = useStore((state: any) => state.language)
 	const user = useStore((state: any) => state.user)
 
+	const [groupForm, setGroupForm] = React.useState(props.route.params?.groupForm || { name: '', accounts: [], users: [] })
+
 	const [options, setOptions] = React.useState([] as { key: string; label: string }[])
 	const [searchValue, setSeatchValue] = React.useState('')
-	const [selectedAccount, setSelectedAccounts] = React.useState([] as Account[])
-
-	const groupForm = props.route.params?.groupForm || new Group(null, null, null)
+	const [selectedAccounts, setSelectedAccounts] = React.useState(groupForm.accounts as Account[] || [] as Account[])
 
 	const handleSubmit = (values: FormProps) => {
+		const newlySelectedAccounts = selectedAccounts.slice()
+		const updatedGroupForm = { ...groupForm, accounts: newlySelectedAccounts }
+		setGroupForm(updatedGroupForm)
+
 		setTimeout(() => {
 			props.navigation.navigate(Pages.GROUP_EDITOR3, {
-				groupForm: groupForm,
+				groupForm: updatedGroupForm,
 			})
 		}, 0)
 	}
 
 	const handleSelectAccount = (key: string, label: string) => {
-		const alreadySelectedAccounts = selectedAccount.slice()
+		const alreadySelectedAccounts = selectedAccounts.slice()
 		if (alreadySelectedAccounts.find((account: Account) => account.id === key)) { 
 			return
 		}
@@ -54,7 +58,7 @@ export const GroupEditorPage2 = (props: GroupEditorProps) => {
 	}
 	
 	const handleRemoveAccount = (key: string, _: string) => {
-		const alreadySelectedAccounts = selectedAccount.slice()
+		const alreadySelectedAccounts = selectedAccounts.slice()
 		alreadySelectedAccounts.find((account: Account, index: number) => { 
 			if (account.id === key) { 
 				alreadySelectedAccounts.splice(index, 1)
@@ -91,7 +95,7 @@ export const GroupEditorPage2 = (props: GroupEditorProps) => {
 
 				<Formik
 					initialValues={{
-						accountNames: groupForm.getAccountNames(),
+						accountNames: selectedAccounts.map(account => account.name),
 					}}
 					onSubmit={handleSubmit}
 				>
@@ -103,7 +107,7 @@ export const GroupEditorPage2 = (props: GroupEditorProps) => {
 									onChangeText={handleSearchChange}
 									title={language.ACCOUNTS}
 									items={
-										selectedAccount.map((account: Account) => {
+										selectedAccounts.map((account: Account) => {
 											return { 
 												key: account.id,
 												label: account.name, 

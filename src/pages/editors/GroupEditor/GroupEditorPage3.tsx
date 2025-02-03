@@ -6,7 +6,9 @@ import { MainButton } from '../../../components/ui/buttons/MainButton/MainButton
 import { List } from '../../../components/ui/list/List'
 import { Buttons } from '../../../enums/Buttons'
 import { Pages } from '../../../enums/Pages'
+import { Account } from '../../../model/Account'
 import { Group } from '../../../model/ui/Group'
+import { GroupService } from '../../../services/Group.service'
 import { UserService } from '../../../services/User.service'
 import { useStore } from '../../../storage/store'
 import { GlobalStyles } from '../../../styles/GlobalStyles.styles'
@@ -28,17 +30,31 @@ interface User {
 
 export const GroupEditorPage3 = (props: GroupEditorProps) => {
 	const language = useStore((state: any) => state.language)
+	const user = useStore((state: any) => state.user)
+	
 	const [options, setOptions] = React.useState([] as { key: string; label: string }[])
 	const [searchValue, setSeatchValue] = React.useState('')
 	const [selectedUsers, setSelectedUsers] = React.useState([] as User[])
 
-	const groupForm = props.route.params?.groupFrom || new Group(null, null, null)
+	const [groupForm, setGroupForm] = React.useState(props.route.params?.groupForm || { name: '', accounts: [], users: [] })
 
 	const handleSubmit = (values: FormProps) => {
-		groupForm.setUserNames(values.userNames)
+		const newlySelectedUsers = selectedUsers.slice()
+		const updatedGroupForm = { ...groupForm, users: newlySelectedUsers }
+		setGroupForm(updatedGroupForm)
+
+		console.log(newlySelectedUsers)
+		const service = GroupService.getInstance()
+		service.add(
+			null,
+			updatedGroupForm.name,
+			user.id,
+			newlySelectedUsers.map((user: User) => user.id),
+			updatedGroupForm.accounts.map((account: Account) => account.id)
+		)
 
 		props.navigation.replace(Pages.MAIN_MENU, {
-			groupForm: groupForm,
+			groupForm: updatedGroupForm,
 		})
 	}
 
@@ -68,10 +84,10 @@ export const GroupEditorPage3 = (props: GroupEditorProps) => {
 		const limit = 5
 		const users = await service.fetchByUserName(text, limit)
 		const options = [] as { key: string; label: string }[]
-		users.forEach((user: User) => { 
-			options.push({ key: user.id, label: user.name })
+		users.forEach((currentUser: User) => { 
+			if (user.id === currentUser.id) { return }
+			options.push({ key: currentUser.id, label: currentUser.name })
 		})
-		console.log(options)
 		setOptions(options)
 	}
 
@@ -90,7 +106,7 @@ export const GroupEditorPage3 = (props: GroupEditorProps) => {
 
 				<Formik
 					initialValues={{
-						userNames: groupForm.getUserNames(),
+						users: selectedUsers,
 					}}
 					onSubmit={handleSubmit}
 				>

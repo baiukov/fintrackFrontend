@@ -7,7 +7,8 @@ import { Buttons } from '../../../../enums/Buttons'
 import { Icons } from '../../../../enums/Icons'
 import { Pages } from '../../../../enums/Pages'
 import { Account } from '../../../../model/Account'
-import { AccountService } from '../../../../services/Account.service'
+import { Group } from '../../../../model/Group'
+import { GroupService } from '../../../../services/Group.service'
 import { useStore } from '../../../../storage/store'
 import { GlobalStyles } from '../../../../styles/GlobalStyles.styles'
 
@@ -15,15 +16,17 @@ export const Accounts: React.FC = (props: any) => {
 	const language = useStore((state: any) => state.language)
 	const user = useStore((state: any) => state.user)
 
-	const [accounts, setAccounts] = React.useState<null | Account[]>(null)
+	const [groups, setGroups] = React.useState<null | Group[]>(null)
 
-	const fetchData = () => {
-		const service = AccountService.getInstance()
-		service.retrieveAll(user.id).then(data => {
-			setAccounts(data)
-		})
-	}
-	// fetchData()
+	React.useEffect(() => {
+		const fetchData = () => {
+			const service = GroupService.getInstance()
+			service.getAll(user.id).then(data => {
+				setGroups(data)
+			})
+		}
+		fetchData()
+	}, [user.id])
 
 	const transferToAccountEditor = () => {
 		props.navigation.navigate(Pages.ACCOUNT_EDITOR)
@@ -36,60 +39,32 @@ export const Accounts: React.FC = (props: any) => {
 	return (
 		<View style={GlobalStyles.center}>
 			<ScrollView>
-				<MenuGroup title='Family'>
-					{accounts === null ? (
+					{groups === null ? (
 						<ActivityIndicator
 							// style={{ alignSelf: 'flex-start', top: 7, left: 5 }}
 							size='large'
 							color='white'
 						/>
 					) : (
-						accounts.map(account => {
+						groups.map(group => {
+							console.log(groups)
 							return (
-								<MenuItem
-									icon={Icons.EDIT}
-									title={account.name}
-									callback={function () {
-										throw new Error('Function not implemented.')
-									}}
-								/>
+								<MenuGroup title={group.name}>
+									{group.accounts?.map((account: Account) => {
+										return (
+											<MenuItem
+												icon={Icons.EDIT}
+												title={account.name}
+												callback={function () {
+													throw new Error('Function not implemented.')
+												}}
+											/>
+										)
+									})}
+								</MenuGroup>
 							)
 						})
 					)}
-					<MenuItem
-						icon={Icons.EDIT}
-						title={'Account name'}
-						callback={() => {
-							props.navigation.reset({
-								index: 0,
-								routes: [{ name: Pages.HOME_PAGE }],
-							})
-						}}
-					/>
-					<MenuItem
-						icon={Icons.EDIT}
-						title={'Account name'}
-						callback={function () {
-							throw new Error('Function not implemented.')
-						}}
-					/>
-				</MenuGroup>
-				<MenuGroup title='Friends'>
-					<MenuItem
-						icon={Icons.EDIT}
-						title={'Account name'}
-						callback={function () {
-							throw new Error('Function not implemented.')
-						}}
-					/>
-					<MenuItem
-						icon={Icons.EDIT}
-						title={'Account name'}
-						callback={function () {
-							throw new Error('Function not implemented.')
-						}}
-					/>
-				</MenuGroup>
 			</ScrollView>
 			<View style={[GlobalStyles.center, GlobalStyles.bottomMenu]}>
 				<MainButton

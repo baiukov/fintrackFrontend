@@ -10,7 +10,6 @@ interface ListItemProps {
 }
 
 export const ListItem = (props: ListItemProps) => {
-	console.log(props)
 	if (!props.label) { return }
 	const text =
 		props.label.length > 14 ? props.label.substring(0, 14) + '...' : props.label

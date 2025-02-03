@@ -2,6 +2,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Formik, FormikProps } from 'formik'
 import React from 'react'
 import { Text, View } from 'react-native'
+import * as Yup from 'yup'
 import { MainButton } from '../../../components/ui/buttons/MainButton/MainButton'
 import { TextField } from '../../../components/ui/fields/TextField/TextField'
 import { Buttons } from '../../../enums/Buttons'
@@ -23,10 +24,14 @@ interface FormProps {
 export const GroupEditorPage1 = (props: GroupEditorProps) => {
 	const language = useStore((state: any) => state.language)
 
-	const groupForm = props.route.params?.groupForm || new Group(null, null, null)
+	const groupForm = props.route.params?.groupForm || { name: '', accounts: [], users: [] }
+
+	const validationSchema = Yup.object().shape({
+		name: Yup.string().min(4, language.AT_LEAST_4_CHARS).required(language.MISSING_NAME),
+	})
 
 	const handleSubmit = (values: FormProps) => {
-		groupForm.setName(values.name)
+		groupForm.name = values.name
 
 		setTimeout(() => {
 			props.navigation.navigate(Pages.GROUP_EDITOR2, {
@@ -50,9 +55,10 @@ export const GroupEditorPage1 = (props: GroupEditorProps) => {
 
 				<Formik
 					initialValues={{
-						name: groupForm.getName() || '',
+						name: groupForm.name || '',
 					}}
 					onSubmit={handleSubmit}
+					validationSchema={validationSchema}
 				>
 					{(props: FormikProps<FormProps>) => (
 						<View style={GlobalStyles.form}>

@@ -1,6 +1,6 @@
 import Constants from 'expo-constants'
 import { Endpoints } from '../enums/Endpoints'
-import { Account } from '../model/Account'
+import { Group } from '../model/Group'
 import { Service } from './Service'
 
 export class AccountService extends Service {
@@ -20,7 +20,7 @@ export class AccountService extends Service {
 		return AccountService.instance
 	}
 
-	public async retrieveAll(userId: string): Promise<Account[]> {
+	public async retrieveAll(userId: string): Promise<Group[]> {
 		const uri = this.baseUrl + Endpoints.RETRIEVE_ALL
 		console.log(userId)
 		const response = await this.api.get(uri, {

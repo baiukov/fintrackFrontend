@@ -18,8 +18,6 @@ export interface ListProps extends SearchFieldProps {
 }
 
 export const List = (props: ListProps) => {
-	console.log(props.items)
-
 	return (
 		<View style={styles.box}>
 			<View>
