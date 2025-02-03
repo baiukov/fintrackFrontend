@@ -19,7 +19,6 @@ export const DropDown = (props: DropDownProps) => {
 	const [open, setOpen] = useState(false)
 	const [value, setValue] = useState(props.currentValue || null)
 
-	const [items, setItems] = useState(props.items)
 
 	return (
 		<View>
@@ -29,10 +28,9 @@ export const DropDown = (props: DropDownProps) => {
 				dropDownContainerStyle={styles.container}
 				open={open}
 				value={value}
-				items={items}
+				items={props.items}
 				setOpen={setOpen}
 				setValue={setValue}
-				setItems={setItems}
 				placeholder={props.placeholder || language.SELECT_AN_OPTION}
 				ArrowDownIconComponent={() => (
 					<Ionicons name='chevron-down' size={24} color='white' />

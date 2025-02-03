@@ -32,18 +32,20 @@ export const AssetEditorPage2 = (props: AccountEditorProps) => {
 		return { label: currency, value: currency }
 	})
 
-	const assetForm =
-		props.route.params?.asset ||
-		new Asset(null, null, null, null, null, null, null, null, null)
+	const [assetForm, setAccountForm] = React.useState(props.route.params?.assetForm 
+		|| {} as Asset)
 
 	const handleSubmit = (values: FormProps) => {
-		assetForm.setAcquisitionPrice(parseFloat(values.acquisitionPrice))
-		assetForm.setDepreciationPrice(parseFloat(values.deprecitationPrice))
-		assetForm.setCurrency(values.currency)
+		const updatedForm = { ...assetForm, 
+			acquisitionPrice: parseFloat(values.acquisitionPrice), 
+			deprecitationPrice: parseFloat(values.deprecitationPrice), 
+			currency: values.currency 
+		}
+		setAccountForm(updatedForm)
 
 		setTimeout(() => {
 			props.navigation.navigate(Pages.ASSET_EDITOR3, {
-				asset: assetForm,
+				assetForm: updatedForm,
 			})
 		}, 0)
 	}
@@ -60,8 +62,8 @@ export const AssetEditorPage2 = (props: AccountEditorProps) => {
 		currency: Yup.string().required(language.MISSING_CURRENCY),
 	})
 
-	const acquisitionPrice = assetForm.getAcquisitionPrice()
-	const deprecitationPrice = assetForm.getDepreciationPrice()
+	const acquisitionPrice = assetForm.acquisitionPrice
+	const deprecitationPrice = assetForm.deprecitationPrice
 	const showAcquisitionPriceError =
 		acquisitionPrice === 0 ? '' : acquisitionPrice
 	const shownDepreciationPriceError =
@@ -84,7 +86,7 @@ export const AssetEditorPage2 = (props: AccountEditorProps) => {
 					initialValues={{
 						acquisitionPrice: showAcquisitionPriceError || '',
 						deprecitationPrice: shownDepreciationPriceError || '',
-						currency: assetForm.getCurrency() || '',
+						currency: assetForm.currency || '',
 					}}
 					validationSchema={validationSchema}
 					onSubmit={handleSubmit}

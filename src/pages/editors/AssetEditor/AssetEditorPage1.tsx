@@ -10,6 +10,7 @@ import { Picker } from '../../../components/ui/picker/Picker'
 import { Buttons } from '../../../enums/Buttons'
 import { Pages } from '../../../enums/Pages'
 import { Asset } from '../../../model/ui/Asset'
+import { AccountService } from '../../../services/Account.service'
 import { useStore } from '../../../storage/store'
 import { GlobalStyles } from '../../../styles/GlobalStyles.styles'
 
@@ -27,17 +28,25 @@ interface FormProps {
 
 export const AssetEditorPage1 = (props: AssetEditorProps) => {
 	const language = useStore((state: any) => state.language)
+	const user = useStore((state: any) => state.user)
 
-	const availableAccounts = [
-		{
-			label: 'Cash',
-			value: 'Cash',
-		},
-	]
+	const [shownAccounts, setShownAccounts] = React.useState([] as {label: string, value: string}[])
+	const [accounts, setAccounts] = React.useState([] as {id: string, name: string}[])
 
-	const assetForm: Asset =
-		props.route.params?.asset ||
-		new Asset(null, null, null, null, null, null, null, null, null)
+	React.useEffect(() => {
+		const fetchData = async () => {
+			const service = AccountService.getInstance()
+			const accounts = await service.getAllWhereIsOwner(user.id)
+			const formattedAccounts = accounts.map(account => {
+				return { label: account.name, value: account.id }
+			})
+			setShownAccounts(formattedAccounts)
+		}
+		fetchData()
+	}, [user.id])
+
+	const [assetForm, setAssetForm] = React.useState(props.route.params?.accountForm 
+		|| {} as Asset)
 
 	const validationSchema = Yup.object().shape({
 		title: Yup.string().required(language.MISSING_TITLE),
@@ -46,13 +55,16 @@ export const AssetEditorPage1 = (props: AssetEditorProps) => {
 	})
 
 	const handleSubmit = (values: FormProps) => {
-		assetForm.setName(values.title)
-		assetForm.setAccountName(values.account)
-		assetForm.setEmoji(values.emoji)
+		const updatedForm = { ...assetForm,
+			name: values.title,
+			account: { id: values.account, name: values.account },
+			emoji: values.emoji,
+		}
+		setAssetForm(updatedForm)
 
 		setTimeout(() => {
 			props.navigation.navigate(Pages.ASSET_EDITOR2, {
-				asset: assetForm,
+				assetForm: updatedForm,
 			})
 		}, 0)
 	}
@@ -91,9 +103,9 @@ export const AssetEditorPage1 = (props: AssetEditorProps) => {
 
 				<Formik
 					initialValues={{
-						title: assetForm.getName() || '',
-						account: assetForm.getAccountName() || '',
-						emoji: assetForm.getEmoji() || '',
+						title: assetForm.name || '',
+						account: assetForm.account?.name || '',
+						emoji: assetForm.emoji || '',
 					}}
 					validationSchema={validationSchema}
 					onSubmit={handleSubmit}
@@ -116,7 +128,7 @@ export const AssetEditorPage1 = (props: AssetEditorProps) => {
 								/>
 								<DropDown
 									placeholder={language.SELECT_ACCOUNT}
-									items={availableAccounts}
+									items={shownAccounts}
 									handleChange={props.handleChange('account')}
 									error={props.errors.account}
 								/>

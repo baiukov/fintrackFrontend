@@ -11,6 +11,7 @@ import { Buttons } from '../../../enums/Buttons'
 import { DepreciationBasis } from '../../../enums/DepreciationBasis'
 import { Pages } from '../../../enums/Pages'
 import { Asset } from '../../../model/ui/Asset'
+import { AssetService } from '../../../services/Asset.service'
 import { useStore } from '../../../storage/store'
 import { GlobalStyles } from '../../../styles/GlobalStyles.styles'
 
@@ -28,14 +29,14 @@ interface FormProps {
 
 export const AssetEditorPage3 = (props: AssetEditorProps) => {
 	const language = useStore((state: any) => state.language)
+	const user = useStore((state: any) => state.user)
 
 	const basises = Object.values(DepreciationBasis).map(basis => {
 		return { label: basis, value: basis }
 	})
 
-	const assetForm: Asset =
-		props.route.params?.asset ||
-		new Asset(null, null, null, null, null, null, null, null, null)
+	const [assetForm, setAssetForm] = React.useState(props.route.params?.assetForm 
+		|| {} as Asset)
 
 	const validationSchema = Yup.object().shape({
 		basis: Yup.string().required(language.MISSING_BASIS),
@@ -44,13 +45,31 @@ export const AssetEditorPage3 = (props: AssetEditorProps) => {
 	})
 
 	const handleSubmit = (values: FormProps) => {
-		assetForm.setDepreciationBasis(values.basis)
-		assetForm.setStartDate(values.startDate)
-		assetForm.setEndDate(values.endDate)
+		const updatedForm = {
+			...assetForm,
+			depreciationBasis: values.basis,
+			startDate: values.startDate,
+			endDate: values.endDate,
+		}
+		setAssetForm(updatedForm)
+		console.log(updatedForm)
+
+		const service = AssetService.getInstance()
+		service.add(
+			user.id,
+			updatedForm.name,
+			updatedForm.type,
+			updatedForm.account.id,
+			updatedForm.acquisitionPrice,
+			updatedForm.deprecitationPrice,
+			updatedForm.startDate,
+			updatedForm.endDate,
+			updatedForm.emoji,
+		)
 
 		setTimeout(() => {
 			props.navigation.replace(Pages.MAIN_MENU, {
-				asset: assetForm,
+				assetForm: assetForm,
 			})
 		}, 0)
 	}
@@ -70,9 +89,9 @@ export const AssetEditorPage3 = (props: AssetEditorProps) => {
 
 				<Formik
 					initialValues={{
-						basis: assetForm.getDepreciationBasis() || null,
-						startDate: assetForm.getStartDate() || null,
-						endDate: assetForm.getEndDate() || new Date(),
+						basis: assetForm.deprecitationPrice || null,
+						startDate: assetForm.startDate || new Date(),
+						endDate: assetForm.endDate || new Date(),
 					}}
 					validationSchema={validationSchema}
 					onSubmit={handleSubmit}

@@ -35,7 +35,6 @@ export const AccountEditorPage1 = (props: AccountEditorProps) => {
 	const [accountForm, setAccountForm] = React.useState(props.route.params?.accountForm 
 		|| {} as Account)
 
-
 	const validationSchema = Yup.object().shape({
 		title: Yup.string().required(language.MISSING_TITLE),
 		type: Yup.string()
@@ -53,6 +52,7 @@ export const AccountEditorPage1 = (props: AccountEditorProps) => {
 		accountForm.type = Object.keys(AccountTypes).find(key => AccountTypes[key as keyof typeof AccountTypes] === values.type) as AccountTypes
 		accountForm.emoji = values.emoji
 		accountForm.isBusiness = values.isBusiness
+
 
 		setTimeout(() => {
 			props.navigation.navigate(Pages.ACCOUNT_EDITOR2, {

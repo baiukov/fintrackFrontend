@@ -6,6 +6,8 @@ import { MenuItem } from '../../../../components/ui/buttons/MenuItem/MenuItem'
 import { Buttons } from '../../../../enums/Buttons'
 import { Icons } from '../../../../enums/Icons'
 import { Pages } from '../../../../enums/Pages'
+import { Asset } from '../../../../model/ui/Asset'
+import { AssetService } from '../../../../services/Asset.service'
 import { useStore } from '../../../../storage/store'
 import { GlobalStyles } from '../../../../styles/GlobalStyles.styles'
 
@@ -15,52 +17,36 @@ export const Assets = (props: any) => {
 	}
 
 	const language = useStore((state: any) => state.language)
+	const user = useStore((state: any) => state.user)
+
+	const [assets, setAssets] = React.useState([] as Asset[])
+
+	React.useEffect(() => {
+		const fetchData = async () => {
+			const service = AssetService.getInstance()
+			const assets = await service.getAll(user.id)
+			setAssets(assets)
+		}
+		fetchData()
+
+	}, [user.id])
 
 	return (
 		<View style={GlobalStyles.center}>
 			<ScrollView>
-				<MenuItem
-					icon={Icons.EDIT}
-					title={'Mercedes S-class 2015'}
-					callback={function () {
-						throw new Error('Function not implemented.')
-					}}
-				/>
-				<MenuItem
-					icon={Icons.EDIT}
-					title={'Mercedes V-class 2015'}
-					callback={function () {
-						throw new Error('Function not implemented.')
-					}}
-				/>
-				<MenuItem
-					icon={Icons.EDIT}
-					title={'Mercedes V-class 2015'}
-					callback={function () {
-						throw new Error('Function not implemented.')
-					}}
-				/>
-				<MenuItem
-					icon={Icons.EDIT}
-					title={'Mercedes V-class 2015'}
-					callback={function () {
-						throw new Error('Function not implemented.')
-					}}
-				/>
-				<MenuItem
-					icon={Icons.EDIT}
-					title={'Mercedes V-class 2015'}
-					callback={function () {
-						throw new Error('Function not implemented.')
-					}}
-				/>
-				<MenuItem
-					icon={Icons.EDIT}
-					title={'Mercedes V-class 2015'}
-					callback={function () {
-						throw new Error('Function not implemented.')
-					}}
-				/>
+				{
+					assets.map(asset => {
+						return (
+							<MenuItem
+								icon={Icons.EDIT}
+								title={asset.name || ''}
+								callback={function () {
+									throw new Error('Function not implemented.')
+								}}
+							/>
+						)
+					 })
+				}
 			</ScrollView>
 			<View style={[GlobalStyles.center, GlobalStyles.bottomMenu]}>
 				<MainButton

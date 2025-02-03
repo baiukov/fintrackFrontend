@@ -24,7 +24,6 @@ export class AccountService extends Service {
 
 	public async retrieveAll(userId: string): Promise<Group[]> {
 		const uri = this.baseUrl + Endpoints.RETRIEVE_ALL
-		console.log(userId)
 		const response = await this.api.get(uri, {
 			params: {
 				userId,
@@ -89,4 +88,16 @@ export class AccountService extends Service {
 
 		return response.data
 	}
+
+	public async getAllWhereIsOwner(userId: string): Promise<Account[]> { 
+		const uri = this.baseUrl + Endpoints.GET_ALL_WHERE_IS_OWNER
+		const response = await this.api.get(uri, {
+			params: {
+				userId,
+			},
+		})
+
+		return response.data
+	}
+
 }
