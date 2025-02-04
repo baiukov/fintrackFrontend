@@ -1,5 +1,14 @@
 export const Currencies = {
-	CZK: 'CZK',
-	USD: 'USD',
-	EUR: 'EUR',
+	CZK: {
+		name:	'CZK',
+		icon: 'Kč',
+	},
+	USD: {
+		name: 'USD',
+		icon: '$',
+	},
+	EUR: {
+		name: 'EUR',
+		icon: '€',
+	},
 }

@@ -15,7 +15,7 @@ export const Settings = (props: any) => {
 	const language = useStore((state: any) => state.language)
 
 	const currencies = Object.values(Currencies).map(currency => {
-		return { label: currency, value: currency }
+		return { label: currency.name, value: currency.name }
 	})
 
 	const languages = Object.keys(Messages).map(lang => {
@@ -50,7 +50,7 @@ export const Settings = (props: any) => {
 					<Text style={GlobalStyles.header}>{`${language.SETTINGS}`}</Text>
 				</View>
 				<DropDown
-					placeholder={Currencies.CZK}
+					placeholder={Currencies.CZK.name}
 					items={currencies}
 					handleChange={() => {}}
 				/>

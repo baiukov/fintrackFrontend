@@ -29,7 +29,7 @@ export const AssetEditorPage2 = (props: AccountEditorProps) => {
 	const language = useStore((state: any) => state.language)
 
 	const currencies = Object.values(Currencies).map(currency => {
-		return { label: currency, value: currency }
+		return { label: currency.name, value: currency.name }
 	})
 
 	const [assetForm, setAccountForm] = React.useState(props.route.params?.assetForm 

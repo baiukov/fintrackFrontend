@@ -56,4 +56,14 @@ export class AssetService extends Service {
 		})
 		return response.data
 	}
+
+	public async getAllByAccount(accountId: string): Promise<Asset[]> {
+		const uri = this.baseUrl + Endpoints.GET_ALL_ASSETS_BY_ACCOUNT
+		const response = await this.api.get(uri, {
+			params: {
+				accountId,
+			},
+		})
+		return response.data
+	}
 }

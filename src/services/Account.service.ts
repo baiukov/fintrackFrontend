@@ -34,10 +34,58 @@ export class AccountService extends Service {
 
 	public async getNetworth(
 		id: string,
-		fromDate?: Date,
-		endDate?: Date
+		fromDate?: string,
+		endDate?: string
 	): Promise<number> {
 		const uri = this.baseUrl + Endpoints.GET_NETWORTH
+		const response = await this.api.get(uri, {
+			params: {
+				id,
+				fromDate,
+				endDate,
+			},
+		})
+		return response.data
+	}
+
+	public async getTotal(
+		id: string,
+		fromDate?: string,
+		endDate?: string
+	): Promise<number> {
+		const uri = this.baseUrl + Endpoints.GET_TOTAL
+		const response = await this.api.get(uri, {
+			params: {
+				id,
+				fromDate,
+				endDate,
+			},
+		})
+		return response.data
+	}
+
+	public async getIncomes(
+		id: string,
+		fromDate?: string,
+		endDate?: string
+	): Promise<number> {
+		const uri = this.baseUrl + Endpoints.GET_INCOMES
+		const response = await this.api.get(uri, {
+			params: {
+				id,
+				fromDate,
+				endDate,
+			},
+		})
+		return response.data
+	}
+
+	public async getExpenses(
+		id: string,
+		fromDate?: string,
+		endDate?: string
+	): Promise<number> {
+		const uri = this.baseUrl + Endpoints.GET_EXPENSES
 		const response = await this.api.get(uri, {
 			params: {
 				id,

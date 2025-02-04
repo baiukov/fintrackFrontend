@@ -52,7 +52,6 @@ export const AssetEditorPage3 = (props: AssetEditorProps) => {
 			endDate: values.endDate,
 		}
 		setAssetForm(updatedForm)
-		console.log(updatedForm)
 
 		const service = AssetService.getInstance()
 		service.add(

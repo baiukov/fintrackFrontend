@@ -3,6 +3,7 @@ import { DepreciationBasis } from '../../enums/DepreciationBasis'
 import { Account } from '../Account'
 
 export interface Asset {
+	id: string | null
 	name: string | null
 	account: Account | null
 	emoji: string | null

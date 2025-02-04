@@ -36,7 +36,7 @@ export const AccountEditorPage2 = (props: AccountEditorProps) => {
 	})
 
 	const currencies = Object.values(Currencies).map(currency => {
-		return { label: currency, value: currency }
+		return { label: currency.name, value: currency.name }
 	})
 
 	const handleSubmit = (values: FormProps) => {

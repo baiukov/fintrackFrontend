@@ -10,4 +10,5 @@ export interface Account {
 	interestRate: number
 	goalAmount: number
 	alreadyPaidAmount: number
+	createdAt: Date
 }

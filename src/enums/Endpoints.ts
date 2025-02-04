@@ -2,6 +2,9 @@ export enum Endpoints {
 	RETRIEVE_ALL = '/retrieveAll',
 	GET_ALL = '/getAll',
 	GET_NETWORTH = '/getNetWorth',
+	GET_TOTAL = '/getBalance',
+	GET_INCOMES = '/getIncome',
+	GET_EXPENSES = '/getExpense',
 	CATEGORY_CREATE = '/create',
 	CATEGORY_GETALL = '/getAll',
 	LOGIN = '/login',
@@ -13,5 +16,8 @@ export enum Endpoints {
 	ADD_ACCOUNT = '/add',
 	ADD_ASSET = '/add',
 	GET_ALL_WHERE_IS_OWNER = '/retrieveAllWhereOwner',
-	GET_ALL_ASSETS = '/getAll'
+	GET_ALL_ASSETS = '/getAll',
+	GET_ALL_ASSETS_BY_ACCOUNT = '/getAllByAccount',
+	GET_ALL_TRANSACTION = '/getAllByAccount',
+	CREATE_TRANSACTION = '/create',
 }

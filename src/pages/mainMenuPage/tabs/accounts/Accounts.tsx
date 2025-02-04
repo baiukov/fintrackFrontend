@@ -44,6 +44,12 @@ export const Accounts: React.FC = (props: any) => {
 		props.navigation.navigate(Pages.GROUP_EDITOR)
 	}
 
+	const transferToHomePage = (account: Account) => {
+		useStore.setState({ account: account })
+
+		props.navigation.replace(Pages.HOME_PAGE)
+	}
+
 	return (
 		<View style={GlobalStyles.center}>
 			<ScrollView>
@@ -62,7 +68,7 @@ export const Accounts: React.FC = (props: any) => {
 											<MenuItem
 												icon={Icons.EDIT}
 												title={account.name}
-												callback={() => transferToAccountEditor(account)}
+												callback={() => transferToHomePage(account)}
 											/>
 										)
 									})}
