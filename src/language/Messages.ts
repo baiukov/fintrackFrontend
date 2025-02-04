@@ -121,6 +121,7 @@ export const Messages = {
 		GENERATE_GENERAL_STATEMENT: 'Generate general statement',
 		SHOW_ON_THE_MAIN_PAGE: 'Show on the main page',
 		ADD_CATEGORY: 'Add category',
+		SELECT_CATEGORY: 'Select category',
 		OTHERS: 'Others',
 		CUSTOM: 'Custom',
 

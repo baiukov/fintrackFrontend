@@ -1,3 +1,4 @@
+import { Category } from 'rn-emoji-picker/dist/interfaces'
 import { TransactionTypes } from '../enums/TransactionTypes'
 import { Account } from './Account'
 import { Asset } from './ui/Asset'
@@ -8,7 +9,7 @@ export interface Transaction {
 	account: Account
 	forAsset: Asset
 	receiver: string | null,
-	category: string | null,
+	category: Category | null,
 	type: TransactionTypes,
 	amount: number,
 	note: string | null,

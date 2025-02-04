@@ -23,4 +23,6 @@ export enum Endpoints {
 	UPDATE_TRANSACTION = '/update',
 	CATEGORY_UPDATE = '/update',
 	CATEGORY_DELETE = '/delete',
+	DELETE_TRANSACTION = '/delete'
+
 }

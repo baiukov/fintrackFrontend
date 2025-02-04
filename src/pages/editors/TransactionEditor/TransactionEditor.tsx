@@ -21,6 +21,7 @@ import { Transaction } from '../../../model/Transaction'
 import { User } from '../../../model/User'
 import { AccountService } from '../../../services/Account.service'
 import { AssetService } from '../../../services/Asset.service'
+import { CategoryService } from '../../../services/Category.service'
 import { TransactionService } from '../../../services/Transaction.service'
 import { useStore } from '../../../storage/store'
 import { GlobalStyles } from '../../../styles/GlobalStyles.styles'
@@ -39,6 +40,7 @@ interface FormProps {
 	type: TransactionTypes
 	amount: number
 	currency: keyof typeof Currencies
+	category: string,
 	assetId: string
 	date: Date
 	position: { lat: number; lon: number }
@@ -101,6 +103,23 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 		fetchData()
 	}, [user.id])
 
+	const [categories, setCategories] = React.useState<{label: string, value: string} []>([])
+	React.useEffect(() => {
+		const fetchData = async () => {
+			const service = CategoryService.getInstance()
+			const data = await service.getAll(user.id)
+			const categories = data.filter(category => category != null)
+			 .filter(category => category.name != null)
+			 .filter(category => category.id != null)
+			 .map(category => {
+				return { label: category.name, value: category.id }
+			}) as {label: string, value: string} []
+			setCategories(categories)
+		}
+		fetchData()
+	}, [user.id])
+
+
 	const handleSubmit = (values: FormProps) => {
 
 		const service = TransactionService.getInstance()
@@ -124,6 +143,7 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 			service.create(
 				account.id,
 				values.assetId,
+				values.category,
 				values.receiver,
 				transactionTypeKey as keyof typeof TransactionTypes,
 				values.amount,
@@ -157,6 +177,12 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 		{ emoji: '💵' },
 	]
 
+	const handleDeletion = () => {
+		const service = TransactionService.getInstance()
+		service.delete(transactionForm.id, user.id)
+		props.navigation.replace(Pages.HOME_PAGE)
+	}
+
 	return (
 		<View style={GlobalStyles.page}>
 			<LinearGradient
@@ -175,6 +201,7 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 						assetId: transactionForm.forAsset?.name || '',
 						type: transactionForm.type || TransactionTypes.EXPENSE,
 						amount: transactionForm.amount || 0,
+						category: transactionForm.category?.name || '',
 						currency: (account.currency || Currencies.CZK.name) as keyof typeof Currencies,
 						date: transactionForm.executionDateTime || new Date(),
 						position: { lat: transactionForm.lat, lon: transactionForm.lon },
@@ -215,10 +242,19 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 									error={props.errors.amount}
 								/>
 
+								<DropDown
+									placeholder={language.SELECT_CATEGORY}
+									items={categories}
+									currentValue={props.values.category}
+									error={props.errors.category as string}
+									handleChange={props.handleChange('category')}
+								/>
+
 								<Picker
 									style='emoji'
 									data={recent}
 									title={language.SELECT_ICON}
+									selectedId={props.values.emoji}
 									onSelect={props.handleChange('emoji')}
 									error={props.errors.emoji}
 								/>
@@ -226,6 +262,7 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 								<DropDown
 									placeholder={language.SELECT_CURRENCY}
 									items={currencies}
+									currentValue={props.values.currency}
 									error={props.errors.currency as string}
 									handleChange={props.handleChange('currency')}
 								/>
@@ -233,6 +270,7 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 								<DropDown
 									placeholder={language.SELECT_ASSET}
 									items={assets}
+									currentValue={props.values.assetId}
 									error={props.errors.assetId as string}
 									handleChange={props.handleChange('assetId')}
 								/>
@@ -264,6 +302,11 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 									title={language.STANDING_ORDER}
 									variant={Buttons.SECONDARY}
 									callback={transferToStandingOrderEditor}
+								/>
+								<MainButton
+									title={language.DELETE}
+									variant={Buttons.SECONDARY}
+									callback={handleDeletion}
 								/>
 							</View>
 						</ScrollView>

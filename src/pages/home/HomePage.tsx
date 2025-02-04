@@ -96,7 +96,7 @@ export const HomePage = (props: HomePageProps) => {
 		const fetchData = () => {
 			const service = TransactionService.getInstance()
 
-			const groups: TransactionGroup[] = []
+			let groups: TransactionGroup[] = []
 			service.getAll(account.id).then(data => {
 				data.forEach(transaction => {
 					const date = new Date(transaction.executionDateTime)
@@ -114,6 +114,11 @@ export const HomePage = (props: HomePageProps) => {
 							transactions: [transaction]
 						})
 					}
+				})
+
+				groups = groups.map(group => {
+					group.transactions.sort((a, b) => new Date(b.executionDateTime).getTime() - new Date(a.executionDateTime).getTime())
+					return group
 				})
 
 				setTransactionGroups(groups)
@@ -180,7 +185,11 @@ export const HomePage = (props: HomePageProps) => {
 			return {
 				title: group.title,
 				transactions: group.transactions.filter(transaction => {
-					return transaction.category?.toLowerCase().includes(text.toLowerCase()) || transaction.note?.toLowerCase().includes(text.toLowerCase())
+					if (transaction.category) {
+						return transaction.category?.name.toLowerCase().includes(text.toLowerCase()) || transaction.note?.toLowerCase().includes(text.toLowerCase())
+					} else {
+						return transaction.note?.toLowerCase().includes(text.toLowerCase())
+					}
 				})
 			}
 		})
@@ -249,7 +258,7 @@ export const HomePage = (props: HomePageProps) => {
 															<Transaction
 																key={index}
 																emoji={transaction.icon}
-																category={transaction.category || ''}
+																category={transaction.category?.name || ''}
 																description={transaction.note || ''}
 																amount={`${transaction.amount} ${currencySymbol}`}
 																callBack={() => transferToEditor(transaction)}

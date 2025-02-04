@@ -24,6 +24,7 @@ export class TransactionService extends Service {
 	public async create(
 		accountId: string,
 		forAssetId: string,
+		categoryId: string,
 		receiverId: string | null,
 		type: keyof typeof TransactionTypes,
 		amount: number,
@@ -38,6 +39,7 @@ export class TransactionService extends Service {
 			accountId,
 			forAssetId,
 			receiverId,
+			categoryId,
 			type,
 			amount,
 			executionDateTime,
@@ -76,6 +78,18 @@ export class TransactionService extends Service {
 			lat,
 			lon,
 			icon,
+		})
+
+		return response.data
+	}
+
+	public async delete(transactionId: string, userId: string): Promise<void> {
+		const uri = this.baseUrl + Endpoints.DELETE_TRANSACTION
+		const response = await this.api.delete(uri, {
+			params: {
+				transactionId,
+				userId
+			},
 		})
 
 		return response.data
