@@ -21,4 +21,6 @@ export enum Endpoints {
 	GET_ALL_TRANSACTION = '/getAllByAccount',
 	CREATE_TRANSACTION = '/create',
 	UPDATE_TRANSACTION = '/update',
+	CATEGORY_UPDATE = '/update',
+	CATEGORY_DELETE = '/delete',
 }

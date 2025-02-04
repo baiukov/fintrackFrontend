@@ -24,7 +24,12 @@ export interface AvailablePickers {
 export const Picker = (props: PickerProps) => {
 	const language = useStore((state: any) => state.language)
 
+	const availablePickersShownElements: AvailablePickers = {
+		emoji: (id: string) => <Text>{id}</Text>,
+	}
+
 	const defaultElement = () => {
+		console.log(props.selectedId)
 		if (props.selectedId) {
 			return availablePickersShownElements[
 				props.style as keyof AvailablePickers
@@ -63,10 +68,6 @@ export const Picker = (props: PickerProps) => {
 				/>
 			</View>
 		),
-	}
-
-	const availablePickersShownElements: AvailablePickers = {
-		emoji: (id: string) => <Text>{id}</Text>,
 	}
 
 	const [modalVisible, setModalVisible] = useState(false)

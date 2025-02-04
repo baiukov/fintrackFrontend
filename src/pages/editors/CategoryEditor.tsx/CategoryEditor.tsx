@@ -28,8 +28,7 @@ export const CategoryEditor = (props: CategoryEditorProps) => {
 	const language = useStore((state: any) => state.language)
 	const user = useStore((state: any) => state.user)
 
-	const categoryForm: Category =
-		props.route.params?.asset || new Category(null, null)
+	const [categoryForm, setCategoryForm] = React.useState(props.route.params?.categoryForm)
 
 	const validationSchema = Yup.object().shape({
 		name: Yup.string().required(language.MISSING_NAME),
@@ -38,7 +37,13 @@ export const CategoryEditor = (props: CategoryEditorProps) => {
 
 	const handleSubmit = (values: FormProps) => {
 		const service = CategoryService.getInstance()
-		service.create(user.id, values.name, values.emoji)
+
+		const isEdit = props.route.params?.isEdit
+		if (isEdit) {
+			service.update(categoryForm.id, user.id, values.name, values.emoji)
+		} else {
+			service.create(user.id, values.name, values.emoji)
+		}
 
 		props.navigation.replace(Pages.CATEGORIES)
 	}
@@ -62,6 +67,15 @@ export const CategoryEditor = (props: CategoryEditorProps) => {
 		{ emoji: '🤖' },
 	]
 
+	const submitDeletion = () => {
+		if (categoryForm) {
+			const service = CategoryService.getInstance()
+			service.delete(categoryForm.id, user.id)
+		}
+
+		props.navigation.replace(Pages.CATEGORIES)
+	}
+
 	return (
 		<View style={GlobalStyles.page}>
 			<LinearGradient
@@ -76,8 +90,8 @@ export const CategoryEditor = (props: CategoryEditorProps) => {
 
 				<Formik
 					initialValues={{
-						name: categoryForm.getName() || '',
-						emoji: categoryForm.getEmoji() || '',
+						name: categoryForm.name || '',
+						emoji: categoryForm.icon || '',
 					}}
 					validationSchema={validationSchema}
 					onSubmit={handleSubmit}
@@ -100,6 +114,7 @@ export const CategoryEditor = (props: CategoryEditorProps) => {
 								/>
 								<Picker
 									style='emoji'
+									selectedId={props.values.emoji}
 									data={recent}
 									title={language.SELECT_ICON}
 									onSelect={props.handleChange('emoji')}
@@ -115,7 +130,7 @@ export const CategoryEditor = (props: CategoryEditorProps) => {
 								<MainButton
 									title={language.DELETE}
 									variant={Buttons.SECONDARY}
-									callback={props.submitForm}
+									callback={submitDeletion}
 								/>
 							</View>
 						</View>

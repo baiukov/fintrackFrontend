@@ -23,8 +23,6 @@ export class CategoryService extends Service {
 	public async create(userId: string, name: string, emoji: string) {
 		const uri = this.baseUrl + Endpoints.CATEGORY_CREATE
 
-		console.log(emoji.toString())
-
 		const icon = emoji.toString()
 		const response = await this.api.post(uri, {
 			userId,
@@ -32,7 +30,34 @@ export class CategoryService extends Service {
 			icon,
 		})
 
-		console.log(response.data)
+		return response.data
+	}
+
+	public async update(id: string, userId: string, name: string, emoji: string) {
+		const uri = this.baseUrl + Endpoints.CATEGORY_UPDATE
+
+		const icon = emoji.toString()
+		const response = await this.api.patch(uri, {
+			id,
+			userId,
+			name,
+			icon,
+		})
+
+		return response.data
+	}
+
+	public async delete(categoryId: string, userId: string) {
+		const uri = this.baseUrl + Endpoints.CATEGORY_DELETE
+
+		const response = await this.api.delete(uri, {
+			params: {
+				categoryId,
+				userId,
+			}
+		})
+
+		return response.data
 	}
 
 	public async getAll(userId: string): Promise<Category[]> {
