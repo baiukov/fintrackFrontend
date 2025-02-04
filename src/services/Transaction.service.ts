@@ -50,6 +50,37 @@ export class TransactionService extends Service {
 		return response.data
 	}
 
+	public async update(
+		id: string,
+		accountId: string,
+		forAssetId: string,
+		receiverId: string | null,
+		type: keyof typeof TransactionTypes,
+		amount: number,
+		executionDateTime: Date,
+		note: string,
+		lat: number,
+		lon: number,
+		icon: string,
+	): Promise<void> {
+		const uri = this.baseUrl + Endpoints.UPDATE_TRANSACTION
+		const response = await this.api.patch(uri, {
+			id,
+			accountId,
+			forAssetId,
+			receiverId,
+			type,
+			amount,
+			executionDateTime,
+			note,
+			lat,
+			lon,
+			icon,
+		})
+
+		return response.data
+	}
+
 	public async getAll(accountId: string): Promise<Transaction[]> {
 		const uri = this.baseUrl + Endpoints.GET_ALL_TRANSACTION
 		const response = await this.api.get(uri, {

@@ -20,4 +20,5 @@ export enum Endpoints {
 	GET_ALL_ASSETS_BY_ACCOUNT = '/getAllByAccount',
 	GET_ALL_TRANSACTION = '/getAllByAccount',
 	CREATE_TRANSACTION = '/create',
+	UPDATE_TRANSACTION = '/update',
 }

@@ -35,8 +35,15 @@ export const HomePage = (props: HomePageProps) => {
 	const user = useStore((state: any) => state.user)
 	const account = useStore((state: any) => state.account)
 
-	const transferToEditor = () => {
-		props.navigation.navigate(Pages.TRANSACTION_EDITOR)
+	const transferToEditor = (transaction?: TransactionDto | null) => {
+		const transactionForm = transaction
+
+		setTimeout(() => {
+			props.navigation.navigate(Pages.TRANSACTION_EDITOR, {
+				transactionForm: transactionForm,
+				isEdit: !!transactionForm,
+			})
+		}, 0)
 	}
 
 	const [networth, setNeworth] = React.useState<number | null>(null)
@@ -245,6 +252,7 @@ export const HomePage = (props: HomePageProps) => {
 																category={transaction.category || ''}
 																description={transaction.note || ''}
 																amount={`${transaction.amount} ${currencySymbol}`}
+																callBack={() => transferToEditor(transaction)}
 															/>
 														)
 													})
@@ -259,7 +267,7 @@ export const HomePage = (props: HomePageProps) => {
 					</View>
 				</ScrollView>
 				<View style={styles.bottomButton}>
-					<TouchableOpacity onPress={transferToEditor}>
+					<TouchableOpacity onPress={() => transferToEditor(null)}>
 						<FontAwesome name='plus' size={32} color='#3D4CC9' />
 					</TouchableOpacity>
 				</View>

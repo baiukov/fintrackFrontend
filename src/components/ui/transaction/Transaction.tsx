@@ -7,11 +7,10 @@ interface TransactionProps {
 	category: string
 	description: string | undefined
 	amount: string
+	callBack?: () => void
 }
 
 export const Transaction = (props: TransactionProps) => {
-	const emoji = '🍔'
-
 	const category =
 		props.category.length > 15
 			? props.category.substring(0, 15) + '...'
@@ -22,7 +21,7 @@ export const Transaction = (props: TransactionProps) => {
 		description.length > 30 ? description.substring(0, 30) + '...' : description
 
 	return (
-		<TouchableOpacity style={styles.container}>
+		<TouchableOpacity style={styles.container} onPress={props.callBack}>
 			<View style={styles.innerContainer}>
 				<View>
 					<Text>{props.emoji}</Text>

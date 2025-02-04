@@ -17,7 +17,7 @@ import { Currencies } from '../../../enums/Currencies'
 import { Pages } from '../../../enums/Pages'
 import { TransactionTypes } from '../../../enums/TransactionTypes'
 import { Account } from '../../../model/Account'
-import { Transaction } from '../../../model/ui/Transaction'
+import { Transaction } from '../../../model/Transaction'
 import { User } from '../../../model/User'
 import { AccountService } from '../../../services/Account.service'
 import { AssetService } from '../../../services/Asset.service'
@@ -106,18 +106,34 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 		const service = TransactionService.getInstance()
 		const transactionTypeKey = Object.keys(TransactionTypes).find(key => TransactionTypes[key as keyof typeof TransactionTypes] === values.type);
 
-		service.create(
-			account.id,
-			values.assetId,
-			values.receiver,
-			transactionTypeKey as keyof typeof TransactionTypes,
-			values.amount,
-			values.date,
-			values.description,
-			values.position.lat,
-			values.position.lon,
-			values.emoji,
-		)
+		if (props.route.params?.isEdit) {
+			service.update(
+				transactionForm.id,
+				account.id,
+				values.assetId,
+				values.receiver,
+				transactionTypeKey as keyof typeof TransactionTypes,
+				values.amount,
+				values.date,
+				values.description,
+				values.position.lat,
+				values.position.lon,
+				values.emoji,
+			)
+		} else {
+			service.create(
+				account.id,
+				values.assetId,
+				values.receiver,
+				transactionTypeKey as keyof typeof TransactionTypes,
+				values.amount,
+				values.date,
+				values.description,
+				values.position.lat,
+				values.position.lon,
+				values.emoji,
+			)
+		}
 
 		props.navigation.replace(Pages.HOME_PAGE)
 	}
@@ -155,15 +171,15 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 
 				<Formik<FormProps>
 					initialValues={{
-						receiver: transactionForm.receiverId || '',
-						assetId: transactionForm.assetId || '',
+						receiver: transactionForm.receiver || '',
+						assetId: transactionForm.forAsset?.name || '',
 						type: transactionForm.type || TransactionTypes.EXPENSE,
 						amount: transactionForm.amount || 0,
-						currency: (transactionForm.currency || Currencies.CZK.name) as keyof typeof Currencies,
-						date: transactionForm.date || new Date(),
-						position: transactionForm.position || { lat: 0, lon: 0 },
-						description: transactionForm.description || '',
-						emoji: transactionForm.emoji || '',
+						currency: (account.currency || Currencies.CZK.name) as keyof typeof Currencies,
+						date: transactionForm.executionDateTime || new Date(),
+						position: { lat: transactionForm.lat, lon: transactionForm.lon },
+						description: transactionForm.note || '',
+						emoji: transactionForm.icon || '',
 					}}
 					validationSchema={validationSchema}
 					onSubmit={handleSubmit}
