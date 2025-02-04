@@ -32,7 +32,6 @@ interface TransactionGroup {
 
 export const HomePage = (props: HomePageProps) => {
 	const language = useStore((state: any) => state.language)
-	const user = useStore((state: any) => state.user)
 	const account = useStore((state: any) => state.account)
 
 	const transferToEditor = (transaction?: TransactionDto | null) => {

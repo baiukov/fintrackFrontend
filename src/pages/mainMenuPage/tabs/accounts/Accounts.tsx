@@ -76,7 +76,6 @@ export const Accounts: React.FC = (props: any) => {
 							)
 						})
 					)}
-			</ScrollView>
 			{
 				groups?.filter(group => group != null).find(group => group.name === null) ?
 					<MenuGroup title={language.OTHERS}>
@@ -95,6 +94,7 @@ export const Accounts: React.FC = (props: any) => {
 					</MenuGroup>
 					: <></>
 			}
+			</ScrollView>
 			<View style={[GlobalStyles.center, GlobalStyles.bottomMenu]}>
 				<MainButton
 					title={language.ADD_ACCOUNT}

@@ -23,6 +23,7 @@ export enum Endpoints {
 	UPDATE_TRANSACTION = '/update',
 	CATEGORY_UPDATE = '/update',
 	CATEGORY_DELETE = '/delete',
-	DELETE_TRANSACTION = '/delete'
-
+	DELETE_TRANSACTION = '/delete',
+	GET_ALL_INCOMES = '/getAllIncomesByCategories',
+	GET_ALL_EXPENSES = '/getAllExpensesByCategories',
 }

@@ -104,4 +104,28 @@ export class TransactionService extends Service {
 		})
 		return response.data
 	}
+
+	public async getAllIncomes(accountId: string, fromDate?: string, toDate?: string) {
+		const uri = this.baseUrl + Endpoints.GET_ALL_INCOMES
+		const response = await this.api.get(uri, {
+			params: {
+				accountId,
+				fromDate,
+				toDate,
+			},
+		})
+		return response.data
+	}
+
+	public async getAllExpenses(accountId: string, fromDate?: string, toDate?: string) {
+		const uri = this.baseUrl + Endpoints.GET_ALL_EXPENSES
+		const response = await this.api.get(uri, {
+			params: {
+				accountId,
+				fromDate,
+				toDate,
+			},
+		})
+		return response.data
+	}
 }
