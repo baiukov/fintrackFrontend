@@ -32,7 +32,6 @@ export class TransactionService extends Service {
 		note: string,
 		lat: number,
 		lon: number,
-		icon: string,
 	): Promise<void> {
 		const uri = this.baseUrl + Endpoints.CREATE_TRANSACTION
 		const response = await this.api.post(uri, {
@@ -46,7 +45,6 @@ export class TransactionService extends Service {
 			note,
 			lat,
 			lon,
-			icon,
 		})
 
 		return response.data
@@ -63,7 +61,6 @@ export class TransactionService extends Service {
 		note: string,
 		lat: number,
 		lon: number,
-		icon: string,
 	): Promise<void> {
 		const uri = this.baseUrl + Endpoints.UPDATE_TRANSACTION
 		const response = await this.api.patch(uri, {
@@ -77,7 +74,6 @@ export class TransactionService extends Service {
 			note,
 			lat,
 			lon,
-			icon,
 		})
 
 		return response.data

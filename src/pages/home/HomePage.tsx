@@ -256,7 +256,7 @@ export const HomePage = (props: HomePageProps) => {
 														return (
 															<Transaction
 																key={index}
-																emoji={transaction.icon}
+																emoji={transaction.category?.icon || ''}
 																category={transaction.category?.name || ''}
 																description={transaction.note || ''}
 																amount={`${transaction.amount} ${currencySymbol}`}

@@ -1,6 +1,6 @@
-import { Category } from 'rn-emoji-picker/dist/interfaces'
 import { TransactionTypes } from '../enums/TransactionTypes'
 import { Account } from './Account'
+import { Category } from './Category'
 import { Asset } from './ui/Asset'
 
 export interface Transaction {
@@ -15,6 +15,5 @@ export interface Transaction {
 	note: string | null,
 	lat: number,
 	lon: number,
-	icon: string,
 	executionDateTime: Date
 }

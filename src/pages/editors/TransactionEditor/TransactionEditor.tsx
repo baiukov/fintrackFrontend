@@ -9,7 +9,6 @@ import { MainButton } from '../../../components/ui/buttons/MainButton/MainButton
 import { DatePicker } from '../../../components/ui/datePicker/DatePicker'
 import { DropDown } from '../../../components/ui/dropdowns/dropdown/Dropdown'
 import { TextField } from '../../../components/ui/fields/TextField/TextField'
-import { Picker } from '../../../components/ui/picker/Picker'
 import { Tabs } from '../../../components/ui/tabs/Tabs'
 import { AccountTypes } from '../../../enums/AccountTypes'
 import { Buttons } from '../../../enums/Buttons'
@@ -45,7 +44,6 @@ interface FormProps {
 	date: Date
 	position: { lat: number; lon: number }
 	description: string
-	emoji: string
 }
 
 export const TransactionEditor = (props: TransactionEditorProps) => {
@@ -137,7 +135,6 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 				values.description,
 				values.position.lat,
 				values.position.lon,
-				values.emoji,
 			)
 		} else {
 			service.create(
@@ -151,7 +148,6 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 				values.description,
 				values.position.lat,
 				values.position.lon,
-				values.emoji,
 			)
 		}
 
@@ -206,7 +202,6 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 						date: transactionForm.executionDateTime || new Date(),
 						position: { lat: transactionForm.lat, lon: transactionForm.lon },
 						description: transactionForm.note || '',
-						emoji: transactionForm.icon || '',
 					}}
 					validationSchema={validationSchema}
 					onSubmit={handleSubmit}
@@ -248,15 +243,6 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 									currentValue={props.values.category}
 									error={props.errors.category as string}
 									handleChange={props.handleChange('category')}
-								/>
-
-								<Picker
-									style='emoji'
-									data={recent}
-									title={language.SELECT_ICON}
-									selectedId={props.values.emoji}
-									onSelect={props.handleChange('emoji')}
-									error={props.errors.emoji}
 								/>
 
 								<DropDown
