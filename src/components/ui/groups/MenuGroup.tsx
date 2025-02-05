@@ -1,5 +1,6 @@
 import React from 'react'
-import { DimensionValue, Text, View } from 'react-native'
+import { DimensionValue, Image, Text, TouchableOpacity, View } from 'react-native'
+import { Icons } from '../../../enums/Icons'
 import { styles } from './MenuGroup.styles'
 
 interface MenuGroupProps {
@@ -9,12 +10,23 @@ interface MenuGroupProps {
 		fontSize?: number
 		height?: DimensionValue
 	}
+	callback?: () => void
 }
 
 export const MenuGroup = (props: MenuGroupProps) => {
 	return (
 		<View>
-			<Text style={[styles.title, props.style]}>{props.title}</Text>
+			<View style={styles.titleContainer}>
+				<Text style={[styles.title, props.style]}>{props.title}</Text>
+				<TouchableOpacity
+					style={styles.iconContainer}
+					onPress={props.callback}>
+					<Image
+						style={styles.icon}
+						source={Icons.EDIT}
+					/>
+				</TouchableOpacity>
+			</View>
 			<View style={styles.items}>{props.children}</View>
 		</View>
 	)

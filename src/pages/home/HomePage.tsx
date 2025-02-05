@@ -10,6 +10,7 @@ import { Transaction } from '../../components/ui/transaction/Transaction'
 import { Currencies } from '../../enums/Currencies'
 import { Months } from '../../enums/Months'
 import { Pages } from '../../enums/Pages'
+import { TransactionTypes } from '../../enums/TransactionTypes'
 import { Transaction as TransactionDto } from '../../model/Transaction'
 import { AccountService } from '../../services/Account.service'
 import { TransactionService } from '../../services/Transaction.service'
@@ -260,6 +261,7 @@ export const HomePage = (props: HomePageProps) => {
 																category={transaction.category?.name || ''}
 																description={transaction.note || ''}
 																amount={`${transaction.amount} ${currencySymbol}`}
+																isIncome={transaction.type === TransactionTypes.INCOME || transaction.type === TransactionTypes.REVENUE}
 																callBack={() => transferToEditor(transaction)}
 															/>
 														)

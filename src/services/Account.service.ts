@@ -119,6 +119,7 @@ export class AccountService extends Service {
 		interestRate: number,
 		goalAmount: number,
 		alreadyPaidAmount: number,
+		emoji: string,
 	): Promise<Account> {
 		const uri = this.baseUrl + Endpoints.ADD_ACCOUNT
 		const removed = false
@@ -131,7 +132,49 @@ export class AccountService extends Service {
 			interestRate,
 			goalAmount,
 			alreadyPaidAmount,
+			emoji,
 			removed
+		})
+
+		return response.data
+	}
+
+	public async update(
+		ownerId: string,
+		name: string,
+		type: AccountTypes,
+		currency: string,
+		initialAmount: number,
+		interestRate: number,
+		goalAmount: number,
+		alreadyPaidAmount: number,
+		emoji: string,
+	): Promise<Account> {
+		const uri = this.baseUrl + Endpoints.UPDATE_ACCOUNT
+		const removed = false
+		const response = await this.api.patch(uri, {
+			ownerId,
+			name,
+			type,
+			currency,
+			initialAmount,
+			interestRate,
+			goalAmount,
+			alreadyPaidAmount,
+			emoji,
+			removed
+		})
+
+		return response.data
+	}
+
+	public async delete(userId: string, accountId: string) {
+		const uri = this.baseUrl + Endpoints.DELETE_ACCOUNT
+		const response = await this.api.delete(uri, {
+			params: {
+				userId,
+				accountId,
+			},
 		})
 
 		return response.data

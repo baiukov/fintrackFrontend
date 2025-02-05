@@ -38,6 +38,24 @@ export class GroupService extends Service {
 		return response.data
 	}
 
+	public async update(
+		id: string | null, 
+		name: string, 
+		adminId: string, 
+		memberIds: string[], 
+		accountIds: string[],
+	): Promise<Group> {
+		const uri = this.baseUrl + Endpoints.UPDATE_GROUP
+		const response = await this.api.patch(uri, {
+				id,
+				name,
+				adminId,
+				memberIds,
+				accountIds,
+		})
+		return response.data
+	}
+
 	public async getAll(userId: string): Promise<Group[]> {
 		const uri = this.baseUrl + Endpoints.GET_ALL
 		const response = await this.api.get(uri, {

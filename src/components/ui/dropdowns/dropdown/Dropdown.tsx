@@ -19,6 +19,7 @@ export const DropDown = (props: DropDownProps) => {
 	const [open, setOpen] = useState(false)
 	const [value, setValue] = useState(props.currentValue || null)
 
+	console.log(value)
 
 	return (
 		<View>

@@ -24,18 +24,19 @@ interface FormProps {
 export const GroupEditorPage1 = (props: GroupEditorProps) => {
 	const language = useStore((state: any) => state.language)
 
-	const groupForm = props.route.params?.groupForm || { name: '', accounts: [], users: [] }
+	const [groupForm, setGroupForm] = React.useState(props.route.params?.groupForm)
 
 	const validationSchema = Yup.object().shape({
 		name: Yup.string().min(4, language.AT_LEAST_4_CHARS).required(language.MISSING_NAME),
 	})
 
 	const handleSubmit = (values: FormProps) => {
-		groupForm.name = values.name
+		const updatedForm = { ...groupForm, name: values.name }
 
 		setTimeout(() => {
 			props.navigation.navigate(Pages.GROUP_EDITOR2, {
-				groupForm: groupForm,
+				groupForm: updatedForm,
+				isEdit: props.route.params?.isEdit,
 			})
 		}, 0)
 	}

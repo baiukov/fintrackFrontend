@@ -36,23 +36,45 @@ export const AccountEditorPage3 = (props: AccountEditorProps) => {
 	})
 
 	const handleSubmit = (values: FormProps) => {
-		accountForm.loan = parseFloat(values.loan)
-		accountForm.interestRate = parseFloat(values.interestRate)
+		const updatedForm = { ...accountForm, loan: parseFloat(values.loan), interestRate: parseFloat(values.interestRate) }
 
 		const service = AccountService.getInstance()
-		service.save(user.id, 
-			accountForm.name,
-			accountForm.type,
-			accountForm.currency,
-			accountForm.initialBalance,
-			accountForm.interestRate,
-			0,
-			0,
-		)
+		if (props.route.params?.isEdit) {
+			service.update(
+				updatedForm.id,
+				updatedForm.name,
+				updatedForm.type,
+				updatedForm.currency,
+				updatedForm.initialBalance,
+				updatedForm.interestRate,
+				updatedForm.loan,
+				updatedForm.loanInterest,
+				updatedForm.emoji,
+			)
+		} else {
+			service.save(
+				user.id, 
+				updatedForm.name,
+				updatedForm.type,
+				updatedForm.currency,
+				updatedForm.initialBalance,
+				updatedForm.interestRate,
+				updatedForm.loan,
+				updatedForm.loanInterest,
+				updatedForm.emoji,
+			)
+		}
 
 		props.navigation.replace(Pages.MAIN_MENU, {
 			accountForm: accountForm,
 		})
+	}
+
+	const handleDeletion = () => {
+		const service = AccountService.getInstance()
+		service.delete(user.id, accountForm.id)
+
+		props.navigation.replace(Pages.MAIN_MENU)
 	}
 
 	const initialLoan = accountForm.loan || 0
@@ -114,7 +136,7 @@ export const AccountEditorPage3 = (props: AccountEditorProps) => {
 								<MainButton
 									title={language.DELETE}
 									variant={Buttons.SECONDARY}
-									callback={props.submitForm}
+									callback={handleDeletion}
 								/>
 							</View>
 						</View>

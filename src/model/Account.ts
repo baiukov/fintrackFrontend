@@ -10,5 +10,6 @@ export interface Account {
 	interestRate: number
 	goalAmount: number
 	alreadyPaidAmount: number
+	emoji: string,
 	createdAt: Date
 }

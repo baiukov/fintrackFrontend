@@ -7,6 +7,7 @@ interface TransactionProps {
 	category: string
 	description: string | undefined
 	amount: string
+	isIncome?: boolean
 	callBack?: () => void
 }
 

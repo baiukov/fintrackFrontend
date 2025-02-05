@@ -34,24 +34,41 @@ export const GroupEditorPage3 = (props: GroupEditorProps) => {
 	
 	const [options, setOptions] = React.useState([] as { key: string; label: string }[])
 	const [searchValue, setSeatchValue] = React.useState('')
-	const [selectedUsers, setSelectedUsers] = React.useState([] as User[])
-
 	const [groupForm, setGroupForm] = React.useState(props.route.params?.groupForm || { name: '', accounts: [], users: [] })
+
+	const formatUsers = (users: User[]) => { 
+		return users.map((user: any) => { 
+			return { id: user.id, name: user.userName }
+		})
+	}
+
+	const [selectedUsers, setSelectedUsers] = 
+		React.useState(formatUsers(groupForm.users) as User [] || [] as User[])
 
 	const handleSubmit = (values: FormProps) => {
 		const newlySelectedUsers = selectedUsers.slice()
 		const updatedGroupForm = { ...groupForm, users: newlySelectedUsers }
 		setGroupForm(updatedGroupForm)
 
-		console.log(newlySelectedUsers)
 		const service = GroupService.getInstance()
-		service.add(
-			null,
-			updatedGroupForm.name,
-			user.id,
-			newlySelectedUsers.map((user: User) => user.id),
-			updatedGroupForm.accounts.map((account: Account) => account.id)
-		)
+
+		if (props.route.params?.isEdit) {
+			service.update(
+				groupForm.id,
+				updatedGroupForm.name,
+				user.id,
+				newlySelectedUsers.map((user: User) => user.id),
+				updatedGroupForm.accounts.map((account: Account) => account.id)
+			)
+		} else {
+			service.add(
+				null,
+				updatedGroupForm.name,
+				user.id,
+				newlySelectedUsers.map((user: User) => user.id),
+				updatedGroupForm.accounts.map((account: Account) => account.id)
+			)
+		}
 
 		props.navigation.replace(Pages.MAIN_MENU, {
 			groupForm: updatedGroupForm,

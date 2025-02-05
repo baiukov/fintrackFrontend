@@ -17,6 +17,7 @@ export const styles = StyleSheet.create({
 		textAlign: 'center',
 		fontWeight: 'medium',
 		fontSize: 15,
+		textTransform: 'capitalize',
 	},
 
 	icon: {

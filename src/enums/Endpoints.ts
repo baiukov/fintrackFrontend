@@ -26,4 +26,7 @@ export enum Endpoints {
 	DELETE_TRANSACTION = '/delete',
 	GET_ALL_INCOMES = '/getAllIncomesByCategories',
 	GET_ALL_EXPENSES = '/getAllExpensesByCategories',
+	UPDATE_ACCOUNT = '/update',
+	DELETE_ACCOUNT = '/delete',
+	UPDATE_GROUP = '/update',
 }

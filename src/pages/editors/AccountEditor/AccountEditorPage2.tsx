@@ -46,11 +46,12 @@ export const AccountEditorPage2 = (props: AccountEditorProps) => {
 		setTimeout(() => {
 			props.navigation.navigate(Pages.ACCOUNT_EDITOR3, {
 				accountForm: updatedForm,
+				isEdit: props.route.params?.isEdit || false,
 			})
 		}, 0)
 	}
 
-	const initialBalance = accountForm.initialBalance || 0
+	const initialBalance = accountForm.initialAmount || 0
 	const shownBalance = initialBalance === 0 ? '' : initialBalance.toString()
 
 	return (
@@ -88,6 +89,7 @@ export const AccountEditorPage2 = (props: AccountEditorProps) => {
 								<DropDown
 									placeholder={language.SELECT_CURRENCY}
 									items={currencies}
+									currentValue={props.values.currency as string | undefined}
 									error={props.errors.currency as string}
 									handleChange={props.handleChange('currency')}
 								/>

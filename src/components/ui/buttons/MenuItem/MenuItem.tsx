@@ -7,6 +7,7 @@ export interface MenuItemProps {
 	icon: Icons | null
 	title: string
 	alt?: string
+	emoji?: string
 	callback?: () => any
 	iconCallback?: () => any
 }
@@ -25,7 +26,10 @@ export const MenuItem = (props: MenuItemProps) => {
 		<View style={styles.item}>
 			<TouchableOpacity onPress={callback}>
 				<View style={styles.innerBlock}>
-					<Text style={styles.text}>{props.title}</Text>
+					<View style={{ flexDirection: 'row', gap: 10 }}>
+						<Text style={styles.text}>{props.emoji}</Text>
+						<Text style={styles.text}>{props.title}</Text>
+					</View>
 					<TouchableOpacity onPress={iconCallback}>
 						<Image
 							style={styles.icon}

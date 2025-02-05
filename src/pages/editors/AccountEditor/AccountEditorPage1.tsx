@@ -38,7 +38,6 @@ export const AccountEditorPage1 = (props: AccountEditorProps) => {
 	const validationSchema = Yup.object().shape({
 		title: Yup.string().required(language.MISSING_TITLE),
 		type: Yup.string()
-			.oneOf(Object.values(AccountTypes), language.WRONG_ACCOUNT_TYPE)
 			.required(language.MISSING_ACCOUNT_TYPE),
 		emoji: Yup.string().required(language.MISSING_ICON),
 	})
@@ -48,15 +47,12 @@ export const AccountEditorPage1 = (props: AccountEditorProps) => {
 	})
 
 	const handleSubmit = (values: FormProps) => {
-		accountForm.name = values.title
-		accountForm.type = Object.keys(AccountTypes).find(key => AccountTypes[key as keyof typeof AccountTypes] === values.type) as AccountTypes
-		accountForm.emoji = values.emoji
-		accountForm.isBusiness = values.isBusiness
-
+		const updatedForm = { ...accountForm, name: values.title, type: values.type, emoji: values.emoji, isBusiness: values.isBusiness }
 
 		setTimeout(() => {
 			props.navigation.navigate(Pages.ACCOUNT_EDITOR2, {
-				accountForm: accountForm,
+				accountForm: updatedForm,
+				isEdit: props.route.params?.isEdit || false,
 			})
 		}, 0)
 	}
@@ -92,7 +88,7 @@ export const AccountEditorPage1 = (props: AccountEditorProps) => {
 				<Formik
 					initialValues={{
 						title: accountForm.name || '',
-						type: accountForm.type,
+						type: accountForm.type?.trim(),
 						group: accountForm.group || '',
 						emoji: accountForm.emoji || '',
 						isBusiness: accountForm.isBusiness || false,
@@ -112,6 +108,7 @@ export const AccountEditorPage1 = (props: AccountEditorProps) => {
 								<DropDown
 									placeholder={language.SELECT_ACCOUNT_TYPE}
 									items={accountTypes}
+									currentValue={AccountTypes[props.values.type as unknown as keyof typeof AccountTypes]}
 									handleChange={props.handleChange('type')}
 									error={props.errors.type}
 								/>
@@ -119,6 +116,7 @@ export const AccountEditorPage1 = (props: AccountEditorProps) => {
 									style='emoji'
 									data={recent}
 									title={language.SELECT_ICON}
+									selectedId={props.values.emoji}
 									onSelect={props.handleChange('emoji')}
 									error={props.errors.emoji}
 								/>

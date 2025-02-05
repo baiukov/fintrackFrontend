@@ -32,7 +32,8 @@ export const Accounts: React.FC = (props: any) => {
 		if (account) {
 			setTimeout(() => {
 				props.navigation.navigate(Pages.ACCOUNT_EDITOR, {
-					account: account,
+					accountForm: account,
+					isEdit: !!account,
 				})
 			}, 0)
 		} else {
@@ -40,8 +41,17 @@ export const Accounts: React.FC = (props: any) => {
 		}
 	}
 
-	const transferToGroupEditor = () => {
-		props.navigation.navigate(Pages.GROUP_EDITOR)
+	const transferToGroupEditor = (group?: Group) => {
+		if (group) {
+			setTimeout(() => {
+				props.navigation.navigate(Pages.GROUP_EDITOR, {
+					groupForm: group,
+					isEdit: !!group,
+				})
+			}, 0)
+		} else {
+			props.navigation.navigate(Pages.GROUP_EDITOR)
+		}
 	}
 
 	const transferToHomePage = (account: Account) => {
@@ -55,20 +65,24 @@ export const Accounts: React.FC = (props: any) => {
 			<ScrollView>
 					{groups === null ? (
 						<ActivityIndicator
-							// style={{ alignSelf: 'flex-start', top: 7, left: 5 }}
 							size='large'
 							color='white'
 						/>
 					) : (
 						groups?.filter(group => group != null).filter(group => group.name).map(group => {
 							return (
-								<MenuGroup title={group.name}>
+								<MenuGroup 
+									title={group.name}
+									callback={() => transferToGroupEditor(group)}
+								>
 									{group.accounts?.map((account: Account) => {
 										return (
 											<MenuItem
 												icon={Icons.EDIT}
 												title={account.name}
+												emoji={account.emoji}
 												callback={() => transferToHomePage(account)}
+												iconCallback={() => transferToAccountEditor(account)}
 											/>
 										)
 									})}
@@ -85,8 +99,10 @@ export const Accounts: React.FC = (props: any) => {
 								return (
 									<MenuItem
 										icon={Icons.EDIT}
+										emoji={account.emoji}
 										title={account.name}
 										callback={() => transferToAccountEditor(account)}
+										iconCallback={() => transferToAccountEditor(account)}
 									/>
 								)
 							})

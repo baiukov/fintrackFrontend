@@ -44,6 +44,7 @@ export const GroupEditorPage2 = (props: GroupEditorProps) => {
 		setTimeout(() => {
 			props.navigation.navigate(Pages.GROUP_EDITOR3, {
 				groupForm: updatedGroupForm,
+				isEdit: props.route.params?.isEdit,
 			})
 		}, 0)
 	}
