@@ -65,7 +65,7 @@ export const Categories = (props: any) => {
 					<MainButton
 						title={language.ADD_CATEGORY}
 						variant={Buttons.PRIMARY}
-						callback={() => transferToCategoryEditor()}
+						callback={() => {transferToCategoryEditor()}}
 					/>
 				</View>
 			</LinearGradient>

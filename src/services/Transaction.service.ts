@@ -28,11 +28,11 @@ export class TransactionService extends Service {
 		receiverId: string | null,
 		type: keyof typeof TransactionTypes,
 		amount: number,
-		executionDateTime: Date,
+		executionDateTime: Date | undefined,
 		note: string,
 		lat: number,
 		lon: number,
-	): Promise<void> {
+	): Promise<Transaction> {
 		const uri = this.baseUrl + Endpoints.CREATE_TRANSACTION
 		const response = await this.api.post(uri, {
 			accountId,
@@ -57,7 +57,7 @@ export class TransactionService extends Service {
 		receiverId: string | null,
 		type: keyof typeof TransactionTypes,
 		amount: number,
-		executionDateTime: Date,
+		executionDateTime: Date | undefined,
 		note: string,
 		lat: number,
 		lon: number,
@@ -124,4 +124,65 @@ export class TransactionService extends Service {
 		})
 		return response.data
 	}
+
+	public async createStandingOrder(
+		userId: string,
+		transactionId: string,
+		frequency: string,
+		startDate: Date,
+		endDate: Date | null,
+		remindDaysBefore: number | null
+	) {
+		const uri = this.baseUrl + Endpoints.CREATE_STANDING_ORDER
+		const response = await this.api.post(uri, {
+			userId,
+			transactionId,
+			frequency,
+			startDate,
+			endDate,
+			remindDaysBefore
+		})
+		return response.data
+	}
+
+	public async updateStandingOrder(
+		userId: string,
+		transactionId: string,
+		frequency: string,
+		startDate: Date,
+		endDate: Date | null,
+		remindDaysBefore: number | null
+	) {
+		const uri = this.baseUrl + Endpoints.UPDATE_STANDING_ORDER
+		const response = await this.api.patch(uri, {
+			userId,
+			transactionId,
+			frequency,
+			startDate,
+			endDate,
+			remindDaysBefore
+		})
+		return response.data
+	}
+
+	public async getStandingOrder(transactionId: string) {
+		const uri = this.baseUrl + Endpoints.GET_STANDING_ORDER
+		const response = await this.api.get(uri, {
+			params: {
+				transactionId,
+			},
+		})
+		return response.data
+	}
+
+	public async deleteStandingOrder(transactionId: string) {
+		const uri = this.baseUrl + Endpoints.DELETE_STANDING_ORDER
+		const response = await this.api.delete(uri, {
+			params: {
+				transactionId,
+			},
+		})
+		return response.data
+	}
+
 }

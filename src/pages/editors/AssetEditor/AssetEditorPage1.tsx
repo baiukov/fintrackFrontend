@@ -45,7 +45,7 @@ export const AssetEditorPage1 = (props: AssetEditorProps) => {
 		fetchData()
 	}, [user.id])
 
-	const [assetForm, setAssetForm] = React.useState(props.route.params?.accountForm 
+	const [assetForm, setAssetForm] = React.useState(props.route.params?.assetForm 
 		|| {} as Asset)
 
 	const validationSchema = Yup.object().shape({
@@ -54,10 +54,11 @@ export const AssetEditorPage1 = (props: AssetEditorProps) => {
 		emoji: Yup.string().required(language.MISSING_ICON),
 	})
 
+
 	const handleSubmit = (values: FormProps) => {
 		const updatedForm = { ...assetForm,
 			name: values.title,
-			account: { id: values.account, name: values.account },
+			account: { ...assetForm.account, id: values.account },
 			emoji: values.emoji,
 		}
 		setAssetForm(updatedForm)
@@ -65,6 +66,7 @@ export const AssetEditorPage1 = (props: AssetEditorProps) => {
 		setTimeout(() => {
 			props.navigation.navigate(Pages.ASSET_EDITOR2, {
 				assetForm: updatedForm,
+				isEdit: props.route.params?.isEdit || false,
 			})
 		}, 0)
 	}
@@ -88,6 +90,7 @@ export const AssetEditorPage1 = (props: AssetEditorProps) => {
 		{ emoji: '🤖' },
 	]
 
+	console.log(assetForm)
 	return (
 		<View style={GlobalStyles.page}>
 			<LinearGradient
@@ -104,8 +107,8 @@ export const AssetEditorPage1 = (props: AssetEditorProps) => {
 				<Formik
 					initialValues={{
 						title: assetForm.name || '',
-						account: assetForm.account?.name || '',
-						emoji: assetForm.emoji || '',
+						account: assetForm.account?.id || '',
+						emoji: assetForm.icon || '',
 					}}
 					validationSchema={validationSchema}
 					onSubmit={handleSubmit}
@@ -129,6 +132,7 @@ export const AssetEditorPage1 = (props: AssetEditorProps) => {
 								<DropDown
 									placeholder={language.SELECT_ACCOUNT}
 									items={shownAccounts}
+									currentValue={props.values.account}
 									handleChange={props.handleChange('account')}
 									error={props.errors.account}
 								/>
@@ -136,6 +140,7 @@ export const AssetEditorPage1 = (props: AssetEditorProps) => {
 									style='emoji'
 									data={recent}
 									title={language.SELECT_ICON}
+									selectedId={props.values.emoji}
 									onSelect={props.handleChange('emoji')}
 									error={props.errors.emoji}
 								/>

@@ -29,15 +29,18 @@ export const Accounts: React.FC = (props: any) => {
 	}, [user.id])
 
 	const transferToAccountEditor = (account: Account | null = null) => {
-		if (account) {
+		console.log(account)
+		if (!!account) {
 			setTimeout(() => {
 				props.navigation.navigate(Pages.ACCOUNT_EDITOR, {
 					accountForm: account,
-					isEdit: !!account,
+					isEdit: true,
 				})
 			}, 0)
 		} else {
-			props.navigation.navigate(Pages.ACCOUNT_EDITOR)
+			props.navigation.navigate(Pages.ACCOUNT_EDITOR, {
+				isEdit: false,
+			})
 		}
 	}
 
@@ -101,7 +104,7 @@ export const Accounts: React.FC = (props: any) => {
 										icon={Icons.EDIT}
 										emoji={account.emoji}
 										title={account.name}
-										callback={() => transferToAccountEditor(account)}
+										callback={() => transferToHomePage(account)}
 										iconCallback={() => transferToAccountEditor(account)}
 									/>
 								)
@@ -115,12 +118,12 @@ export const Accounts: React.FC = (props: any) => {
 				<MainButton
 					title={language.ADD_ACCOUNT}
 					variant={Buttons.PRIMARY}
-					callback={transferToAccountEditor}
+					callback={() => transferToAccountEditor(null)}
 				/>
 				<MainButton
 					title={language.ADD_GROUP}
 					variant={Buttons.SECONDARY}
-					callback={transferToGroupEditor}
+					callback={() => transferToGroupEditor()}
 				/>
 			</View>
 		</View>

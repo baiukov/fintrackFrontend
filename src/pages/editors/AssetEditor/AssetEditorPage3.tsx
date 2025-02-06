@@ -44,6 +44,8 @@ export const AssetEditorPage3 = (props: AssetEditorProps) => {
 		endDate: Yup.date().required(language.MISSING_END_DATE),
 	})
 
+	const service = AssetService.getInstance()
+
 	const handleSubmit = (values: FormProps) => {
 		const updatedForm = {
 			...assetForm,
@@ -53,24 +55,43 @@ export const AssetEditorPage3 = (props: AssetEditorProps) => {
 		}
 		setAssetForm(updatedForm)
 
-		const service = AssetService.getInstance()
-		service.add(
-			user.id,
-			updatedForm.name,
-			updatedForm.type,
-			updatedForm.account.id,
-			updatedForm.acquisitionPrice,
-			updatedForm.deprecitationPrice,
-			updatedForm.startDate,
-			updatedForm.endDate,
-			updatedForm.emoji,
-		)
+		const isEdit = props.route.params?.isEdit || false
+		if (isEdit) {
+			service.update(
+				user.id,
+				updatedForm.id,
+				updatedForm.name,
+				updatedForm.type,
+				updatedForm.account.id,
+				updatedForm.acquisitionPrice,
+				updatedForm.deprecitationPrice,
+				updatedForm.startDate,
+				updatedForm.endDate,
+				updatedForm.emoji,
+			)
+			props.navigation.replace(Pages.MAIN_MENU)
+		} else {
+			service.add(
+				user.id,
+				updatedForm.name,
+				updatedForm.type,
+				updatedForm.account.id,
+				updatedForm.acquisitionPrice,
+				updatedForm.deprecitationPrice,
+				updatedForm.startDate,
+				updatedForm.endDate,
+				updatedForm.emoji,
+			)
+		}
 
 		setTimeout(() => {
-			props.navigation.replace(Pages.MAIN_MENU, {
-				assetForm: assetForm,
-			})
+			props.navigation.replace(Pages.MAIN_MENU)
 		}, 0)
+	}
+
+	const handleDeletion = () => {
+		service.delete(assetForm.id, user.id)
+		props.navigation.replace(Pages.MAIN_MENU)
 	}
 
 	return (
@@ -140,7 +161,7 @@ export const AssetEditorPage3 = (props: AssetEditorProps) => {
 								<MainButton
 									title={language.DELETE}
 									variant={Buttons.SECONDARY}
-									callback={props.submitForm}
+									callback={handleDeletion}
 								/>
 							</View>
 						</View>

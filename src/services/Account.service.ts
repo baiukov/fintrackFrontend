@@ -1,5 +1,4 @@
 import Constants from 'expo-constants'
-import { AccountTypes } from '../enums/AccountTypes'
 import { Endpoints } from '../enums/Endpoints'
 import { Account } from '../model/Account'
 import { Group } from '../model/Group'
@@ -113,7 +112,7 @@ export class AccountService extends Service {
 	public async save(
 		ownerId: string,
 		name: string,
-		type: AccountTypes,
+		type: string,
 		currency: string,
 		initialAmount: number,
 		interestRate: number,
@@ -141,8 +140,9 @@ export class AccountService extends Service {
 
 	public async update(
 		ownerId: string,
+		id: string,
 		name: string,
-		type: AccountTypes,
+		type: string,
 		currency: string,
 		initialAmount: number,
 		interestRate: number,
@@ -154,6 +154,7 @@ export class AccountService extends Service {
 		const removed = false
 		const response = await this.api.patch(uri, {
 			ownerId,
+			id,
 			name,
 			type,
 			currency,

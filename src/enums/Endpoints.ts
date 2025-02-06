@@ -29,4 +29,10 @@ export enum Endpoints {
 	UPDATE_ACCOUNT = '/update',
 	DELETE_ACCOUNT = '/delete',
 	UPDATE_GROUP = '/update',
+	UPDATE_ASSET = '/update',
+	DELETE_ASSET = '/delete',
+	CREATE_STANDING_ORDER = '/standingOrder/create',
+	UPDATE_STANDING_ORDER = '/standingOrder/update',
+	DELETE_STANDING_ORDER = '/standingOrder/delete',
+	GET_STANDING_ORDER = '/standingOrder/get',
 }

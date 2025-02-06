@@ -28,7 +28,7 @@ export const CategoryEditor = (props: CategoryEditorProps) => {
 	const language = useStore((state: any) => state.language)
 	const user = useStore((state: any) => state.user)
 
-	const [categoryForm, setCategoryForm] = React.useState(props.route.params?.categoryForm)
+	const [categoryForm, setCategoryForm] = React.useState(props.route.params?.categoryForm || {} as Category)
 
 	const validationSchema = Yup.object().shape({
 		name: Yup.string().required(language.MISSING_NAME),

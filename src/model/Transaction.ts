@@ -4,7 +4,6 @@ import { Category } from './Category'
 import { Asset } from './ui/Asset'
 
 export interface Transaction {
-
 	id: string,
 	account: Account
 	forAsset: Asset

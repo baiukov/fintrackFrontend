@@ -12,10 +12,6 @@ import { useStore } from '../../../../storage/store'
 import { GlobalStyles } from '../../../../styles/GlobalStyles.styles'
 
 export const Assets = (props: any) => {
-	const transferToAssetEditor = () => {
-		props.navigation.navigate(Pages.ASSET_EDITOR)
-	}
-
 	const language = useStore((state: any) => state.language)
 	const user = useStore((state: any) => state.user)
 
@@ -31,18 +27,29 @@ export const Assets = (props: any) => {
 
 	}, [user.id])
 
+	const transferToAssetEditor = (asset?: Asset) => {
+		if (asset) {
+			props.navigation.navigate(Pages.ASSET_EDITOR, {
+				assetForm: asset,
+				isEdit: true
+			})
+		} else {
+			props.navigation.navigate(Pages.ASSET_EDITOR)
+		}
+	}
+
 	return (
 		<View style={GlobalStyles.center}>
 			<ScrollView>
 				{
 					assets.map(asset => {
+						console.log(asset)
 						return (
 							<MenuItem
 								icon={Icons.EDIT}
 								title={asset.name || ''}
-								callback={function () {
-									throw new Error('Function not implemented.')
-								}}
+								callback={() => transferToAssetEditor(asset)}
+								emoji={asset.icon as string | ''}
 							/>
 						)
 					 })
@@ -52,7 +59,7 @@ export const Assets = (props: any) => {
 				<MainButton
 					title={language.ADD_ASSET}
 					variant={Buttons.PRIMARY}
-					callback={transferToAssetEditor}
+					callback={() => transferToAssetEditor()}
 				/>
 			</View>
 		</View>

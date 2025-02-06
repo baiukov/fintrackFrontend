@@ -24,7 +24,7 @@ interface FormProps {
 export const GroupEditorPage1 = (props: GroupEditorProps) => {
 	const language = useStore((state: any) => state.language)
 
-	const [groupForm, setGroupForm] = React.useState(props.route.params?.groupForm)
+	const [groupForm, setGroupForm] = React.useState(props.route.params?.groupForm || {} as Group)
 
 	const validationSchema = Yup.object().shape({
 		name: Yup.string().min(4, language.AT_LEAST_4_CHARS).required(language.MISSING_NAME),

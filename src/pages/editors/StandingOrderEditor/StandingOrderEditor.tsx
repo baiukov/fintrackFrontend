@@ -12,6 +12,7 @@ import { TextField } from '../../../components/ui/fields/TextField/TextField'
 import { Buttons } from '../../../enums/Buttons'
 import { Frequencies } from '../../../enums/Frequencies'
 import { StandingOrder } from '../../../model/ui/StandingOrder'
+import { TransactionService } from '../../../services/Transaction.service'
 import { useStore } from '../../../storage/store'
 import { GlobalStyles } from '../../../styles/GlobalStyles.styles'
 
@@ -22,7 +23,7 @@ export interface StandingOrderEditorProps {
 }
 
 interface FormProps {
-	frequency: keyof typeof Frequencies | null
+	frequency: string
 	startDate: Date
 	endDate: Date | null
 	daysForRemind: string
@@ -30,10 +31,22 @@ interface FormProps {
 
 export const StandingOrderEditor = (props: StandingOrderEditorProps) => {
 	const language = useStore((state: any) => state.language)
+	const user = useStore((state: any) => state.user)
 
-	const standingOrderForm =
-		props.route.params?.standingOrderForm ||
-		new StandingOrder(null, null, null, null)
+	const [standingOrderForm, setStandingOrderForm] = React.useState({} as StandingOrder)
+	const transactionId = props.route.params?.transactionId
+
+	const service = TransactionService.getInstance()
+	React.useEffect(() => { 
+		const fetchData = () => {
+			service.getStandingOrder(transactionId).then((response) => {
+				if (response.data) {
+					setStandingOrderForm(response.data)
+				}
+			})
+		}
+		fetchData()
+	}, [transactionId])
 
 	const frequencies = Object.values(Frequencies).map(type => {
 		return { label: type, value: type }
@@ -42,9 +55,48 @@ export const StandingOrderEditor = (props: StandingOrderEditorProps) => {
 	const validationSchema = Yup.object().shape({
 		frequency: Yup.string().required(language.MISSING_FREQUENCY),
 		startDate: Yup.date().required(language.MISSING_START_DATE),
+		daysForRemind: Yup.number().integer(),
 	})
 
 	const handleSubmit = (values: FormProps) => {
+		if (transactionId) {
+			if (standingOrderForm.frequency) {
+				service.updateStandingOrder(
+					user.id,
+					transactionId,
+					values.frequency || Frequencies.MONTHLY,
+					values.startDate,
+					values.endDate,
+					parseInt(values.daysForRemind)
+				)
+			} else {
+				service.createStandingOrder(
+					user.id,
+					transactionId,
+					values.frequency || Frequencies.MONTHLY,
+					values.startDate,
+					values.endDate,
+					parseInt(values.daysForRemind)
+				)
+			}
+		} else {
+			props.navigation.goBack({
+				standingOrder: {
+					frequency: values.frequency,
+					startDate: values.startDate,
+					endDate: values.endDate,
+					daysForRemind: values.daysForRemind,
+				}
+			})
+		}
+
+		
+		props.navigation.goBack()
+	}
+
+	const handleDeletion = () => {
+		const service = TransactionService.getInstance()
+		service.deleteStandingOrder(transactionId)
 		props.navigation.goBack()
 	}
 
@@ -62,10 +114,10 @@ export const StandingOrderEditor = (props: StandingOrderEditorProps) => {
 
 				<Formik
 					initialValues={{
-						frequency: standingOrderForm.getFrequency() || Frequencies.MONTHLY,
-						startDate: standingOrderForm.getStartDate() || new Date(),
-						endDate: standingOrderForm.getEndDate(),
-						daysForRemind: standingOrderForm.getDaysForRemind(),
+						frequency: standingOrderForm.frequency || Frequencies.MONTHLY,
+						startDate: standingOrderForm.startDate || new Date(),
+						endDate: standingOrderForm.endDate,
+						daysForRemind: standingOrderForm.daysForRemind?.toString() || '',
 					}}
 					validationSchema={validationSchema}
 					onSubmit={handleSubmit}
@@ -76,6 +128,7 @@ export const StandingOrderEditor = (props: StandingOrderEditorProps) => {
 								<DropDown
 									placeholder={language.CHOOSE_FREQUENCY}
 									items={frequencies}
+									currentValue={props.values.frequency}
 									handleChange={props.handleChange('frequency')}
 									error={props.errors.frequency}
 								/>
@@ -84,28 +137,28 @@ export const StandingOrderEditor = (props: StandingOrderEditorProps) => {
 									title={language.START_DATE}
 									selectedDate={props.values.startDate}
 									handleChange={function (
-										event: DateTimePickerEvent,
+										_: DateTimePickerEvent,
 										date?: Date | undefined
 									): void {
-										throw new Error('Function not implemented.')
+										props.setFieldValue('startDate', date)
 									}}
 								/>
 
 								<DatePicker
 									title={language.END_DATE}
-									selectedDate={props.values.endDate}
+									selectedDate={props.values.endDate || undefined}
 									handleChange={function (
-										event: DateTimePickerEvent,
+										_: DateTimePickerEvent,
 										date?: Date | undefined
 									): void {
-										throw new Error('Function not implemented.')
+										props.setFieldValue('endDate', date)
 									}}
 								/>
 
 								<TextField
 									value={props.values.daysForRemind}
 									placeholder={language.DAYS_FOR_REMIND}
-									handleChange={props.handleChange('dayForRemind')}
+									handleChange={props.handleChange('daysForRemind')}
 									error={props.errors.daysForRemind}
 								/>
 							</View>
@@ -116,9 +169,9 @@ export const StandingOrderEditor = (props: StandingOrderEditorProps) => {
 									callback={props.handleSubmit}
 								/>
 								<MainButton
-									title={language.STANDING_ORDER}
+									title={language.DELETE}
 									variant={Buttons.SECONDARY}
-									callback={props.handleSubmit}
+									callback={handleDeletion}
 								/>
 							</View>
 						</ScrollView>

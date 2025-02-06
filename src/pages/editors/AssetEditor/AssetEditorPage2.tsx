@@ -44,8 +44,11 @@ export const AssetEditorPage2 = (props: AccountEditorProps) => {
 		setAccountForm(updatedForm)
 
 		setTimeout(() => {
+		console.log(props.route.params?.isEdit)
+
 			props.navigation.navigate(Pages.ASSET_EDITOR3, {
 				assetForm: updatedForm,
+				isEdit: props.route.params?.isEdit || false
 			})
 		}, 0)
 	}
@@ -63,7 +66,7 @@ export const AssetEditorPage2 = (props: AccountEditorProps) => {
 	})
 
 	const acquisitionPrice = assetForm.acquisitionPrice
-	const deprecitationPrice = assetForm.deprecitationPrice
+	const deprecitationPrice = assetForm.depreciationPrice
 	const showAcquisitionPriceError =
 		acquisitionPrice === 0 ? '' : acquisitionPrice
 	const shownDepreciationPriceError =
@@ -86,7 +89,7 @@ export const AssetEditorPage2 = (props: AccountEditorProps) => {
 					initialValues={{
 						acquisitionPrice: showAcquisitionPriceError || '',
 						deprecitationPrice: shownDepreciationPriceError || '',
-						currency: assetForm.currency || '',
+						currency: assetForm.account.currency || '',
 					}}
 					validationSchema={validationSchema}
 					onSubmit={handleSubmit}
@@ -112,6 +115,7 @@ export const AssetEditorPage2 = (props: AccountEditorProps) => {
 								/>
 								<DropDown
 									placeholder={language.SELECT_CURRENCY}
+									currentValue={props.values.currency as string | undefined}
 									items={currencies}
 									handleChange={props.handleChange('currency')}
 									error={props.errors.currency}

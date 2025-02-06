@@ -37,8 +37,9 @@ export const GroupEditorPage3 = (props: GroupEditorProps) => {
 	const [groupForm, setGroupForm] = React.useState(props.route.params?.groupForm || { name: '', accounts: [], users: [] })
 
 	const formatUsers = (users: User[]) => { 
-		return users.map((user: any) => { 
-			return { id: user.id, name: user.userName }
+		if (!users) return
+		return users.map((currentUser: any) => { 
+			return { id: currentUser.id, name: currentUser.userName }
 		})
 	}
 
@@ -86,8 +87,9 @@ export const GroupEditorPage3 = (props: GroupEditorProps) => {
 	
 	const handleRemoveUser = (key: string, _: string) => {
 		const alreadySelectedUsers = selectedUsers.slice()
-		alreadySelectedUsers.find((user: User, index: number) => { 
-			if (user.id === key) { 
+		alreadySelectedUsers.find((currentUser: User, index: number) => { 
+			if (user.id === currentUser.id) { return }
+			if (currentUser.id === key) { 
 				alreadySelectedUsers.splice(index, 1)
 			}
 		})

@@ -7,7 +7,7 @@ import { styles } from './DatePicker.style'
 
 export interface DatePickerProps {
 	title: string
-	selectedDate: Date | null
+	selectedDate: Date | undefined
 	handleChange: (event: DateTimePickerEvent, date?: Date) => void
 	error?: any
 }

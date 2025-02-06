@@ -12,7 +12,8 @@ import { GlobalStyles } from '../../styles/GlobalStyles.styles'
 import { styles } from './Settings.styles'
 
 export const Settings = (props: any) => {
-	const language = useStore((state: any) => state.language)
+	const [language, setLanguage] = React.useState(useStore((state: any) => state.language))
+
 
 	const currencies = Object.values(Currencies).map(currency => {
 		return { label: currency.name, value: currency.name }
@@ -55,9 +56,12 @@ export const Settings = (props: any) => {
 					handleChange={() => {}}
 				/>
 				<DropDown
-					placeholder={languages[0].label}
+					placeholder={language.label}
 					items={languages}
-					handleChange={() => {}}
+					handleChange={(newValue: string) => {
+						setLanguage(Messages[newValue as keyof typeof Messages])
+						useStore.setState({ language: Messages[newValue as keyof typeof Messages] })
+					}}
 				/>
 				<View style={{ gap: 20 }}>
 					<NarrowButton

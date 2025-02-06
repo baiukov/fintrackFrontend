@@ -41,7 +41,7 @@ interface FormProps {
 	currency: keyof typeof Currencies
 	category: string,
 	assetId: string
-	date: Date
+	date: Date | undefined
 	position: { lat: number; lon: number }
 	description: string
 }
@@ -51,7 +51,8 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 	const account: Account = useStore((state: any) => state.account)
 	const user: User = useStore((state: any) => state.user)
 
-	const [transactionForm, setTransactionForm] = React.useState<Transaction>(props.route.params?.transactionForm || {} as Transaction)
+	let transactionForm = props.route.params?.transactionForm || {} as Transaction
+	transactionForm = {...transactionForm, executionDateTime: new Date(transactionForm.executionDateTime)}
 
 	const transactionTypes = [] as { title: string; component: React.ComponentType }[]
 	Object.values(TransactionTypes).map(type => {
@@ -118,6 +119,7 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 	}, [user.id])
 
 
+	const [standingOrder, setStandingOrderForm] = React.useState(props.route.params?.standingOrder)
 	const handleSubmit = (values: FormProps) => {
 
 		const service = TransactionService.getInstance()
@@ -137,7 +139,7 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 				values.position.lon,
 			)
 		} else {
-			service.create(
+		  service.create(
 				account.id,
 				values.assetId,
 				values.category,
@@ -148,14 +150,30 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 				values.description,
 				values.position.lat,
 				values.position.lon,
-			)
+			).then((transaction) => {
+				if (standingOrder) {
+					service.createStandingOrder(
+						user.id,
+						transaction.id,
+						standingOrder.frequency,
+						standingOrder.startDate,
+						standingOrder.endDate,
+						parseInt(standingOrder.daysForRemind)
+					)
+				}
+			})
+			
 		}
 
 		props.navigation.replace(Pages.HOME_PAGE)
 	}
 
 	const transferToStandingOrderEditor = () => {
-		props.navigation.navigate(Pages.STANDING_ORDER_EDITOR)
+		const isEdit = props.route.params?.isEdit
+		props.navigation.navigate(Pages.STANDING_ORDER_EDITOR, {
+			transactionId: isEdit ? transactionForm.id : null,
+		})
+
 	}
 
 	const validationSchema = Yup.object().shape({
@@ -169,15 +187,13 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 		description: Yup.string().max(1024, language.TOO_LONG),
 	})
 
-	const recent = [
-		{ emoji: '💵' },
-	]
-
 	const handleDeletion = () => {
 		const service = TransactionService.getInstance()
 		service.delete(transactionForm.id, user.id)
 		props.navigation.replace(Pages.HOME_PAGE)
 	}
+
+	console.log(transactionForm)
 
 	return (
 		<View style={GlobalStyles.page}>
@@ -265,10 +281,10 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 									title={language.TRANSACTION_DATE}
 									selectedDate={props.values.date}
 									handleChange={function (
-										event: DateTimePickerEvent,
+										_: DateTimePickerEvent,
 										date?: Date | undefined
 									): void {
-										throw new Error('Function not implemented.')
+										props.setFieldValue('date', date)
 									}}
 								/>
 

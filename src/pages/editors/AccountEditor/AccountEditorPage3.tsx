@@ -5,6 +5,7 @@ import { Text, View } from 'react-native'
 import * as Yup from 'yup'
 import { MainButton } from '../../../components/ui/buttons/MainButton/MainButton'
 import { TextField } from '../../../components/ui/fields/TextField/TextField'
+import { AccountTypes } from '../../../enums/AccountTypes'
 import { Buttons } from '../../../enums/Buttons'
 import { Pages } from '../../../enums/Pages'
 import { Account } from '../../../model/ui/Account'
@@ -38,12 +39,15 @@ export const AccountEditorPage3 = (props: AccountEditorProps) => {
 	const handleSubmit = (values: FormProps) => {
 		const updatedForm = { ...accountForm, loan: parseFloat(values.loan), interestRate: parseFloat(values.interestRate) }
 
+		const type = Object.keys(AccountTypes)
+			.find(key => AccountTypes[key as keyof typeof AccountTypes] === accountForm.type)
 		const service = AccountService.getInstance()
 		if (props.route.params?.isEdit) {
 			service.update(
+				user.id,
 				updatedForm.id,
 				updatedForm.name,
-				updatedForm.type,
+				type as string,
 				updatedForm.currency,
 				updatedForm.initialBalance,
 				updatedForm.interestRate,
@@ -55,7 +59,7 @@ export const AccountEditorPage3 = (props: AccountEditorProps) => {
 			service.save(
 				user.id, 
 				updatedForm.name,
-				updatedForm.type,
+				type as string,
 				updatedForm.currency,
 				updatedForm.initialBalance,
 				updatedForm.interestRate,

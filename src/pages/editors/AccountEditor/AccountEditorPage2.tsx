@@ -52,7 +52,7 @@ export const AccountEditorPage2 = (props: AccountEditorProps) => {
 	}
 
 	const initialBalance = accountForm.initialAmount || 0
-	const shownBalance = initialBalance === 0 ? '' : initialBalance.toString()
+	let shownBalance = initialBalance === 0 ? '' : initialBalance.toString()
 
 	return (
 		<View style={GlobalStyles.page}>

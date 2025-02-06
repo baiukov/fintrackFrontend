@@ -20,6 +20,35 @@ export class AssetService extends Service {
 		return AssetService.instance
 	}
 
+	public async update(
+		senderId: string,
+		id: string,
+		name: string,
+		type: string,
+		accountId: string,
+		acquisitionPrice: number,
+		depreciationPrice: number,
+		startDateStr: string,
+		endDateStr: string,
+		icon: string,
+	): Promise<void> {
+		const uri = this.baseUrl + Endpoints.UPDATE_ASSET
+		const response = await this.api.patch(uri, {
+			senderId,
+			id,
+			name,
+			type,
+			accountId,
+			acquisitionPrice,
+			depreciationPrice,
+			startDateStr,
+			endDateStr,
+			icon,
+		})
+
+		return response.data
+	}
+
 	public async add(
 		senderId: string,
 		name: string,
@@ -46,6 +75,18 @@ export class AssetService extends Service {
 
 		return response.data
 	}
+
+	public async delete(id: string, userId: string): Promise<void> {
+		const uri = this.baseUrl + Endpoints.DELETE_ASSET
+		const response = await this.api.delete(uri, {
+			params: {
+				id,
+				userId,
+			},
+		})
+
+		return response.data
+	} 
 
 	public async getAll(userId: string): Promise<Asset[]> {
 		const uri = this.baseUrl + Endpoints.GET_ALL_ASSETS

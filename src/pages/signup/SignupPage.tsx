@@ -170,12 +170,14 @@ export const SignupPage = (props: any) => {
 								/>
 								<TextField
 									value={props.values.password}
+									secureTextEntry={true}
 									placeholder={language.PASSWORD}
 									handleChange={props.handleChange('password')}
 									error={props.errors.password}
 								/>
 								<TextField
 									value={props.values.repeatPassword}
+									secureTextEntry={true}
 									placeholder={language.REPEAT_PASSWORD}
 									handleChange={props.handleChange('repeatPassword')}
 									error={props.errors.repeatPassword}

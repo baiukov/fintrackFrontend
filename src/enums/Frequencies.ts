@@ -1,4 +1,6 @@
 export const Frequencies = {
-	MONTHLY: 'Monthly',
-	NEVER: 'Never',
+	MONTHLY: 'MONTHLY',
+	WEEKLY: 'WEEKLY',
+	DAILY: 'DAILY',
+	QUARTERLY: 'QUARTERLY',
 }
