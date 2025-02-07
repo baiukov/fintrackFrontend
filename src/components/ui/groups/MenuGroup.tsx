@@ -10,6 +10,7 @@ interface MenuGroupProps {
 		fontSize?: number
 		height?: DimensionValue
 	}
+	withIcon?: boolean
 	callback?: () => void
 }
 
@@ -21,10 +22,13 @@ export const MenuGroup = (props: MenuGroupProps) => {
 				<TouchableOpacity
 					style={styles.iconContainer}
 					onPress={props.callback}>
-					<Image
-						style={styles.icon}
-						source={Icons.EDIT}
-					/>
+					{
+						props.withIcon ?
+						<Image
+							style={styles.icon}
+							source={Icons.EDIT}
+						/> : <></>
+					}
 				</TouchableOpacity>
 			</View>
 			<View style={styles.items}>{props.children}</View>

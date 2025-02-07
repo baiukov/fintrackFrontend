@@ -124,6 +124,10 @@ export const Messages = {
 		SELECT_CATEGORY: 'Select category',
 		OTHERS: 'Others',
 		CUSTOM: 'Custom',
+		PINCODE_INCORRECT: 'Pincode is incorrect',
+		USER_DOESNT_EXIST: 'User does not exist',
+		PASSWORD_INCORRECT: 'Incorrect password',
+		LEAVE: 'Leave',
 
 		EN: 'English',
 		CZ: 'Čeština',
@@ -267,6 +271,10 @@ export const Messages = {
     SELECT_CATEGORY: 'Vyberte kategorii',
     OTHERS: 'Ostatní',
     CUSTOM: 'Vlastní',
+		PINCODE_INCORRECT: 'PIN kód je nesprávný',
+		USER_DOESNT_EXIST: 'Uživatel neexistuje',
+		PASSWORD_INCORRECT: 'Nesprávné heslo',
+		LEAVE: 'Odhlásit se',
 
     EN: 'Angličtina',
     CZ: 'Čeština',

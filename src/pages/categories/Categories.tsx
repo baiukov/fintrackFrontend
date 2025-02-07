@@ -54,6 +54,7 @@ export const Categories = (props: any) => {
 							return (
 								<MenuItem
 									icon={Icons.EDIT}
+									emoji={category.icon}
 									title={category.name}
 									callback={() => {transferToCategoryEditor(category)}}
 								/>

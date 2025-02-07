@@ -193,8 +193,6 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 		props.navigation.replace(Pages.HOME_PAGE)
 	}
 
-	console.log(transactionForm)
-
 	return (
 		<View style={GlobalStyles.page}>
 			<LinearGradient

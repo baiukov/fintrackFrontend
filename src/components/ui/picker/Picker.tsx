@@ -29,7 +29,6 @@ export const Picker = (props: PickerProps) => {
 	}
 
 	const defaultElement = () => {
-		console.log(props.selectedId)
 		if (props.selectedId) {
 			return availablePickersShownElements[
 				props.style as keyof AvailablePickers

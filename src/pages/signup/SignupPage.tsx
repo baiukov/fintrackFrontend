@@ -103,12 +103,11 @@ export const SignupPage = (props: any) => {
 
 		setLoading(true)
 		try {
-			const response = await service.register(
+			await service.register(
 				values.email,
 				values.username,
 				values.password
 			)
-			console.log('Register successful:', response)
 			props.navigation.reset({
 				index: 0,
 				routes: [{ name: Pages.MAIN_MENU }],

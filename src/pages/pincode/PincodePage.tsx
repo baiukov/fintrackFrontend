@@ -6,6 +6,7 @@ import * as Yup from 'yup'
 import { MainButton } from '../../components/ui/buttons/MainButton/MainButton'
 import { TextField } from '../../components/ui/fields/TextField/TextField'
 import { Buttons } from '../../enums/Buttons'
+import { Pages } from '../../enums/Pages'
 import { UserService } from '../../services/User.service'
 import { useStore } from '../../storage/store'
 import { GlobalStyles } from '../../styles/GlobalStyles.styles'
@@ -13,6 +14,7 @@ import { styles } from './PincodePage.styles'
 
 interface PincodeProps {
 	route: any
+	navigation: any
 }
 
 export const PincodePage = (props: PincodeProps) => {
@@ -29,14 +31,24 @@ export const PincodePage = (props: PincodeProps) => {
 
 	const isLogin = props.route.params?.isLogin
 
-	const handleSubmit = async (values: { pincode: string }) => {
+	const handleSubmit = async (values: { pincode: string }, {setFieldError}: any) => {
 		const service = UserService.getInstance()
 		const userId = user.id
 
 		if (isLogin) {
-			// login
+			service.verifyPincode(userId, values.pincode).then((result) => { 
+				if (!result) {
+					setFieldError('pincode', language.PINCODE_INCORRECT)
+				} else {
+					props.navigation.reset({
+						index: 0,
+						routes: [{ name: Pages.MAIN_MENU }],
+					})
+				}
+			})
 		} else {
 			service.setPincode(userId, values.pincode)
+			props.navigation.goBack()
 		}
 	}
 

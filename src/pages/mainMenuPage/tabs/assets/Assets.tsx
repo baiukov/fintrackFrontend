@@ -43,7 +43,6 @@ export const Assets = (props: any) => {
 			<ScrollView>
 				{
 					assets.map(asset => {
-						console.log(asset)
 						return (
 							<MenuItem
 								icon={Icons.EDIT}

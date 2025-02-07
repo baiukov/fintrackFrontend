@@ -1,9 +1,11 @@
 import { LinearGradient } from 'expo-linear-gradient'
 import React from 'react'
 import { Text, View } from 'react-native'
+import { MainButton } from '../../components/ui/buttons/MainButton/MainButton'
 import { NarrowButton } from '../../components/ui/buttons/NarrowButton/NarrowButton'
 import { Checkbox } from '../../components/ui/checkbox/Checkbox'
 import { DropDown } from '../../components/ui/dropdowns/dropdown/Dropdown'
+import { Buttons } from '../../enums/Buttons'
 import { Currencies } from '../../enums/Currencies'
 import { Pages } from '../../enums/Pages'
 import { Messages } from '../../language/Messages'
@@ -37,6 +39,15 @@ export const Settings = (props: any) => {
 				isLogin: false,
 			})
 		}, 0)
+	}
+
+	const leave = () => {
+		props.navigation.reset({
+			index: 0,
+			routes: [{ name: Pages.MAIN }],
+		})
+		useStore.setState({ user: null })
+		useStore.setState({ account: null })
 	}
 
 	return (
@@ -108,6 +119,12 @@ export const Settings = (props: any) => {
 							</View>
 						</View>
 					</View>
+
+					<MainButton
+							title={language.LEAVE}
+							variant={Buttons.SECONDARY}
+							callback={leave}
+						/>
 				</View>
 			</LinearGradient>
 		</View>

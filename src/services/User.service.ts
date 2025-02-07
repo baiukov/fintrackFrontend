@@ -52,13 +52,22 @@ export class UserService extends Service {
 		})
 
 		const user = response.data
-		useStore.setState({ user: user })
 
 		return user
 	}
 
 	public async setPincode(id: string, pincode: string) {
 		const uri = this.baseUrl + Endpoints.SET_PINCODE
+		const response = await this.api.post(uri, {
+			id,
+			pincode,
+		})
+
+		return response.data
+	}
+
+	public async verifyPincode(id: string, pincode: string): Promise<boolean> {
+		const uri = this.baseUrl + Endpoints.VERIFY_PINCODE
 		const response = await this.api.post(uri, {
 			id,
 			pincode,

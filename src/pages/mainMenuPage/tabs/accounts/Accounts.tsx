@@ -29,7 +29,6 @@ export const Accounts: React.FC = (props: any) => {
 	}, [user.id])
 
 	const transferToAccountEditor = (account: Account | null = null) => {
-		console.log(account)
 		if (!!account) {
 			setTimeout(() => {
 				props.navigation.navigate(Pages.ACCOUNT_EDITOR, {
@@ -76,6 +75,7 @@ export const Accounts: React.FC = (props: any) => {
 							return (
 								<MenuGroup 
 									title={group.name}
+									withIcon={true}
 									callback={() => transferToGroupEditor(group)}
 								>
 									{group.accounts?.map((account: Account) => {

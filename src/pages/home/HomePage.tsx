@@ -162,7 +162,6 @@ export const HomePage = (props: HomePageProps) => {
 		if (tabName.length === 4) {
 			const start = `01-01-${tabName} 00:00:00`
 			const end = `12-31-${tabName} 23:59:59`
-			console.log(start, end)
 			fetchMenuData(account.id, start, end)
 			return
 		}
@@ -232,7 +231,7 @@ export const HomePage = (props: HomePageProps) => {
 							leftTop: { title: language.TOTAL, data: total?.toString() + currencySymbol },
 							rightTop: { title: language.NET_WORTH, data: networth?.toString() + currencySymbol },
 							leftBottom: { title: language.INCOMES, data: incomes?.toString() + currencySymbol },
-							rightBottom: { title: language.EXPENSES, data: expenses?.toString() + currencySymbol },
+							rightBottom: { title: language.EXPENSES, data: Math.abs(expenses || 0)?.toString() + currencySymbol },
 						}}
 					/>
 					<Title style={{ top: 100 }} title={language.TRANSACTIONS} />
@@ -261,7 +260,9 @@ export const HomePage = (props: HomePageProps) => {
 																category={transaction.category?.name || ''}
 																description={transaction.note || ''}
 																amount={`${transaction.amount} ${currencySymbol}`}
-																isIncome={transaction.type === TransactionTypes.INCOME || transaction.type === TransactionTypes.REVENUE}
+																isIncome={
+																	transaction.type.toLowerCase() === TransactionTypes.INCOME.toLowerCase() || 
+																	transaction.type.toLowerCase() === TransactionTypes.REVENUE.toLowerCase()}
 																callBack={() => transferToEditor(transaction)}
 															/>
 														)

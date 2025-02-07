@@ -90,7 +90,6 @@ export const AssetEditorPage1 = (props: AssetEditorProps) => {
 		{ emoji: '🤖' },
 	]
 
-	console.log(assetForm)
 	return (
 		<View style={GlobalStyles.page}>
 			<LinearGradient

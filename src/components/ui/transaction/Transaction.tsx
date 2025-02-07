@@ -35,7 +35,9 @@ export const Transaction = (props: TransactionProps) => {
 				</View>
 			</View>
 			<View>
-				<Text style={styles.amount}>{props.amount}</Text>
+				<Text style={[styles.amount, props.isIncome ? styles.income : styles.expense]}>
+					{(props.isIncome ? "+ " : "- ") + props.amount}
+				</Text>
 			</View>
 		</TouchableOpacity>
 	)

@@ -44,7 +44,6 @@ export const AssetEditorPage2 = (props: AccountEditorProps) => {
 		setAccountForm(updatedForm)
 
 		setTimeout(() => {
-		console.log(props.route.params?.isEdit)
 
 			props.navigation.navigate(Pages.ASSET_EDITOR3, {
 				assetForm: updatedForm,

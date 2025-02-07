@@ -39,4 +39,12 @@ export const styles = StyleSheet.create({
 	titleWrapper: {
 		display: 'flex',
 	},
+
+	income: {
+		color: '#00FF00',
+	},
+
+	expense: {
+		color: '#FF0000',
+	}
 })

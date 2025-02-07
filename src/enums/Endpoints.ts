@@ -35,4 +35,5 @@ export enum Endpoints {
 	UPDATE_STANDING_ORDER = '/standingOrder/update',
 	DELETE_STANDING_ORDER = '/standingOrder/delete',
 	GET_STANDING_ORDER = '/standingOrder/get',
+	VERIFY_PINCODE = '/verifyPincode',
 }
