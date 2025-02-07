@@ -1,8 +1,10 @@
 import { StyleSheet } from 'react-native'
 
 export const styles = StyleSheet.create({
-	main: {
-		width: '100%',
-		height: '100%',
+	logo: {
+		width: 372,
+		height: 372,
+		objectFit: 'scale-down',
+		display: 'flex',
 	},
 })

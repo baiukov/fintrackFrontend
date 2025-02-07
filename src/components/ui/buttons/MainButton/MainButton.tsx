@@ -1,12 +1,12 @@
 import React from 'react'
-import { Button, View } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
 import { Buttons } from '../../../../enums/Buttons'
 import { styles } from './MainButton.styles'
 
 export interface ButtonParams {
 	title: string
 	variant: Buttons
-	callback: () => {}
+	callback: () => any
 }
 
 export const MainButton = (props: ButtonParams) => {
@@ -18,7 +18,9 @@ export const MainButton = (props: ButtonParams) => {
 
 	return (
 		<View style={[styles.button, buttonStyles[props.variant]]}>
-			<Button title={props.title} onPress={props.callback}></Button>
+			<TouchableOpacity onPress={props.callback}>
+				<Text style={styles.text}>{props.title}</Text>
+			</TouchableOpacity>
 		</View>
 	)
 }

@@ -2,10 +2,14 @@ import { StyleSheet } from 'react-native'
 
 export const styles = StyleSheet.create({
 	button: {
-		width: 900,
-		height: 120,
+		width: 300,
+		height: 40,
 		textAlign: 'center',
-		borderRadius: 40,
+		borderRadius: 15,
+		color: 'white',
+		display: 'flex',
+		justifyContent: 'center',
+		marginBottom: 10,
 	},
 
 	primary: {
@@ -13,7 +17,15 @@ export const styles = StyleSheet.create({
 	},
 
 	secondary: {
-		borderColor: 'FFFFFF',
-		borderWidth: 5,
+		borderColor: '#FFFFFF',
+		borderWidth: 2.5,
+	},
+
+	text: {
+		color: 'white',
+		textAlign: 'center',
+		fontSize: 17,
+		paddingBottom: 3,
+		fontWeight: 600,
 	},
 })
