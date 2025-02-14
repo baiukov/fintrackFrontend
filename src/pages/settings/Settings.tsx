@@ -50,6 +50,10 @@ export const Settings = (props: any) => {
 		useStore.setState({ account: null })
 	}
 
+	const fetchBankData = () => {
+		props.navigation.navigate(Pages.FETCH_BANKS)
+	}
+
 	return (
 		<View style={GlobalStyles.page}>
 			<LinearGradient
@@ -86,6 +90,10 @@ export const Settings = (props: any) => {
 					<NarrowButton
 						title={language.GENERATE_GENERAL_STATEMENT}
 						onPress={transferToGeneralStatement}
+					/>
+					<NarrowButton
+						title={language.FETCH_BANK_DATA}
+						onPress={fetchBankData}
 					/>
 					<View style={styles.list}>
 						<Text style={styles.listTitle}>

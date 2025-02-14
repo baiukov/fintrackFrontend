@@ -39,6 +39,7 @@ export const GroupEditorPage3 = (props: GroupEditorProps) => {
 	const formatUsers = (users: User[]) => { 
 		if (!users) return
 		return users.map((currentUser: any) => { 
+			if (user.id === currentUser.id) { return }
 			return { id: currentUser.id, name: currentUser.userName }
 		})
 	}
