@@ -32,22 +32,24 @@ export const AssetEditorPage2 = (props: AccountEditorProps) => {
 		return { label: currency.name, value: currency.name }
 	})
 
-	const [assetForm, setAccountForm] = React.useState(props.route.params?.assetForm 
-		|| {} as Asset)
+	const [assetForm, setAccountForm] = React.useState(
+		props.route.params?.assetForm || ({} as Asset)
+	)
 
 	const handleSubmit = (values: FormProps) => {
-		const updatedForm = { ...assetForm, 
-			acquisitionPrice: parseFloat(values.acquisitionPrice), 
-			deprecitationPrice: parseFloat(values.deprecitationPrice), 
-			currency: values.currency 
+		const updatedForm = {
+			...assetForm,
+			acquisitionPrice: parseFloat(values.acquisitionPrice),
+			deprecitationPrice: parseFloat(values.deprecitationPrice),
+			currency: values.currency,
 		}
 		setAccountForm(updatedForm)
 
 		setTimeout(() => {
-
 			props.navigation.navigate(Pages.ASSET_EDITOR3, {
 				assetForm: updatedForm,
-				isEdit: props.route.params?.isEdit || false
+				isEdit: props.route.params?.isEdit || false,
+				setRerender: props.route.params?.setRerender,
 			})
 		}, 0)
 	}

@@ -29,14 +29,13 @@ export class UserService extends Service {
 		const response = await this.api.post(uri, {
 			email,
 			userName,
-			password
+			password,
 		})
 
 		const user = response.data
 		useStore.setState({ user: user })
 
 		return user
-
 	}
 
 	public async login(
@@ -44,6 +43,7 @@ export class UserService extends Service {
 		login: string | null,
 		password: string
 	) {
+		console.log(Constants.expoConfig?.extra)
 		const uri = this.baseUrl + Endpoints.LOGIN
 		const response = await this.api.post(uri, {
 			email,
@@ -76,8 +76,7 @@ export class UserService extends Service {
 		return response.data
 	}
 
-	public async fetchByUserName(name: string, limit: number) 
-	{ 
+	public async fetchByUserName(name: string, limit: number) {
 		const uri = this.baseUrl + Endpoints.FETCH_BY_USERNAME
 		const response = await this.api.get(uri, {
 			params: {

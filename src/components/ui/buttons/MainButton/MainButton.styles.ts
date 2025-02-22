@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native'
 export const styles = StyleSheet.create({
 	button: {
 		width: 300,
-		height: 40,
+		height: 45,
 		textAlign: 'center',
 		borderRadius: 15,
 		color: 'white',

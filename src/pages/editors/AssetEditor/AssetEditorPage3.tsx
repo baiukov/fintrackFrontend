@@ -35,8 +35,9 @@ export const AssetEditorPage3 = (props: AssetEditorProps) => {
 		return { label: basis, value: basis }
 	})
 
-	const [assetForm, setAssetForm] = React.useState(props.route.params?.assetForm 
-		|| {} as Asset)
+	const [assetForm, setAssetForm] = React.useState(
+		props.route.params?.assetForm || ({} as Asset)
+	)
 
 	const validationSchema = Yup.object().shape({
 		basis: Yup.string().required(language.MISSING_BASIS),
@@ -67,7 +68,7 @@ export const AssetEditorPage3 = (props: AssetEditorProps) => {
 				updatedForm.deprecitationPrice,
 				updatedForm.startDate,
 				updatedForm.endDate,
-				updatedForm.emoji,
+				updatedForm.emoji
 			)
 			props.navigation.replace(Pages.MAIN_MENU)
 		} else {
@@ -80,7 +81,7 @@ export const AssetEditorPage3 = (props: AssetEditorProps) => {
 				updatedForm.deprecitationPrice,
 				updatedForm.startDate,
 				updatedForm.endDate,
-				updatedForm.emoji,
+				updatedForm.emoji
 			)
 		}
 
@@ -91,6 +92,7 @@ export const AssetEditorPage3 = (props: AssetEditorProps) => {
 
 	const handleDeletion = () => {
 		service.delete(assetForm.id, user.id)
+		props.route.params?.setRerender(Math.random())
 		props.navigation.replace(Pages.MAIN_MENU)
 	}
 

@@ -30,8 +30,12 @@ export const AssetEditorPage1 = (props: AssetEditorProps) => {
 	const language = useStore((state: any) => state.language)
 	const user = useStore((state: any) => state.user)
 
-	const [shownAccounts, setShownAccounts] = React.useState([] as {label: string, value: string}[])
-	const [accounts, setAccounts] = React.useState([] as {id: string, name: string}[])
+	const [shownAccounts, setShownAccounts] = React.useState(
+		[] as { label: string; value: string }[]
+	)
+	const [accounts, setAccounts] = React.useState(
+		[] as { id: string; name: string }[]
+	)
 
 	React.useEffect(() => {
 		const fetchData = async () => {
@@ -45,8 +49,9 @@ export const AssetEditorPage1 = (props: AssetEditorProps) => {
 		fetchData()
 	}, [user.id])
 
-	const [assetForm, setAssetForm] = React.useState(props.route.params?.assetForm 
-		|| {} as Asset)
+	const [assetForm, setAssetForm] = React.useState(
+		props.route.params?.assetForm || ({} as Asset)
+	)
 
 	const validationSchema = Yup.object().shape({
 		title: Yup.string().required(language.MISSING_TITLE),
@@ -54,9 +59,9 @@ export const AssetEditorPage1 = (props: AssetEditorProps) => {
 		emoji: Yup.string().required(language.MISSING_ICON),
 	})
 
-
 	const handleSubmit = (values: FormProps) => {
-		const updatedForm = { ...assetForm,
+		const updatedForm = {
+			...assetForm,
 			name: values.title,
 			account: { ...assetForm.account, id: values.account },
 			emoji: values.emoji,
@@ -67,6 +72,7 @@ export const AssetEditorPage1 = (props: AssetEditorProps) => {
 			props.navigation.navigate(Pages.ASSET_EDITOR2, {
 				assetForm: updatedForm,
 				isEdit: props.route.params?.isEdit || false,
+				setRerender: props.route.params?.setRerender,
 			})
 		}, 0)
 	}

@@ -27,8 +27,9 @@ interface FormProps {
 export const AccountEditorPage2 = (props: AccountEditorProps) => {
 	const language = useStore((state: any) => state.language)
 
-	const [accountForm, setAccountForm] = React.useState(props.route.params?.accountForm 
-		|| {} as Account)
+	const [accountForm, setAccountForm] = React.useState(
+		props.route.params?.accountForm || ({} as Account)
+	)
 
 	const validationSchema = Yup.object().shape({
 		balance: Yup.number().typeError(language.WRONG_BALANCE),
@@ -40,13 +41,18 @@ export const AccountEditorPage2 = (props: AccountEditorProps) => {
 	})
 
 	const handleSubmit = (values: FormProps) => {
-		const updatedForm = { ...accountForm, initialBalance: parseFloat(values.balance), currency: values.currency }
+		const updatedForm = {
+			...accountForm,
+			initialBalance: parseFloat(values.balance),
+			currency: values.currency,
+		}
 		setAccountForm(updatedForm)
 
 		setTimeout(() => {
 			props.navigation.navigate(Pages.ACCOUNT_EDITOR3, {
 				accountForm: updatedForm,
 				isEdit: props.route.params?.isEdit || false,
+				setRerender: props.route.params?.setRerender,
 			})
 		}, 0)
 	}

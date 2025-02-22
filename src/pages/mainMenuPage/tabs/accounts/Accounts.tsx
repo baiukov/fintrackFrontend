@@ -17,6 +17,7 @@ export const Accounts: React.FC = (props: any) => {
 	const user = useStore((state: any) => state.user)
 
 	const [groups, setGroups] = React.useState<null | Group[]>(null)
+	const [rerender, setRerender] = React.useState(0)
 
 	React.useEffect(() => {
 		const fetchData = () => {
@@ -26,7 +27,7 @@ export const Accounts: React.FC = (props: any) => {
 			})
 		}
 		fetchData()
-	}, [user.id])
+	}, [user.id, rerender])
 
 	const transferToAccountEditor = (account: Account | null = null) => {
 		if (!!account) {
@@ -34,11 +35,13 @@ export const Accounts: React.FC = (props: any) => {
 				props.navigation.navigate(Pages.ACCOUNT_EDITOR, {
 					accountForm: account,
 					isEdit: true,
+					setRerender: setRerender,
 				})
 			}, 0)
 		} else {
 			props.navigation.navigate(Pages.ACCOUNT_EDITOR, {
 				isEdit: false,
+				setRerender: setRerender,
 			})
 		}
 	}
@@ -49,10 +52,13 @@ export const Accounts: React.FC = (props: any) => {
 				props.navigation.navigate(Pages.GROUP_EDITOR, {
 					groupForm: group,
 					isEdit: !!group,
+					setRerender: setRerender,
 				})
 			}, 0)
 		} else {
-			props.navigation.navigate(Pages.GROUP_EDITOR)
+			props.navigation.navigate(Pages.GROUP_EDITOR, {
+				setRerender: setRerender,
+			})
 		}
 	}
 
@@ -64,16 +70,16 @@ export const Accounts: React.FC = (props: any) => {
 
 	return (
 		<View style={GlobalStyles.center}>
-			<ScrollView>
-					{groups === null ? (
-						<ActivityIndicator
-							size='large'
-							color='white'
-						/>
-					) : (
-						groups?.filter(group => group != null).filter(group => group.name).map(group => {
+			<ScrollView style={{ maxHeight: '75%' }}>
+				{groups === null ? (
+					<ActivityIndicator size='large' color='white' />
+				) : (
+					groups
+						?.filter(group => group != null)
+						.filter(group => group.name)
+						.map(group => {
 							return (
-								<MenuGroup 
+								<MenuGroup
 									title={group.name}
 									withIcon={true}
 									callback={() => transferToGroupEditor(group)}
@@ -92,13 +98,15 @@ export const Accounts: React.FC = (props: any) => {
 								</MenuGroup>
 							)
 						})
-					)}
-			{
-				groups?.filter(group => group != null).find(group => group.name === null) ?
+				)}
+				{groups
+					?.filter(group => group != null)
+					.find(group => group.name === null) ? (
 					<MenuGroup title={language.OTHERS}>
-						{
-							groups?.filter(group => group != null)
-								.filter(group => !group.name)[0]?.accounts?.map((account: Account) => {
+						{groups
+							?.filter(group => group != null)
+							.filter(group => !group.name)[0]
+							?.accounts?.map((account: Account) => {
 								return (
 									<MenuItem
 										icon={Icons.EDIT}
@@ -108,11 +116,11 @@ export const Accounts: React.FC = (props: any) => {
 										iconCallback={() => transferToAccountEditor(account)}
 									/>
 								)
-							})
-						}
+							})}
 					</MenuGroup>
-					: <></>
-			}
+				) : (
+					<></>
+				)}
 			</ScrollView>
 			<View style={[GlobalStyles.center, GlobalStyles.bottomMenu]}>
 				<MainButton

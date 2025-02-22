@@ -16,6 +16,7 @@ export const Assets = (props: any) => {
 	const user = useStore((state: any) => state.user)
 
 	const [assets, setAssets] = React.useState([] as Asset[])
+	const [rerender, setRerender] = React.useState(0)
 
 	React.useEffect(() => {
 		const fetchData = async () => {
@@ -24,35 +25,35 @@ export const Assets = (props: any) => {
 			setAssets(assets)
 		}
 		fetchData()
-
-	}, [user.id])
+	}, [user.id, rerender])
 
 	const transferToAssetEditor = (asset?: Asset) => {
 		if (asset) {
 			props.navigation.navigate(Pages.ASSET_EDITOR, {
 				assetForm: asset,
-				isEdit: true
+				isEdit: true,
+				setRerender: setRerender,
 			})
 		} else {
-			props.navigation.navigate(Pages.ASSET_EDITOR)
+			props.navigation.navigate(Pages.ASSET_EDITOR, {
+				setRerender: setRerender,
+			})
 		}
 	}
 
 	return (
 		<View style={GlobalStyles.center}>
 			<ScrollView>
-				{
-					assets.map(asset => {
-						return (
-							<MenuItem
-								icon={Icons.EDIT}
-								title={asset.name || ''}
-								callback={() => transferToAssetEditor(asset)}
-								emoji={asset.icon as string | ''}
-							/>
-						)
-					 })
-				}
+				{assets.map(asset => {
+					return (
+						<MenuItem
+							icon={Icons.EDIT}
+							title={asset.name || ''}
+							callback={() => transferToAssetEditor(asset)}
+							emoji={asset.icon as string | ''}
+						/>
+					)
+				})}
 			</ScrollView>
 			<View style={[GlobalStyles.center, GlobalStyles.bottomMenu]}>
 				<MainButton

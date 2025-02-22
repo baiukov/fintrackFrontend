@@ -31,21 +31,28 @@ interface User {
 export const GroupEditorPage3 = (props: GroupEditorProps) => {
 	const language = useStore((state: any) => state.language)
 	const user = useStore((state: any) => state.user)
-	
-	const [options, setOptions] = React.useState([] as { key: string; label: string }[])
-	const [searchValue, setSeatchValue] = React.useState('')
-	const [groupForm, setGroupForm] = React.useState(props.route.params?.groupForm || { name: '', accounts: [], users: [] })
 
-	const formatUsers = (users: User[]) => { 
+	const [options, setOptions] = React.useState(
+		[] as { key: string; label: string }[]
+	)
+	const [searchValue, setSeatchValue] = React.useState('')
+	const [groupForm, setGroupForm] = React.useState(
+		props.route.params?.groupForm || { name: '', accounts: [], users: [] }
+	)
+
+	const formatUsers = (users: User[]) => {
 		if (!users) return
-		return users.map((currentUser: any) => { 
-			if (user.id === currentUser.id) { return }
+		return users.map((currentUser: any) => {
+			if (user.id === currentUser.id) {
+				return
+			}
 			return { id: currentUser.id, name: currentUser.userName }
 		})
 	}
 
-	const [selectedUsers, setSelectedUsers] = 
-		React.useState(formatUsers(groupForm.users) as User [] || [] as User[])
+	const [selectedUsers, setSelectedUsers] = React.useState(
+		(formatUsers(groupForm.users) as User[]) || ([] as User[])
+	)
 
 	const handleSubmit = (values: FormProps) => {
 		const newlySelectedUsers = selectedUsers.slice()
@@ -72,6 +79,7 @@ export const GroupEditorPage3 = (props: GroupEditorProps) => {
 			)
 		}
 
+		props.route.params?.setRerender(Math.random())
 		props.navigation.replace(Pages.MAIN_MENU, {
 			groupForm: updatedGroupForm,
 		})
@@ -79,33 +87,37 @@ export const GroupEditorPage3 = (props: GroupEditorProps) => {
 
 	const handleSelectUser = (key: string, label: string) => {
 		const alreadySelectedUsers = selectedUsers.slice()
-		if (alreadySelectedUsers.find((user: User) => user.id === key)) { 
+		if (alreadySelectedUsers.find((user: User) => user.id === key)) {
 			return
 		}
-		alreadySelectedUsers.push({id: key, name: label})
+		alreadySelectedUsers.push({ id: key, name: label })
 		setSelectedUsers(alreadySelectedUsers)
 	}
-	
+
 	const handleRemoveUser = (key: string, _: string) => {
 		const alreadySelectedUsers = selectedUsers.slice()
-		alreadySelectedUsers.find((currentUser: User, index: number) => { 
-			if (user.id === currentUser.id) { return }
-			if (currentUser.id === key) { 
+		alreadySelectedUsers.find((currentUser: User, index: number) => {
+			if (user.id === currentUser.id) {
+				return
+			}
+			if (currentUser.id === key) {
 				alreadySelectedUsers.splice(index, 1)
 			}
 		})
 		setSelectedUsers(alreadySelectedUsers)
 	}
 
-	const handleSearchChange = async (text: string) => { 
+	const handleSearchChange = async (text: string) => {
 		setSeatchValue(text)
 		const service = UserService.getInstance()
 
 		const limit = 5
 		const users = await service.fetchByUserName(text, limit)
 		const options = [] as { key: string; label: string }[]
-		users.forEach((currentUser: User) => { 
-			if (user.id === currentUser.id) { return }
+		users.forEach((currentUser: User) => {
+			if (user.id === currentUser.id) {
+				return
+			}
 			options.push({ key: currentUser.id, label: currentUser.name })
 		})
 		setOptions(options)
@@ -137,12 +149,12 @@ export const GroupEditorPage3 = (props: GroupEditorProps) => {
 									placeholder={language.SEARCH}
 									onChangeText={handleSearchChange}
 									title={language.USERS}
-									items={
-									selectedUsers.map((user: User) => {
-										return { 
-											key: user.id, 
-											label: user.name, 
-											onPress: () => handleRemoveUser(user.id, user.name) }
+									items={selectedUsers.map((user: User) => {
+										return {
+											key: user.id,
+											label: user.name,
+											onPress: () => handleRemoveUser(user.id, user.name),
+										}
 									})}
 									options={options}
 									value={searchValue}

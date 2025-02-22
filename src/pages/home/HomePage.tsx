@@ -42,6 +42,7 @@ export const HomePage = (props: HomePageProps) => {
 			props.navigation.navigate(Pages.TRANSACTION_EDITOR, {
 				transactionForm: transactionForm,
 				isEdit: !!transactionForm,
+				setRerender: setRerender,
 			})
 		}, 0)
 	}
@@ -50,18 +51,28 @@ export const HomePage = (props: HomePageProps) => {
 	const [incomes, setIncomes] = React.useState<number | null>(null)
 	const [expenses, setExpenses] = React.useState<number | null>(null)
 	const [total, setTotal] = React.useState<number | null>(null)
-	const [transactionGroups, setTransactionGroups] = React.useState<TransactionGroup[]>([])
-	const [shownTransactionGroups, setShownTransactionGroups] = React.useState<TransactionGroup[]>([])
+	const [transactionGroups, setTransactionGroups] = React.useState<
+		TransactionGroup[]
+	>([])
+	const [shownTransactionGroups, setShownTransactionGroups] = React.useState<
+		TransactionGroup[]
+	>([])
 	const [filter, setFilter] = React.useState<string>('')
 	const [currencySymbol, setCurrencySymbol] = React.useState<string>('')
-	const [monthTabs, setMonthTabs] = 
-		React.useState<{title: string, component: React.ComponentType}[]>([])
-	const [yearTabs, setYearTabs] = 
-		React.useState<{title: string, component: React.ComponentType}[]>([])
+	const [monthTabs, setMonthTabs] = React.useState<
+		{ title: string; component: React.ComponentType }[]
+	>([])
+	const [yearTabs, setYearTabs] = React.useState<
+		{ title: string; component: React.ComponentType }[]
+	>([])
+	const [rerender, setRerender] = React.useState<number>(0)
 
 	React.useEffect(() => {
-		setCurrencySymbol(Object.values(Currencies)
-			.find(currency => currency.name === account.currency)?.icon || '$')
+		setCurrencySymbol(
+			Object.values(Currencies).find(
+				currency => currency.name === account.currency
+			)?.icon || '$'
+		)
 
 		let start: Date = new Date(account.createdAt)
 		const end = new Date()
@@ -69,11 +80,11 @@ export const HomePage = (props: HomePageProps) => {
 		const yearTabs = []
 
 		while (start <= end) {
-			const monthId = Months[start.getMonth() + 1 as keyof typeof Months]
+			const monthId = Months[(start.getMonth() + 1) as keyof typeof Months]
 			const monthStr = language[monthId]
-			monthTabs.push({ 
+			monthTabs.push({
 				title: `${monthStr} '${start.getFullYear().toString().slice(2)}`,
-				component: () => <></>
+				component: () => <></>,
 			})
 			start.setMonth(start.getMonth() + 1)
 		}
@@ -83,13 +94,12 @@ export const HomePage = (props: HomePageProps) => {
 			const year = start.getFullYear()
 			yearTabs.push({
 				title: year.toString(),
-				component: () => <></>
+				component: () => <></>,
 			})
 			start.setFullYear(start.getFullYear() + 1)
 		}
 		setMonthTabs(monthTabs)
 		setYearTabs(yearTabs)
-
 	}, [account])
 
 	React.useEffect(() => {
@@ -104,20 +114,24 @@ export const HomePage = (props: HomePageProps) => {
 					const monthStr = language[Months[monthId as keyof typeof Months]]
 					const year = date.getFullYear().toString().slice(2)
 					const title = `${monthStr} '${year}`
-					const existingGroup = groups.find((group) => group.title === title)
+					const existingGroup = groups.find(group => group.title === title)
 
 					if (existingGroup) {
 						existingGroup.transactions.push(transaction)
 					} else {
 						groups.push({
 							title: title,
-							transactions: [transaction]
+							transactions: [transaction],
 						})
 					}
 				})
 
 				groups = groups.map(group => {
-					group.transactions.sort((a, b) => new Date(b.executionDateTime).getTime() - new Date(a.executionDateTime).getTime())
+					group.transactions.sort(
+						(a, b) =>
+							new Date(b.executionDateTime).getTime() -
+							new Date(a.executionDateTime).getTime()
+					)
 					return group
 				})
 
@@ -126,8 +140,7 @@ export const HomePage = (props: HomePageProps) => {
 			})
 		}
 		fetchData()
-
-	}, [account.id])
+	}, [rerender, account.id])
 
 	const accountService = AccountService.getInstance()
 
@@ -149,7 +162,7 @@ export const HomePage = (props: HomePageProps) => {
 		})
 	}
 
-	React.useEffect(() => { 
+	React.useEffect(() => {
 		fetchMenuData(account.id)
 	}, [account.id])
 
@@ -166,30 +179,39 @@ export const HomePage = (props: HomePageProps) => {
 			return
 		}
 
-		const monthStrId = Object.entries(language)
-			.find(([_, value]) => value === tabName.split(" ")[0])?.[0]
-		const monthId = Object.entries(Months)
-			.find(([_, value]) => value === monthStrId)?.[0]
+		const monthStrId = Object.entries(language).find(
+			([_, value]) => value === tabName.split(' ')[0]
+		)?.[0]
+		const monthId = Object.entries(Months).find(
+			([_, value]) => value === monthStrId
+		)?.[0]
 		const startStr = `0${monthId}-01-20${tabName.slice(-2)} 00:00:00`
 		const end = new Date(`0${monthId}-01-20${tabName.slice(-2)}`)
 		end.setMonth(end.getMonth() + 1)
 		end.setDate(end.getDate() - 1)
-		const endStr = `0${end.getMonth() + 1}-${end.getDate()}-${end.getFullYear()} 23:59:59`
+		const endStr = `0${
+			end.getMonth() + 1
+		}-${end.getDate()}-${end.getFullYear()} 23:59:59`
 		fetchMenuData(account.id, startStr, endStr)
 	}
 
-	const handleFilter = (text: string) => { 
+	const handleFilter = (text: string) => {
 		const transactions = transactionGroups.slice()
 		const filteredTransactions = transactions.map(group => {
 			return {
 				title: group.title,
 				transactions: group.transactions.filter(transaction => {
 					if (transaction.category) {
-						return transaction.category?.name.toLowerCase().includes(text.toLowerCase()) || transaction.note?.toLowerCase().includes(text.toLowerCase())
+						return (
+							transaction.category?.name
+								.toLowerCase()
+								.includes(text.toLowerCase()) ||
+							transaction.note?.toLowerCase().includes(text.toLowerCase())
+						)
 					} else {
 						return transaction.note?.toLowerCase().includes(text.toLowerCase())
 					}
-				})
+				}),
 			}
 		})
 		setShownTransactionGroups(filteredTransactions)
@@ -207,7 +229,11 @@ export const HomePage = (props: HomePageProps) => {
 				<ScrollView contentContainerStyle={{ paddingBottom: 200 }}>
 					<TopMenu navigation={props.navigation} />
 
-					<Title style={{ top: 100 }} emoji={account.emoji} title={account.name} />
+					<Title
+						style={{ top: 100 }}
+						emoji={account.emoji}
+						title={account.name}
+					/>
 					<View style={styles.tabs}>
 						<Tabs
 							tabs={[
@@ -228,10 +254,22 @@ export const HomePage = (props: HomePageProps) => {
 					</View>
 					<DataBoxPanel
 						boxes={{
-							leftTop: { title: language.TOTAL, data: total?.toString() + currencySymbol },
-							rightTop: { title: language.NET_WORTH, data: networth?.toString() + currencySymbol },
-							leftBottom: { title: language.INCOMES, data: incomes?.toString() + currencySymbol },
-							rightBottom: { title: language.EXPENSES, data: Math.abs(expenses || 0)?.toString() + currencySymbol },
+							leftTop: {
+								title: language.TOTAL,
+								data: total?.toString() + currencySymbol,
+							},
+							rightTop: {
+								title: language.NET_WORTH,
+								data: networth?.toString() + currencySymbol,
+							},
+							leftBottom: {
+								title: language.INCOMES,
+								data: incomes?.toString() + currencySymbol,
+							},
+							rightBottom: {
+								title: language.EXPENSES,
+								data: Math.abs(expenses || 0)?.toString() + currencySymbol,
+							},
 						}}
 					/>
 					<Title style={{ top: 100 }} title={language.TRANSACTIONS} />
@@ -243,38 +281,36 @@ export const HomePage = (props: HomePageProps) => {
 						/>
 					</View>
 					<View style={[styles.contentWrapper, { height: '30%' }]}>
-						{
-							shownTransactionGroups.map((group, _) => {
-								return (
-									<MenuGroup
-										style={{ fontSize: 20 }}
-										title={group.title}
-										children={
-											<View style={styles.items}>
-												{
-													group.transactions.map((transaction, index) => {
-														return (
-															<Transaction
-																key={index}
-																emoji={transaction.category?.icon || ''}
-																category={transaction.category?.name || ''}
-																description={transaction.note || ''}
-																amount={`${transaction.amount} ${currencySymbol}`}
-																isIncome={
-																	transaction.type.toLowerCase() === TransactionTypes.INCOME.toLowerCase() || 
-																	transaction.type.toLowerCase() === TransactionTypes.REVENUE.toLowerCase()}
-																callBack={() => transferToEditor(transaction)}
-															/>
-														)
-													})
-												}
-											</View>
-										}
-									/>
-								)
-
-							})
-						}
+						{shownTransactionGroups.map((group, _) => {
+							return (
+								<MenuGroup
+									style={{ fontSize: 20 }}
+									title={group.title}
+									children={
+										<View style={styles.items}>
+											{group.transactions.map((transaction, index) => {
+												return (
+													<Transaction
+														key={index}
+														emoji={transaction.category?.icon || ''}
+														category={transaction.category?.name || ''}
+														description={transaction.note || ''}
+														amount={`${transaction.amount} ${currencySymbol}`}
+														isIncome={
+															transaction.type.toLowerCase() ===
+																TransactionTypes.INCOME.toLowerCase() ||
+															transaction.type.toLowerCase() ===
+																TransactionTypes.REVENUE.toLowerCase()
+														}
+														callBack={() => transferToEditor(transaction)}
+													/>
+												)
+											})}
+										</View>
+									}
+								/>
+							)
+						})}
 					</View>
 				</ScrollView>
 				<View style={styles.bottomButton}>
