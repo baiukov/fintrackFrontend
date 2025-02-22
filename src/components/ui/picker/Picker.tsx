@@ -43,9 +43,24 @@ export const Picker = (props: PickerProps) => {
 	}
 	const [shownElement, setShownElement] = useState(defaultElement())
 
+	const emojiarr = [
+		'💵',
+		'💴',
+		'💶',
+		'💷',
+		'💸',
+		'💳',
+		'🧾',
+		'📦',
+		'💼',
+		'📁',
+		'📈',
+		'📊',
+	]
+	console.log(emojis.filter((emoji: any) => emojiarr.includes(emoji.emoji)))
 	const availablePickersModalElements: AvailablePickers = {
 		emoji: (
-			<View style={{ height: 500 }}>
+			<View style={{ height: 500, width: 500 }}>
 				<EmojiPicker
 					emojis={emojis}
 					recent={props.data || []}
