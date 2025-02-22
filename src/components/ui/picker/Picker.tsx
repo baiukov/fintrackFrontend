@@ -1,15 +1,13 @@
 import { Ionicons } from '@expo/vector-icons'
 import React, { useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
-import EmojiPicker from 'rn-emoji-picker'
-import { emojis } from 'rn-emoji-picker/dist/data'
+import EmojiPicker from 'rn-emoji-keyboard'
 import { useStore } from '../../../storage/store'
-import { ModalWindow } from '../modal/Modal'
 import { styles } from './Picker.styles'
 
 export interface PickerProps {
 	style: string
-	data: any
+	data?: any
 	onSelect: (id: string) => any
 	selectedId?: string
 	title?: string
@@ -42,49 +40,27 @@ export const Picker = (props: PickerProps) => {
 		}
 	}
 	const [shownElement, setShownElement] = useState(defaultElement())
+	const [modalVisible, setModalVisible] = useState(false)
 
-	const emojiarr = [
-		'💵',
-		'💴',
-		'💶',
-		'💷',
-		'💸',
-		'💳',
-		'🧾',
-		'📦',
-		'💼',
-		'📁',
-		'📈',
-		'📊',
-	]
-	console.log(emojis.filter((emoji: any) => emojiarr.includes(emoji.emoji)))
 	const availablePickersModalElements: AvailablePickers = {
 		emoji: (
-			<View style={{ height: 500, width: 500 }}>
-				<EmojiPicker
-					emojis={emojis}
-					recent={props.data || []}
-					autoFocus={false}
-					loading={false}
-					darkMode={false}
-					perLine={6}
-					backgroundColor={'transparent'}
-					onSelect={(emoji: any) => {
-						setShownElement(
-							availablePickersShownElements[
-								props.style as keyof AvailablePickers
-							](emoji.emoji)
-						)
-						props.onSelect(emoji.emoji)
-						setModalVisible(false)
-					}}
-					defaultCategory={'objects'}
-				/>
-			</View>
+			<EmojiPicker
+				onEmojiSelected={(emoji: any) => {
+					setShownElement(
+						availablePickersShownElements[
+							props.style as keyof AvailablePickers
+						](emoji.emoji)
+					)
+					props.onSelect(emoji.emoji)
+					setModalVisible(false)
+				}}
+				onClose={() => setModalVisible(false)}
+				open={modalVisible}
+				categoryPosition='top'
+				enableSearchBar
+			/>
 		),
 	}
-
-	const [modalVisible, setModalVisible] = useState(false)
 
 	return (
 		<View>
@@ -97,15 +73,11 @@ export const Picker = (props: PickerProps) => {
 				<Ionicons name='chevron-down' size={24} color='white' />
 			</TouchableOpacity>
 			<Text style={styles.error}>{props.error}</Text>
-			<ModalWindow
-				isVisible={modalVisible}
-				setModalVisible={setModalVisible}
-				element={
-					availablePickersModalElements[
+			{modalVisible
+				? availablePickersModalElements[
 						props.style as keyof typeof availablePickersModalElements
-					]
-				}
-			/>
+				  ]
+				: null}
 		</View>
 	)
 }

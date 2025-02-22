@@ -14,7 +14,6 @@ import { Pages } from '../../../enums/Pages'
 import { Account } from '../../../model/ui/Account'
 import { useStore } from '../../../storage/store'
 import { GlobalStyles } from '../../../styles/GlobalStyles.styles'
-import { accountEmojis } from '../../../utils/icons'
 
 export interface AccountEditorProps {
 	navigation: any
@@ -111,7 +110,6 @@ export const AccountEditorPage1 = (props: AccountEditorProps) => {
 								/>
 								<Picker
 									style='emoji'
-									data={accountEmojis}
 									title={language.SELECT_ICON}
 									selectedId={props.values.emoji}
 									onSelect={props.handleChange('emoji')}
