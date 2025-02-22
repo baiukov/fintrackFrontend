@@ -64,21 +64,6 @@ export const AccountEditorPage1 = (props: AccountEditorProps) => {
 		}, 0)
 	}
 
-	const recent = [
-		{ emoji: '💵' },
-		{ emoji: '💴' },
-		{ emoji: '💶' },
-		{ emoji: '💷' },
-		{ emoji: '💸' },
-		{ emoji: '💳' },
-		{ emoji: '🧾' },
-		{ emoji: '📦' },
-		{ emoji: '💼' },
-		{ emoji: '📁' },
-		{ emoji: '📈' },
-		{ emoji: '📊' },
-	]
-
 	return (
 		<View style={GlobalStyles.page}>
 			<LinearGradient
@@ -125,7 +110,6 @@ export const AccountEditorPage1 = (props: AccountEditorProps) => {
 								/>
 								<Picker
 									style='emoji'
-									data={recent}
 									title={language.SELECT_ICON}
 									selectedId={props.values.emoji}
 									onSelect={props.handleChange('emoji')}
