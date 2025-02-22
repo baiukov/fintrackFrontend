@@ -1,17 +1,11 @@
-const ENV = 'local'
+const ENV = 'production'
 
 const ENV_CONFIG = {
-	development: {
-		API_URL: 'https://api.development.com',
-		ENV: 'dev',
-	},
 	production: {
-		API_URL: 'https://api.production.com',
-		ENV: 'prod',
+		API_URL: 'https://fintrackserver.ru:8080/api/v1',
 	},
 	local: {
-		API_URL: 'http://localhost:8080/api/v1',
-		ENV: 'local',
+		API_URL: 'http://192.168.1.83:8080/api/v1',
 	},
 }
 
