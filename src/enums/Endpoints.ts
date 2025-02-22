@@ -36,4 +36,5 @@ export enum Endpoints {
 	DELETE_STANDING_ORDER = '/standingOrder/delete',
 	GET_STANDING_ORDER = '/standingOrder/get',
 	VERIFY_PINCODE = '/verifyPincode',
+	GENERATE_LINK = '/generate-link',
 }

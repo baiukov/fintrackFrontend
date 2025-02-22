@@ -128,6 +128,7 @@ export const Messages = {
 		USER_DOESNT_EXIST: 'User does not exist',
 		PASSWORD_INCORRECT: 'Incorrect password',
 		LEAVE: 'Leave',
+		FETCH_BANK_DATA: 'Fetch bank data',
 
 		EN: 'English',
 		CZ: 'Čeština',
@@ -275,6 +276,7 @@ export const Messages = {
 		USER_DOESNT_EXIST: 'Uživatel neexistuje',
 		PASSWORD_INCORRECT: 'Nesprávné heslo',
 		LEAVE: 'Odhlásit se',
+		FETCH_BANK_DATA: 'Načíst bankovní data',
 
     EN: 'Angličtina',
     CZ: 'Čeština',

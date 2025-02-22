@@ -21,4 +21,5 @@ export enum Pages {
 	TRANSACTION_EDITOR = 'transactionEditor',
 	STANDING_ORDER_EDITOR = 'standingOrderEditor',
 	CATEGORY_EDITOR = 'categoryEditor',
+	FETCH_BANKS = 'fetchBanks'
 }

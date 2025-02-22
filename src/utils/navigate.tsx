@@ -15,6 +15,7 @@ import { GroupEditorPage2 } from '../pages/editors/GroupEditor/GroupEditorPage2'
 import { GroupEditorPage3 } from '../pages/editors/GroupEditor/GroupEditorPage3'
 import { StandingOrderEditor } from '../pages/editors/StandingOrderEditor/StandingOrderEditor'
 import { TransactionEditor } from '../pages/editors/TransactionEditor/TransactionEditor'
+import { FetchBank } from '../pages/fetchBanks/FetchBank'
 import { GeneralStatement } from '../pages/generalStatement/GeneralStatement'
 import { Graph } from '../pages/graph/Graph'
 import { HomePage } from '../pages/home/HomePage'
@@ -68,6 +69,11 @@ export default function navigate() {
 				<Stack.Screen
 					name={Pages.ACCOUNT_EDITOR3}
 					component={AccountEditorPage3}
+				/>
+
+				<Stack.Screen
+					name={Pages.FETCH_BANKS}
+					component={FetchBank}
 				/>
 
 				<Stack.Screen name={Pages.ASSET_EDITOR} component={AssetEditorPage1} />
