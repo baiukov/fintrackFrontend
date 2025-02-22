@@ -28,8 +28,9 @@ export const AccountEditorPage3 = (props: AccountEditorProps) => {
 	const language = useStore((state: any) => state.language)
 	const user = useStore((state: any) => state.user)
 
-	const [accountForm, setAccountForm] = React.useState(props.route.params?.accountForm 
-		|| {} as Account)
+	const [accountForm, setAccountForm] = React.useState(
+		props.route.params?.accountForm || ({} as Account)
+	)
 
 	const validationSchema = Yup.object().shape({
 		loan: Yup.number().typeError(language.WRONG_LOAN),
@@ -37,10 +38,15 @@ export const AccountEditorPage3 = (props: AccountEditorProps) => {
 	})
 
 	const handleSubmit = (values: FormProps) => {
-		const updatedForm = { ...accountForm, loan: parseFloat(values.loan), interestRate: parseFloat(values.interestRate) }
+		const updatedForm = {
+			...accountForm,
+			loan: parseFloat(values.loan),
+			interestRate: parseFloat(values.interestRate),
+		}
 
-		const type = Object.keys(AccountTypes)
-			.find(key => AccountTypes[key as keyof typeof AccountTypes] === accountForm.type)
+		const type = Object.keys(AccountTypes).find(
+			key => AccountTypes[key as keyof typeof AccountTypes] === accountForm.type
+		)
 		const service = AccountService.getInstance()
 		if (props.route.params?.isEdit) {
 			service.update(
@@ -53,11 +59,11 @@ export const AccountEditorPage3 = (props: AccountEditorProps) => {
 				updatedForm.interestRate,
 				updatedForm.loan,
 				updatedForm.loanInterest,
-				updatedForm.emoji,
+				updatedForm.emoji
 			)
 		} else {
 			service.save(
-				user.id, 
+				user.id,
 				updatedForm.name,
 				type as string,
 				updatedForm.currency,
@@ -65,10 +71,11 @@ export const AccountEditorPage3 = (props: AccountEditorProps) => {
 				updatedForm.interestRate,
 				updatedForm.loan,
 				updatedForm.loanInterest,
-				updatedForm.emoji,
+				updatedForm.emoji
 			)
 		}
 
+		props.route.params?.setRerender(Math.random())
 		props.navigation.replace(Pages.MAIN_MENU, {
 			accountForm: accountForm,
 		})
@@ -78,6 +85,7 @@ export const AccountEditorPage3 = (props: AccountEditorProps) => {
 		const service = AccountService.getInstance()
 		service.delete(user.id, accountForm.id)
 
+		props.route.params?.setRerender(Math.random())
 		props.navigation.replace(Pages.MAIN_MENU)
 	}
 

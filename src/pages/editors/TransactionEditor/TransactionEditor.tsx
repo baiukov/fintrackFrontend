@@ -39,7 +39,7 @@ interface FormProps {
 	type: TransactionTypes
 	amount: number
 	currency: keyof typeof Currencies
-	category: string,
+	category: string
 	assetId: string
 	date: Date | undefined
 	position: { lat: number; lon: number }
@@ -51,79 +51,104 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 	const account: Account = useStore((state: any) => state.account)
 	const user: User = useStore((state: any) => state.user)
 
-	let transactionForm = props.route.params?.transactionForm || {} as Transaction
-	transactionForm = {...transactionForm, executionDateTime: new Date(transactionForm.executionDateTime)}
+	let transactionForm =
+		props.route.params?.transactionForm || ({} as Transaction)
+	transactionForm = {
+		...transactionForm,
+		executionDateTime: new Date(transactionForm.executionDateTime),
+	}
 
-	const transactionTypes = [] as { title: string; component: React.ComponentType }[]
+	const transactionTypes = [] as {
+		title: string
+		component: React.ComponentType
+	}[]
 	Object.values(TransactionTypes).map(type => {
 		if (
-			AccountTypes[account.type as keyof typeof AccountTypes] != AccountTypes.BUSINESS_ACCOUNT
+			AccountTypes[account.type as keyof typeof AccountTypes] !=
+			AccountTypes.BUSINESS_ACCOUNT
 		) {
 			if (type === TransactionTypes.REVENUE || type === TransactionTypes.COST) {
 				return
 			}
 		}
-		transactionTypes.push({ title: type, component: () => {return <></>} })
+		transactionTypes.push({
+			title: type,
+			component: () => {
+				return <></>
+			},
+		})
 	})
 
 	const currencies = Object.values(Currencies).map(currency => {
 		return { label: currency.name, value: currency.name }
 	})
 
-	const [assets, setAssets] = React.useState<{label: string, value: string} []>([])
+	const [assets, setAssets] = React.useState<
+		{ label: string; value: string }[]
+	>([])
 	React.useEffect(() => {
 		const fetchData = async () => {
 			const service = AssetService.getInstance()
 			const data = await service.getAllByAccount(account.id)
-			const assets = data.filter(asset => asset != null)
-			 .filter(asset => asset.name != null)
-			 .filter(asset => asset.id != null)
-			 .map(asset => {
-				return { label: asset.name, value: asset.id }
-			}) as {label: string, value: string} []
+			const assets = data
+				.filter(asset => asset != null)
+				.filter(asset => asset.name != null)
+				.filter(asset => asset.id != null)
+				.map(asset => {
+					return { label: asset.name, value: asset.id }
+				}) as { label: string; value: string }[]
 			setAssets(assets)
 		}
 		fetchData()
 	}, [account.id])
 
-	const [receivers, setReceivers] = React.useState<{label: string, value: string} []>([])
+	const [receivers, setReceivers] = React.useState<
+		{ label: string; value: string }[]
+	>([])
 	React.useEffect(() => {
 		const fetchData = async () => {
 			const service = AccountService.getInstance()
 			const data = await service.retrieveAll(user.id)
-			const receivers = data.filter(receiver => receiver != null)
-			 .filter(receiver => receiver.name != null)
-			 .filter(receiver => receiver.id != null)
-			 .map(receiver => {
-				return { label: receiver.name, value: receiver.id }
-			}) as {label: string, value: string} []
+			const receivers = data
+				.filter(receiver => receiver != null)
+				.filter(receiver => receiver.name != null)
+				.filter(receiver => receiver.id != null)
+				.map(receiver => {
+					return { label: receiver.name, value: receiver.id }
+				}) as { label: string; value: string }[]
 			setReceivers(receivers)
 		}
 		fetchData()
 	}, [user.id])
 
-	const [categories, setCategories] = React.useState<{label: string, value: string} []>([])
+	const [categories, setCategories] = React.useState<
+		{ label: string; value: string }[]
+	>([])
 	React.useEffect(() => {
 		const fetchData = async () => {
 			const service = CategoryService.getInstance()
 			const data = await service.getAll(user.id)
-			const categories = data.filter(category => category != null)
-			 .filter(category => category.name != null)
-			 .filter(category => category.id != null)
-			 .map(category => {
-				return { label: category.name, value: category.id }
-			}) as {label: string, value: string} []
+			const categories = data
+				.filter(category => category != null)
+				.filter(category => category.name != null)
+				.filter(category => category.id != null)
+				.map(category => {
+					return { label: category.name, value: category.id }
+				}) as { label: string; value: string }[]
 			setCategories(categories)
 		}
 		fetchData()
 	}, [user.id])
 
-
-	const [standingOrder, setStandingOrderForm] = React.useState(props.route.params?.standingOrder)
+	const [standingOrder, setStandingOrderForm] = React.useState(
+		props.route.params?.standingOrder
+	)
 	const handleSubmit = (values: FormProps) => {
-
 		const service = TransactionService.getInstance()
-		const transactionTypeKey = Object.keys(TransactionTypes).find(key => TransactionTypes[key as keyof typeof TransactionTypes] === values.type);
+		const transactionTypeKey = Object.keys(TransactionTypes).find(
+			key =>
+				TransactionTypes[key as keyof typeof TransactionTypes] === values.type
+		)
 
 		if (props.route.params?.isEdit) {
 			service.update(
@@ -136,35 +161,37 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 				values.date,
 				values.description,
 				values.position.lat,
-				values.position.lon,
+				values.position.lon
 			)
 		} else {
-		  service.create(
-				account.id,
-				values.assetId,
-				values.category,
-				values.receiver,
-				transactionTypeKey as keyof typeof TransactionTypes,
-				values.amount,
-				values.date,
-				values.description,
-				values.position.lat,
-				values.position.lon,
-			).then((transaction) => {
-				if (standingOrder) {
-					service.createStandingOrder(
-						user.id,
-						transaction.id,
-						standingOrder.frequency,
-						standingOrder.startDate,
-						standingOrder.endDate,
-						parseInt(standingOrder.daysForRemind)
-					)
-				}
-			})
-			
+			service
+				.create(
+					account.id,
+					values.assetId,
+					values.category,
+					values.receiver,
+					transactionTypeKey as keyof typeof TransactionTypes,
+					values.amount,
+					values.date,
+					values.description,
+					values.position.lat,
+					values.position.lon
+				)
+				.then(transaction => {
+					if (standingOrder) {
+						service.createStandingOrder(
+							user.id,
+							transaction.id,
+							standingOrder.frequency,
+							standingOrder.startDate,
+							standingOrder.endDate,
+							parseInt(standingOrder.daysForRemind)
+						)
+					}
+				})
 		}
 
+		props.route.params?.setRerender(Math.random())
 		props.navigation.replace(Pages.HOME_PAGE)
 	}
 
@@ -173,7 +200,6 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 		props.navigation.navigate(Pages.STANDING_ORDER_EDITOR, {
 			transactionId: isEdit ? transactionForm.id : null,
 		})
-
 	}
 
 	const validationSchema = Yup.object().shape({
@@ -190,6 +216,7 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 	const handleDeletion = () => {
 		const service = TransactionService.getInstance()
 		service.delete(transactionForm.id, user.id)
+		props.route.params?.setRerender(Math.random())
 		props.navigation.replace(Pages.HOME_PAGE)
 	}
 
@@ -212,7 +239,8 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 						type: transactionForm.type || TransactionTypes.EXPENSE,
 						amount: transactionForm.amount || 0,
 						category: transactionForm.category?.name || '',
-						currency: (account.currency || Currencies.CZK.name) as keyof typeof Currencies,
+						currency: (account.currency ||
+							Currencies.CZK.name) as keyof typeof Currencies,
 						date: transactionForm.executionDateTime || new Date(),
 						position: { lat: transactionForm.lat, lon: transactionForm.lon },
 						description: transactionForm.note || '',
@@ -233,16 +261,14 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 										callback={props.handleChange('type')}
 									/>
 								</View>
-								{
-									props.values.type === TransactionTypes.TRANSFER ?
-										<DropDown
-											placeholder={language.CHOOSE_RECEIVER}
-											items={receivers}
-											handleChange={props.handleChange('receiver')}
-											error={props.errors.receiver}
-										/>
-									: null
-								}
+								{props.values.type === TransactionTypes.TRANSFER ? (
+									<DropDown
+										placeholder={language.CHOOSE_RECEIVER}
+										items={receivers}
+										handleChange={props.handleChange('receiver')}
+										error={props.errors.receiver}
+									/>
+								) : null}
 
 								<TextField
 									value={props.values.amount.toString()}

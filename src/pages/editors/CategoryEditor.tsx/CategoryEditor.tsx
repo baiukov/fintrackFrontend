@@ -28,7 +28,9 @@ export const CategoryEditor = (props: CategoryEditorProps) => {
 	const language = useStore((state: any) => state.language)
 	const user = useStore((state: any) => state.user)
 
-	const [categoryForm, setCategoryForm] = React.useState(props.route.params?.categoryForm || {} as Category)
+	const [categoryForm, setCategoryForm] = React.useState(
+		props.route.params?.categoryForm || ({} as Category)
+	)
 
 	const validationSchema = Yup.object().shape({
 		name: Yup.string().required(language.MISSING_NAME),
@@ -45,6 +47,7 @@ export const CategoryEditor = (props: CategoryEditorProps) => {
 			service.create(user.id, values.name, values.emoji)
 		}
 
+		props.route.params?.setRerender(Math.random())
 		props.navigation.replace(Pages.CATEGORIES)
 	}
 
@@ -73,6 +76,7 @@ export const CategoryEditor = (props: CategoryEditorProps) => {
 			service.delete(categoryForm.id, user.id)
 		}
 
+		props.route.params?.setRerender(Math.random())
 		props.navigation.replace(Pages.CATEGORIES)
 	}
 

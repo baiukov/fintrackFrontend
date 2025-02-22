@@ -32,13 +32,13 @@ interface FormProps {
 export const AccountEditorPage1 = (props: AccountEditorProps) => {
 	const language = useStore((state: any) => state.language)
 
-	const [accountForm, setAccountForm] = React.useState(props.route.params?.accountForm 
-		|| {} as Account)
+	const [accountForm, setAccountForm] = React.useState(
+		props.route.params?.accountForm || ({} as Account)
+	)
 
 	const validationSchema = Yup.object().shape({
 		title: Yup.string().required(language.MISSING_TITLE),
-		type: Yup.string()
-			.required(language.MISSING_ACCOUNT_TYPE),
+		type: Yup.string().required(language.MISSING_ACCOUNT_TYPE),
 		emoji: Yup.string().required(language.MISSING_ICON),
 	})
 
@@ -47,12 +47,19 @@ export const AccountEditorPage1 = (props: AccountEditorProps) => {
 	})
 
 	const handleSubmit = (values: FormProps) => {
-		const updatedForm = { ...accountForm, name: values.title, type: values.type, emoji: values.emoji, isBusiness: values.isBusiness }
+		const updatedForm = {
+			...accountForm,
+			name: values.title,
+			type: values.type,
+			emoji: values.emoji,
+			isBusiness: values.isBusiness,
+		}
 
 		setTimeout(() => {
 			props.navigation.navigate(Pages.ACCOUNT_EDITOR2, {
 				accountForm: updatedForm,
 				isEdit: props.route.params?.isEdit || false,
+				setRerender: props.route.params?.setRerender,
 			})
 		}, 0)
 	}
@@ -108,7 +115,11 @@ export const AccountEditorPage1 = (props: AccountEditorProps) => {
 								<DropDown
 									placeholder={language.SELECT_ACCOUNT_TYPE}
 									items={accountTypes}
-									currentValue={AccountTypes[props.values.type as unknown as keyof typeof AccountTypes]}
+									currentValue={
+										AccountTypes[
+											props.values.type as unknown as keyof typeof AccountTypes
+										]
+									}
 									handleChange={props.handleChange('type')}
 									error={props.errors.type}
 								/>

@@ -19,21 +19,22 @@ export const Categories = (props: any) => {
 	const service = CategoryService.getInstance()
 
 	const [categories, setCategories] = useState<Category[]>([])
+	const [rerender, setRerender] = useState(0)
 
 	useEffect(() => {
 		const fetchData = () => {
-			service.getAll(user.id).then((data) => {
+			service.getAll(user.id).then(data => {
 				setCategories(data)
 			})
 		}
 		fetchData()
-
-	}, [user.id])
+	}, [user.id, rerender])
 
 	const transferToCategoryEditor = (category?: Category) => {
 		props.navigation.navigate(Pages.CATEGORY_EDITOR, {
 			categoryForm: category,
-			isEdit: !!category
+			isEdit: !!category,
+			setRerender: setRerender,
 		})
 	}
 
@@ -49,24 +50,26 @@ export const Categories = (props: any) => {
 					<Text style={GlobalStyles.header}>{`${language.CATEGORIES}`}</Text>
 				</View>
 				<ScrollView>
-					{
-						categories.map((category) => { 
-							return (
-								<MenuItem
-									icon={Icons.EDIT}
-									emoji={category.icon}
-									title={category.name}
-									callback={() => {transferToCategoryEditor(category)}}
-								/>
-							)
-						})
-					}
+					{categories.map(category => {
+						return (
+							<MenuItem
+								icon={Icons.EDIT}
+								emoji={category.icon}
+								title={category.name}
+								callback={() => {
+									transferToCategoryEditor(category)
+								}}
+							/>
+						)
+					})}
 				</ScrollView>
 				<View style={[GlobalStyles.center, GlobalStyles.bottomMenu]}>
 					<MainButton
 						title={language.ADD_CATEGORY}
 						variant={Buttons.PRIMARY}
-						callback={() => {transferToCategoryEditor()}}
+						callback={() => {
+							transferToCategoryEditor()
+						}}
 					/>
 				</View>
 			</LinearGradient>
