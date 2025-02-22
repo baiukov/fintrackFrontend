@@ -76,6 +76,7 @@ export const AccountEditorPage3 = (props: AccountEditorProps) => {
 		}
 
 		props.route.params?.setRerender(Math.random())
+		console.log(props.route.params?.setRerender)
 		props.navigation.replace(Pages.MAIN_MENU, {
 			accountForm: accountForm,
 		})

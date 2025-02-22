@@ -21,10 +21,13 @@ export const Accounts: React.FC = (props: any) => {
 
 	React.useEffect(() => {
 		const fetchData = () => {
-			const service = GroupService.getInstance()
-			service.getAll(user.id).then(data => {
-				setGroups(data)
-			})
+			const timeout = rerender === 0 ? 0 : 5000
+			setTimeout(() => {
+				const service = GroupService.getInstance()
+				service.getAll(user.id).then(data => {
+					setGroups(data)
+				})
+			}, timeout)
 		}
 		fetchData()
 	}, [user.id, rerender])
