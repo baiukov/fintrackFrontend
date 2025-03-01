@@ -1,4 +1,8 @@
 import Constants from 'expo-constants'
+import * as FileSystem from 'expo-file-system'
+import * as IntentLauncher from 'expo-intent-launcher'
+import * as Sharing from 'expo-sharing'
+import { Alert, Platform } from 'react-native'
 import { Endpoints } from '../enums/Endpoints'
 import { Account } from '../model/Account'
 import { Group } from '../model/Group'
@@ -95,9 +99,13 @@ export class AccountService extends Service {
 		return response.data
 	}
 
-	public async fetchByUserIdAndAccountName(userId: string, name: string, limit: number) 
-	{ 
-		const uri = this.baseUrl + Endpoints.FETCH_ACCOUNT_BY_USER_ID_AND_ACCOUNT_NAME
+	public async fetchByUserIdAndAccountName(
+		userId: string,
+		name: string,
+		limit: number
+	) {
+		const uri =
+			this.baseUrl + Endpoints.FETCH_ACCOUNT_BY_USER_ID_AND_ACCOUNT_NAME
 		const response = await this.api.get(uri, {
 			params: {
 				userId,
@@ -118,7 +126,7 @@ export class AccountService extends Service {
 		interestRate: number,
 		goalAmount: number,
 		alreadyPaidAmount: number,
-		emoji: string,
+		emoji: string
 	): Promise<Account> {
 		const uri = this.baseUrl + Endpoints.ADD_ACCOUNT
 		const removed = false
@@ -132,7 +140,7 @@ export class AccountService extends Service {
 			goalAmount,
 			alreadyPaidAmount,
 			emoji,
-			removed
+			removed,
 		})
 
 		return response.data
@@ -148,7 +156,7 @@ export class AccountService extends Service {
 		interestRate: number,
 		goalAmount: number,
 		alreadyPaidAmount: number,
-		emoji: string,
+		emoji: string
 	): Promise<Account> {
 		const uri = this.baseUrl + Endpoints.UPDATE_ACCOUNT
 		const removed = false
@@ -163,7 +171,7 @@ export class AccountService extends Service {
 			goalAmount,
 			alreadyPaidAmount,
 			emoji,
-			removed
+			removed,
 		})
 
 		return response.data
@@ -181,7 +189,7 @@ export class AccountService extends Service {
 		return response.data
 	}
 
-	public async getAllWhereIsOwner(userId: string): Promise<Account[]> { 
+	public async getAllWhereIsOwner(userId: string): Promise<Account[]> {
 		const uri = this.baseUrl + Endpoints.GET_ALL_WHERE_IS_OWNER
 		const response = await this.api.get(uri, {
 			params: {
@@ -192,4 +200,39 @@ export class AccountService extends Service {
 		return response.data
 	}
 
+	public async getGeneralStatement(accountId: string, lang: string) {
+		try {
+			const fileUri = `${
+				FileSystem.documentDirectory
+			}${'general-statement.xlsx'}`
+
+			const url = this.baseUrl + Endpoints.GET_GENERAL_STATEMENT
+			const downloadResumable = FileSystem.createDownloadResumable(url, fileUri)
+			const result = await downloadResumable.downloadAsync()
+
+			// Проверяем, что файл действительно скачался
+			if (!result || !result.uri) {
+				throw new Error('Ошибка загрузки файла.')
+			}
+
+			console.log('Файл загружен:', result.uri)
+
+			if (Platform.OS === 'ios') {
+				const available = await Sharing.isAvailableAsync()
+				if (available) {
+					await Sharing.shareAsync(result.uri)
+				} else {
+					Alert.alert('Error', 'Cant open file on this device')
+				}
+			} else {
+				await IntentLauncher.startActivityAsync('android.intent.action.VIEW', {
+					data: result.uri,
+					flags: 1,
+				})
+			}
+		} catch (error) {
+			console.error('Error when open file', error)
+			Alert.alert('Error', 'Cant open file on this device')
+		}
+	}
 }
