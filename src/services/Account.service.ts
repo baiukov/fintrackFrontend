@@ -12,6 +12,7 @@ export class AccountService extends Service {
 	protected static instance: AccountService | null = null
 
 	protected baseUrl: string = Constants.expoConfig?.extra?.API_URL + '/account'
+	protected tinkUrl: string = Constants.expoConfig?.extra?.API_URL + '/tink'
 
 	private constructor() {
 		super()
@@ -210,12 +211,9 @@ export class AccountService extends Service {
 			const downloadResumable = FileSystem.createDownloadResumable(url, fileUri)
 			const result = await downloadResumable.downloadAsync()
 
-			// Проверяем, что файл действительно скачался
 			if (!result || !result.uri) {
 				throw new Error('Ошибка загрузки файла.')
 			}
-
-			console.log('Файл загружен:', result.uri)
 
 			if (Platform.OS === 'ios') {
 				const available = await Sharing.isAvailableAsync()
@@ -234,5 +232,30 @@ export class AccountService extends Service {
 			console.error('Error when open file', error)
 			Alert.alert('Error', 'Cant open file on this device')
 		}
+	}
+
+	public async getBankAccounts(accountId: string) {
+		const uri = this.baseUrl + Endpoints.GET_BANK_ACCOUNTS
+
+		const response = await this.api.get(uri, {
+			params: {
+				accountId,
+			},
+		})
+
+		return response.data
+	}
+
+	public async setAccountInitialAmount(id: string, initialAmount: number) {
+		const uri = this.baseUrl + Endpoints.SET_ACCOUNT_INITIAL_AMOUNT
+
+		const response = await this.api.patch(uri, {
+			params: {
+				id,
+				initialAmount,
+			},
+		})
+
+		return response.data
 	}
 }

@@ -15,7 +15,6 @@ import { GroupEditorPage2 } from '../pages/editors/GroupEditor/GroupEditorPage2'
 import { GroupEditorPage3 } from '../pages/editors/GroupEditor/GroupEditorPage3'
 import { StandingOrderEditor } from '../pages/editors/StandingOrderEditor/StandingOrderEditor'
 import { TransactionEditor } from '../pages/editors/TransactionEditor/TransactionEditor'
-import { FetchBank } from '../pages/fetchBanks/FetchBank'
 import { GeneralStatement } from '../pages/generalStatement/GeneralStatement'
 import { Graph } from '../pages/graph/Graph'
 import { HomePage } from '../pages/home/HomePage'
@@ -24,6 +23,7 @@ import { MainPage } from '../pages/main/MainPage'
 import { MainMenuPage } from '../pages/mainMenuPage/MainMenuPage'
 import { PincodePage } from '../pages/pincode/PincodePage'
 import { Settings } from '../pages/settings/Settings'
+import { ChooseAccount } from '../pages/settings/chooseAccount/ChooseAccount'
 import { SignupPage } from '../pages/signup/SignupPage'
 
 const Stack = createStackNavigator()
@@ -71,10 +71,7 @@ export default function navigate() {
 					component={AccountEditorPage3}
 				/>
 
-				<Stack.Screen
-					name={Pages.FETCH_BANKS}
-					component={FetchBank}
-				/>
+				<Stack.Screen name={Pages.FETCH_BANKS} component={ChooseAccount} />
 
 				<Stack.Screen name={Pages.ASSET_EDITOR} component={AssetEditorPage1} />
 				<Stack.Screen name={Pages.ASSET_EDITOR2} component={AssetEditorPage2} />
