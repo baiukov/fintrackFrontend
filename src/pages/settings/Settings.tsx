@@ -9,13 +9,18 @@ import { Buttons } from '../../enums/Buttons'
 import { Currencies } from '../../enums/Currencies'
 import { Pages } from '../../enums/Pages'
 import { Messages } from '../../language/Messages'
+import { AccountService } from '../../services/Account.service'
 import { useStore } from '../../storage/store'
 import { GlobalStyles } from '../../styles/GlobalStyles.styles'
 import { styles } from './Settings.styles'
 
 export const Settings = (props: any) => {
-	const [language, setLanguage] = React.useState(useStore((state: any) => state.language))
-
+	const [language, setLanguage] = React.useState(
+		useStore((state: any) => state.language)
+	)
+	const [account, setAccount] = React.useState(
+		useStore((state: any) => state.account)
+	)
 
 	const currencies = Object.values(Currencies).map(currency => {
 		return { label: currency.name, value: currency.name }
@@ -30,7 +35,12 @@ export const Settings = (props: any) => {
 	}
 
 	const transferToGeneralStatement = () => {
-		props.navigation.navigate(Pages.GENERAL_STATEMENT)
+		// props.navigation.navigate(Pages.GENERAL_STATEMENT)
+
+		AccountService.getInstance().getGeneralStatement(
+			account.id,
+			language.LANGUAGE_NAME
+		)
 	}
 
 	const transferToSetPincode = () => {
@@ -75,7 +85,9 @@ export const Settings = (props: any) => {
 					items={languages}
 					handleChange={(newValue: string) => {
 						setLanguage(Messages[newValue as keyof typeof Messages])
-						useStore.setState({ language: Messages[newValue as keyof typeof Messages] })
+						useStore.setState({
+							language: Messages[newValue as keyof typeof Messages],
+						})
 					}}
 				/>
 				<View style={{ gap: 20 }}>
@@ -129,10 +141,10 @@ export const Settings = (props: any) => {
 					</View>
 
 					<MainButton
-							title={language.LEAVE}
-							variant={Buttons.SECONDARY}
-							callback={leave}
-						/>
+						title={language.LEAVE}
+						variant={Buttons.SECONDARY}
+						callback={leave}
+					/>
 				</View>
 			</LinearGradient>
 		</View>

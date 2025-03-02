@@ -37,4 +37,7 @@ export enum Endpoints {
 	GET_STANDING_ORDER = '/standingOrder/get',
 	VERIFY_PINCODE = '/verifyPincode',
 	GENERATE_LINK = '/generate-link',
+	GET_GENERAL_STATEMENT = '/general-statement',
+	GET_BANK_ACCOUNTS = '/getBankAccounts',
+	SET_ACCOUNT_INITIAL_AMOUNT = '/updateInitialAmount',
 }

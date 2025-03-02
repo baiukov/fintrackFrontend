@@ -19,18 +19,17 @@ export class TinkService extends Service {
 		return TinkService.instance
 	}
 
-	public async fetchUrl(userId: string): Promise<string | undefined> { 
+	public async fetchUrl(accountId: string): Promise<string | undefined> {
 		try {
 			const uri = this.baseUrl + Endpoints.GENERATE_LINK
 			const response = await this.api.get(uri, {
 				params: {
-					userId: userId
-				}
+					accountId: accountId,
+				},
 			})
 			return response.data
 		} catch (error) {
-			console.error("Error getting auth URL", error);
+			console.error('Error getting auth URL', error)
 		}
 	}
-
 }

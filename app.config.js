@@ -1,4 +1,4 @@
-const ENV = 'production'
+const ENV = 'local'
 
 const ENV_CONFIG = {
 	production: {
