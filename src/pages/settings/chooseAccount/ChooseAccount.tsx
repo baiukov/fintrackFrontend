@@ -3,6 +3,7 @@ import React from 'react'
 import { Text, View } from 'react-native'
 import WebView from 'react-native-webview'
 import { BankAccount } from '../../../components/ui/bankAccount/BankAccount'
+import { Pages } from '../../../enums/Pages'
 import { BankAccountType } from '../../../model/BankAccountType'
 import { AccountService } from '../../../services/Account.service'
 import { TinkService } from '../../../services/Tinks.service'
@@ -16,7 +17,7 @@ interface BankAccountResponse {
 	accounts: BankAccountType[]
 }
 
-export const ChooseAccount = () => {
+export const ChooseAccount = (props: any) => {
 	const [language, setLanguage] = React.useState(
 		useStore((state: any) => state.language)
 	)
@@ -32,8 +33,7 @@ export const ChooseAccount = () => {
 
 	React.useEffect(() => {
 		const service = TinkService.getInstance()
-		service.fetchUrl(user.id).then((url: string | undefined) => {
-			console.log(url)
+		service.fetchUrl(account.id).then((url: string | undefined) => {
 			setAuthUrl(url || '')
 		})
 	})
@@ -41,27 +41,29 @@ export const ChooseAccount = () => {
 	const service = AccountService.getInstance()
 	React.useEffect(() => {
 		const fetchData = async () => {
-			const response = (await service.getBankAccounts(
-				account.id
-			)) as BankAccountResponse
+			setTimeout(async () => {
+				const response = (await service.getBankAccounts(
+					account.id
+				)) as BankAccountResponse
 
-			console.log(response)
-			if (!response.areAccountsLoaded) {
-				setTimeout(() => fetchData(), 10 * 1000)
-			} else {
-				setAccounts(response.accounts)
-			}
+				console.log(response)
+				if (!response.areAccountsLoaded) {
+					fetchData()
+				} else {
+					setAccounts(response.accounts)
+				}
+			}, 10 * 1000)
 		}
 
-		console.log('here')
 		fetchData()
 	}, [account.id])
 
 	const setAccountInitialAmount = async (initialAmount: number) => {
-		const response = (await service.setAccountInitialAmount(
-			account.id,
-			initialAmount
-		)) as BankAccountResponse
+		await service.setAccountInitialAmount(account.id, initialAmount)
+		props.navigation.reset({
+			index: 0,
+			routes: [{ name: Pages.HOME_PAGE }],
+		})
 	}
 
 	return (

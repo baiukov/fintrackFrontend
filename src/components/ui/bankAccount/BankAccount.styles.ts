@@ -14,14 +14,9 @@ export const styles = StyleSheet.create({
 	},
 
 	title: {
-		fontSize: 20,
+		fontSize: 16,
 		color: 'white',
 		fontWeight: 'bold',
-	},
-
-	description: {
-		fontSize: 15,
-		color: 'rgba(255, 255, 255, 0.5)',
 	},
 
 	innerContainer: {
@@ -32,8 +27,8 @@ export const styles = StyleSheet.create({
 	},
 
 	amount: {
+		opacity: 0.8,
 		color: 'white',
-		fontWeight: 'bold',
 	},
 
 	titleWrapper: {

@@ -235,7 +235,7 @@ export class AccountService extends Service {
 	}
 
 	public async getBankAccounts(accountId: string) {
-		const uri = this.baseUrl + Endpoints.GET_BANK_ACCOUNTS
+		const uri = this.tinkUrl + Endpoints.GET_BANK_ACCOUNTS
 
 		const response = await this.api.get(uri, {
 			params: {
@@ -247,13 +247,11 @@ export class AccountService extends Service {
 	}
 
 	public async setAccountInitialAmount(id: string, initialAmount: number) {
-		const uri = this.baseUrl + Endpoints.SET_ACCOUNT_INITIAL_AMOUNT
+		const uri = this.baseUrl + Endpoints.UPDATE_ACCOUNT
 
 		const response = await this.api.patch(uri, {
-			params: {
-				id,
-				initialAmount,
-			},
+			id,
+			initialAmount,
 		})
 
 		return response.data
