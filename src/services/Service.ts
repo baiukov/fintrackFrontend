@@ -3,7 +3,7 @@ import Constants from 'expo-constants'
 
 export abstract class Service {
 	protected api: AxiosInstance
-	protected baseUrl: string = Constants.expoConfig?.extra?.API_URL
+	protected baseUrl: string = Constants.expoConfig?.extra?.env?.API_URL
 
 	protected constructor() {
 		this.api = axios.create({

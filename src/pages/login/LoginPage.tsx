@@ -26,7 +26,10 @@ export const LoginPage = (props: any) => {
 		props.navigation.replace(Pages.SIGNUP)
 	}
 
-	const handleSubmit = async (values: { login: string; password: string }, {setFieldError}: any) => {
+	const handleSubmit = async (
+		values: { login: string; password: string },
+		{ setFieldError }: any
+	) => {
 		const service = UserService.getInstance()
 
 		const errors = {
@@ -36,30 +39,30 @@ export const LoginPage = (props: any) => {
 
 		setLoading(true)
 		try {
-			await service.login(
-				values.login,
-				values.login,
-				values.password
-			).then((user) => {
-				useStore.setState({ user: user })
-				if (user.hasPincode) {
-					props.navigation.navigate(Pages.PINCODE, {
-						isLogin: true,
-					})
-				} else {
-					props.navigation.reset({
-						index: 0,
-						routes: [{ name: Pages.MAIN_MENU }],
-					})
-				}
-			}).catch((error) => { 
-				const response = error.response.data
-				if (response === 'USER_DOESNT_EXIST') {
-					setFieldError('login', errors[response as keyof typeof errors])	
-				} else {
-					setFieldError('password', errors[response as keyof typeof errors])
-				}
-			})
+			console.log('try')
+			await service
+				.login(values.login, values.login, values.password)
+				.then(user => {
+					useStore.setState({ user: user })
+					if (user.hasPincode) {
+						props.navigation.navigate(Pages.PINCODE, {
+							isLogin: true,
+						})
+					} else {
+						props.navigation.reset({
+							index: 0,
+							routes: [{ name: Pages.MAIN_MENU }],
+						})
+					}
+				})
+				.catch(error => {
+					const response = error.response.data
+					if (response === 'USER_DOESNT_EXIST') {
+						setFieldError('login', errors[response as keyof typeof errors])
+					} else {
+						setFieldError('password', errors[response as keyof typeof errors])
+					}
+				})
 		} catch (error) {
 			console.error('Login failed:', error)
 		} finally {

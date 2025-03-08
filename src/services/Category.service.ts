@@ -6,7 +6,8 @@ import { Service } from './Service'
 export class CategoryService extends Service {
 	protected static instance: CategoryService | null = null
 
-	protected baseUrl: string = Constants.expoConfig?.extra?.API_URL + '/category'
+	protected baseUrl: string =
+		Constants.expoConfig?.extra?.env?.API_URL + '/category'
 
 	private constructor() {
 		super()
@@ -54,7 +55,7 @@ export class CategoryService extends Service {
 			params: {
 				categoryId,
 				userId,
-			}
+			},
 		})
 
 		return response.data

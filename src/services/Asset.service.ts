@@ -6,7 +6,8 @@ import { Service } from './Service'
 export class AssetService extends Service {
 	protected static instance: AssetService | null = null
 
-	protected baseUrl: string = Constants.expoConfig?.extra?.API_URL + '/asset'
+	protected baseUrl: string =
+		Constants.expoConfig?.extra?.env?.API_URL + '/asset'
 
 	private constructor() {
 		super()
@@ -30,7 +31,7 @@ export class AssetService extends Service {
 		depreciationPrice: number,
 		startDateStr: string,
 		endDateStr: string,
-		icon: string,
+		icon: string
 	): Promise<void> {
 		const uri = this.baseUrl + Endpoints.UPDATE_ASSET
 		const response = await this.api.patch(uri, {
@@ -58,7 +59,7 @@ export class AssetService extends Service {
 		depreciationPrice: number,
 		startDateStr: string,
 		endDateStr: string,
-		icon: string,
+		icon: string
 	): Promise<void> {
 		const uri = this.baseUrl + Endpoints.ADD_ASSET
 		const response = await this.api.post(uri, {
@@ -86,7 +87,7 @@ export class AssetService extends Service {
 		})
 
 		return response.data
-	} 
+	}
 
 	public async getAll(userId: string): Promise<Asset[]> {
 		const uri = this.baseUrl + Endpoints.GET_ALL_ASSETS

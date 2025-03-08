@@ -7,7 +7,8 @@ import { Service } from './Service'
 export class TransactionService extends Service {
 	protected static instance: TransactionService | null = null
 
-	protected baseUrl: string = Constants.expoConfig?.extra?.API_URL + '/transaction'
+	protected baseUrl: string =
+		Constants.expoConfig?.extra?.env?.API_URL + '/transaction'
 
 	private constructor() {
 		super()
@@ -31,7 +32,7 @@ export class TransactionService extends Service {
 		executionDateTime: Date | undefined,
 		note: string,
 		lat: number,
-		lon: number,
+		lon: number
 	): Promise<Transaction> {
 		const uri = this.baseUrl + Endpoints.CREATE_TRANSACTION
 		const response = await this.api.post(uri, {
@@ -60,7 +61,7 @@ export class TransactionService extends Service {
 		executionDateTime: Date | undefined,
 		note: string,
 		lat: number,
-		lon: number,
+		lon: number
 	): Promise<void> {
 		const uri = this.baseUrl + Endpoints.UPDATE_TRANSACTION
 		const response = await this.api.patch(uri, {
@@ -84,7 +85,7 @@ export class TransactionService extends Service {
 		const response = await this.api.delete(uri, {
 			params: {
 				transactionId,
-				userId
+				userId,
 			},
 		})
 
@@ -101,7 +102,11 @@ export class TransactionService extends Service {
 		return response.data
 	}
 
-	public async getAllIncomes(accountId: string, fromDate?: string, toDate?: string) {
+	public async getAllIncomes(
+		accountId: string,
+		fromDate?: string,
+		toDate?: string
+	) {
 		const uri = this.baseUrl + Endpoints.GET_ALL_INCOMES
 		const response = await this.api.get(uri, {
 			params: {
@@ -113,7 +118,11 @@ export class TransactionService extends Service {
 		return response.data
 	}
 
-	public async getAllExpenses(accountId: string, fromDate?: string, toDate?: string) {
+	public async getAllExpenses(
+		accountId: string,
+		fromDate?: string,
+		toDate?: string
+	) {
 		const uri = this.baseUrl + Endpoints.GET_ALL_EXPENSES
 		const response = await this.api.get(uri, {
 			params: {
@@ -140,7 +149,7 @@ export class TransactionService extends Service {
 			frequency,
 			startDate,
 			endDate,
-			remindDaysBefore
+			remindDaysBefore,
 		})
 		return response.data
 	}
@@ -160,7 +169,7 @@ export class TransactionService extends Service {
 			frequency,
 			startDate,
 			endDate,
-			remindDaysBefore
+			remindDaysBefore,
 		})
 		return response.data
 	}
@@ -184,5 +193,4 @@ export class TransactionService extends Service {
 		})
 		return response.data
 	}
-
 }

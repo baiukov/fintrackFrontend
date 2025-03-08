@@ -11,8 +11,10 @@ import { Service } from './Service'
 export class AccountService extends Service {
 	protected static instance: AccountService | null = null
 
-	protected baseUrl: string = Constants.expoConfig?.extra?.API_URL + '/account'
-	protected tinkUrl: string = Constants.expoConfig?.extra?.API_URL + '/tink'
+	protected baseUrl: string =
+		Constants.expoConfig?.extra?.env?.API_URL + '/account'
+	protected tinkUrl: string =
+		Constants.expoConfig?.extra?.env?.API_URL + '/tink'
 
 	private constructor() {
 		super()

@@ -6,7 +6,8 @@ import { Service } from './Service'
 export class UserService extends Service {
 	protected static instance: UserService | null = null
 
-	protected baseUrl: string = Constants.expoConfig?.extra?.API_URL + '/user'
+	protected baseUrl: string =
+		Constants.expoConfig?.extra?.env?.API_URL + '/user'
 
 	private constructor() {
 		super()
@@ -43,6 +44,7 @@ export class UserService extends Service {
 		login: string | null,
 		password: string
 	) {
+		console.log(Constants.expoConfig)
 		console.log(Constants.expoConfig?.extra)
 		const uri = this.baseUrl + Endpoints.LOGIN
 		const response = await this.api.post(uri, {

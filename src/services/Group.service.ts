@@ -6,7 +6,8 @@ import { Service } from './Service'
 export class GroupService extends Service {
 	protected static instance: GroupService | null = null
 
-	protected baseUrl: string = Constants.expoConfig?.extra?.API_URL + '/group'
+	protected baseUrl: string =
+		Constants.expoConfig?.extra?.env?.API_URL + '/group'
 
 	private constructor() {
 		super()
@@ -21,37 +22,37 @@ export class GroupService extends Service {
 	}
 
 	public async add(
-		id: string | null, 
-		name: string, 
-		adminId: string, 
-		memberIds: string[], 
+		id: string | null,
+		name: string,
+		adminId: string,
+		memberIds: string[],
 		accountIds: string[]
 	): Promise<Group> {
 		const uri = this.baseUrl + Endpoints.ADD_GROUP
 		const response = await this.api.post(uri, {
-				id,
-				name,
-				adminId,
-				memberIds,
-				accountIds
+			id,
+			name,
+			adminId,
+			memberIds,
+			accountIds,
 		})
 		return response.data
 	}
 
 	public async update(
-		id: string | null, 
-		name: string, 
-		adminId: string, 
-		memberIds: string[], 
-		accountIds: string[],
+		id: string | null,
+		name: string,
+		adminId: string,
+		memberIds: string[],
+		accountIds: string[]
 	): Promise<Group> {
 		const uri = this.baseUrl + Endpoints.UPDATE_GROUP
 		const response = await this.api.patch(uri, {
-				id,
-				name,
-				adminId,
-				memberIds,
-				accountIds,
+			id,
+			name,
+			adminId,
+			memberIds,
+			accountIds,
 		})
 		return response.data
 	}
@@ -65,5 +66,4 @@ export class GroupService extends Service {
 		})
 		return response.data
 	}
-
 }

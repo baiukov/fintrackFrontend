@@ -5,7 +5,8 @@ import { Service } from './Service'
 export class TinkService extends Service {
 	protected static instance: TinkService | null = null
 
-	protected baseUrl: string = Constants.expoConfig?.extra?.API_URL + '/tink'
+	protected baseUrl: string =
+		Constants.expoConfig?.extra?.env?.API_URL + '/tink'
 
 	private constructor() {
 		super()
