@@ -70,7 +70,10 @@ export const AssetEditorPage3 = (props: AssetEditorProps) => {
 				updatedForm.endDate,
 				updatedForm.emoji
 			)
-			props.navigation.replace(Pages.MAIN_MENU)
+			props.navigation.reset({
+				index: 0,
+				routes: [{ name: Pages.MAIN_MENU }],
+			})
 		} else {
 			service.add(
 				user.id,
@@ -86,15 +89,23 @@ export const AssetEditorPage3 = (props: AssetEditorProps) => {
 		}
 
 		setTimeout(() => {
-			props.navigation.replace(Pages.MAIN_MENU)
+			props.navigation.reset({
+				index: 0,
+				routes: [{ name: Pages.MAIN_MENU }],
+			})
 		}, 0)
 	}
 
 	const handleDeletion = () => {
 		service.delete(assetForm.id, user.id)
 		props.route.params?.setRerender(Math.random())
-		props.navigation.replace(Pages.MAIN_MENU)
+		props.navigation.reset({
+			index: 0,
+			routes: [{ name: Pages.MAIN_MENU }],
+		})
 	}
+
+	console.log(assetForm.depreciationBasis)
 
 	return (
 		<View style={GlobalStyles.page}>
@@ -111,9 +122,9 @@ export const AssetEditorPage3 = (props: AssetEditorProps) => {
 
 				<Formik
 					initialValues={{
-						basis: assetForm.deprecitationPrice || null,
-						startDate: assetForm.startDate || new Date(),
-						endDate: assetForm.endDate || new Date(),
+						basis: assetForm.depreciationBasis || null,
+						startDate: new Date(assetForm.startDate) || new Date(),
+						endDate: new Date(assetForm.endDate) || new Date(),
 					}}
 					validationSchema={validationSchema}
 					onSubmit={handleSubmit}

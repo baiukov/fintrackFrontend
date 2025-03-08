@@ -88,8 +88,9 @@ export const GroupEditorPage3 = (props: GroupEditorProps) => {
 		}
 
 		props.route.params?.setRerender(Math.random() + 1)
-		props.navigation.replace(Pages.MAIN_MENU, {
-			groupForm: updatedGroupForm,
+		props.navigation.reset({
+			index: 0,
+			routes: [{ name: Pages.MAIN_MENU }],
 		})
 	}
 
@@ -106,7 +107,6 @@ export const GroupEditorPage3 = (props: GroupEditorProps) => {
 		const alreadySelectedUsers = selectedUsers.filter(
 			(currentUser: User) => currentUser?.id !== key
 		)
-		console.log('removed', alreadySelectedUsers)
 		setSelectedUsers(alreadySelectedUsers)
 	}
 

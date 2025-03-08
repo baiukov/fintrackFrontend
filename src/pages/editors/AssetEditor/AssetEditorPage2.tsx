@@ -36,6 +36,8 @@ export const AssetEditorPage2 = (props: AccountEditorProps) => {
 		props.route.params?.assetForm || ({} as Asset)
 	)
 
+	console.log('form', props.route.params?.assetForm)
+
 	const handleSubmit = (values: FormProps) => {
 		const updatedForm = {
 			...assetForm,
@@ -68,10 +70,10 @@ export const AssetEditorPage2 = (props: AccountEditorProps) => {
 
 	const acquisitionPrice = assetForm.acquisitionPrice
 	const deprecitationPrice = assetForm.depreciationPrice
-	const showAcquisitionPriceError =
-		acquisitionPrice === 0 ? '' : acquisitionPrice
-	const shownDepreciationPriceError =
-		deprecitationPrice === 0 ? '' : deprecitationPrice
+	const showAcquisitionPriceError: string =
+		acquisitionPrice === 0 ? '' : acquisitionPrice.toString()
+	const shownDepreciationPriceError: string =
+		deprecitationPrice === 0 ? '' : deprecitationPrice.toString()
 
 	return (
 		<View style={GlobalStyles.page}>
