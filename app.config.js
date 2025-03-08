@@ -25,6 +25,10 @@ export default () => {
 				package: 'me.vse.fintrack',
 				versionCode: 2,
 			},
+			ios: {
+				bundleIdentifier: 'me.vse.fintrack',
+				buildNumber: '1.0.0',
+			},
 		},
 		name: 'Fintrack',
 		slug: 'fintrack',
