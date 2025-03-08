@@ -47,7 +47,7 @@ export class GroupService extends Service {
 		accountIds: string[]
 	): Promise<Group> {
 		const uri = this.baseUrl + Endpoints.UPDATE_GROUP
-		const response = await this.api.patch(uri, {
+		const response = await this.api.put(uri, {
 			id,
 			name,
 			adminId,

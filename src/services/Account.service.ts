@@ -163,7 +163,7 @@ export class AccountService extends Service {
 	): Promise<Account> {
 		const uri = this.baseUrl + Endpoints.UPDATE_ACCOUNT
 		const removed = false
-		const response = await this.api.patch(uri, {
+		const response = await this.api.put(uri, {
 			ownerId,
 			id,
 			name,
@@ -251,7 +251,7 @@ export class AccountService extends Service {
 	public async setAccountInitialAmount(id: string, initialAmount: number) {
 		const uri = this.baseUrl + Endpoints.UPDATE_ACCOUNT
 
-		const response = await this.api.patch(uri, {
+		const response = await this.api.put(uri, {
 			id,
 			initialAmount,
 		})

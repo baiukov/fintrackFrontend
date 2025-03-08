@@ -64,7 +64,7 @@ export class TransactionService extends Service {
 		lon: number
 	): Promise<void> {
 		const uri = this.baseUrl + Endpoints.UPDATE_TRANSACTION
-		const response = await this.api.patch(uri, {
+		const response = await this.api.put(uri, {
 			id,
 			accountId,
 			forAssetId,
@@ -163,7 +163,7 @@ export class TransactionService extends Service {
 		remindDaysBefore: number | null
 	) {
 		const uri = this.baseUrl + Endpoints.UPDATE_STANDING_ORDER
-		const response = await this.api.patch(uri, {
+		const response = await this.api.put(uri, {
 			userId,
 			transactionId,
 			frequency,

@@ -38,7 +38,7 @@ export class CategoryService extends Service {
 		const uri = this.baseUrl + Endpoints.CATEGORY_UPDATE
 
 		const icon = emoji.toString()
-		const response = await this.api.patch(uri, {
+		const response = await this.api.put(uri, {
 			id,
 			userId,
 			name,

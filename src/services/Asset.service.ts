@@ -34,7 +34,7 @@ export class AssetService extends Service {
 		icon: string
 	): Promise<void> {
 		const uri = this.baseUrl + Endpoints.UPDATE_ASSET
-		const response = await this.api.patch(uri, {
+		const response = await this.api.put(uri, {
 			senderId,
 			id,
 			name,
