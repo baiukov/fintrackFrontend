@@ -29,8 +29,8 @@ export class AssetService extends Service {
 		accountId: string,
 		acquisitionPrice: number,
 		depreciationPrice: number,
-		startDateStr: string,
-		endDateStr: string,
+		startDate: string,
+		endDate: string,
 		icon: string
 	): Promise<void> {
 		const uri = this.baseUrl + Endpoints.UPDATE_ASSET
@@ -42,8 +42,8 @@ export class AssetService extends Service {
 			accountId,
 			acquisitionPrice,
 			depreciationPrice,
-			startDateStr,
-			endDateStr,
+			startDate,
+			endDate,
 			icon,
 		})
 

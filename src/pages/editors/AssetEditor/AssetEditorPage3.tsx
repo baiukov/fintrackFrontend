@@ -38,7 +38,6 @@ export const AssetEditorPage3 = (props: AssetEditorProps) => {
 	)
 
 	const validationSchema = Yup.object().shape({
-		basis: Yup.string().required(language.MISSING_BASIS),
 		startDate: Yup.date().required(language.MISSING_START_DATE),
 		endDate: Yup.date().required(language.MISSING_END_DATE),
 	})
