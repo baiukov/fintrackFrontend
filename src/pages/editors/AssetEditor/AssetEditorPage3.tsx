@@ -6,7 +6,6 @@ import { Text, View } from 'react-native'
 import * as Yup from 'yup'
 import { MainButton } from '../../../components/ui/buttons/MainButton/MainButton'
 import { DatePicker } from '../../../components/ui/datePicker/DatePicker'
-import { DropDown } from '../../../components/ui/dropdowns/dropdown/Dropdown'
 import { Buttons } from '../../../enums/Buttons'
 import { DepreciationBasis } from '../../../enums/DepreciationBasis'
 import { Pages } from '../../../enums/Pages'
@@ -22,7 +21,6 @@ export interface AssetEditorProps {
 }
 
 interface FormProps {
-	basis: keyof typeof DepreciationBasis
 	startDate: Date
 	endDate: Date
 }
@@ -50,7 +48,6 @@ export const AssetEditorPage3 = (props: AssetEditorProps) => {
 	const handleSubmit = (values: FormProps) => {
 		const updatedForm = {
 			...assetForm,
-			depreciationBasis: values.basis,
 			startDate: values.startDate,
 			endDate: values.endDate,
 		}
@@ -105,8 +102,6 @@ export const AssetEditorPage3 = (props: AssetEditorProps) => {
 		})
 	}
 
-	console.log(assetForm.depreciationBasis)
-
 	return (
 		<View style={GlobalStyles.page}>
 			<LinearGradient
@@ -122,7 +117,6 @@ export const AssetEditorPage3 = (props: AssetEditorProps) => {
 
 				<Formik
 					initialValues={{
-						basis: assetForm.depreciationBasis || null,
 						startDate: new Date(assetForm.startDate) || new Date(),
 						endDate: new Date(assetForm.endDate) || new Date(),
 					}}
@@ -132,12 +126,6 @@ export const AssetEditorPage3 = (props: AssetEditorProps) => {
 					{(props: FormikProps<FormProps>) => (
 						<View style={GlobalStyles.form}>
 							<View style={[GlobalStyles.inputFields, GlobalStyles.center]}>
-								<DropDown
-									placeholder={language.SELECT_BASIS}
-									items={basises}
-									handleChange={props.handleChange('basis')}
-									error={props.errors.basis}
-								/>
 								<DatePicker
 									title={language.ACQUISITION_DATE}
 									selectedDate={props.values.startDate || new Date()}
