@@ -147,7 +147,7 @@ export const Messages = {
 		OCTOBER: 'October',
 		NOVEMBER: 'November',
 		DECEMBER: 'December',
-		All_TIME: 'All time',
+		ALL_TIME: 'All time',
 	},
 
 	CZ: {
@@ -298,6 +298,6 @@ export const Messages = {
 		OCTOBER: 'Říjen',
 		NOVEMBER: 'Listopad',
 		DECEMBER: 'Prosinec',
-		All_TIME: 'Celé období',
+		ALL_TIME: 'Celé období',
 	},
 }

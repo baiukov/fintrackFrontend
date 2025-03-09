@@ -2,6 +2,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Formik, FormikProps } from 'formik'
 import React from 'react'
 import { Text, View } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { MainButton } from '../../../components/ui/buttons/MainButton/MainButton'
 import { List } from '../../../components/ui/list/List'
 import { Buttons } from '../../../enums/Buttons'
@@ -134,52 +135,54 @@ export const GroupEditorPage3 = (props: GroupEditorProps) => {
 				start={{ x: -1, y: -1 }}
 				end={{ x: 1, y: 1 }}
 			>
-				<View style={GlobalStyles.headerWrapper}>
-					<Text style={GlobalStyles.header}>{`${language.EDITOR}`}</Text>
-					<Text style={GlobalStyles.subheader}>{`${language.STEP} 3/3`}</Text>
-				</View>
+				<KeyboardAwareScrollView extraScrollHeight={10}>
+					<View style={GlobalStyles.headerWrapper}>
+						<Text style={GlobalStyles.header}>{`${language.EDITOR}`}</Text>
+						<Text style={GlobalStyles.subheader}>{`${language.STEP} 3/3`}</Text>
+					</View>
 
-				<Formik
-					initialValues={{
-						users: selectedUsers,
-					}}
-					onSubmit={handleSubmit}
-				>
-					{(props: FormikProps<FormProps>) => (
-						<View style={GlobalStyles.form}>
-							<View style={[GlobalStyles.inputFields, GlobalStyles.center]}>
-								<List
-									placeholder={language.SEARCH}
-									onChangeText={handleSearchChange}
-									title={language.USERS}
-									items={selectedUsers.map((user: User) => {
-										if (!user) return
-										return {
-											key: user.id,
-											label: user.name,
-											onPress: () => handleRemoveUser(user.id, user.name),
-										}
-									})}
-									options={options}
-									value={searchValue}
-									onPress={handleSelectUser}
-								/>
+					<Formik
+						initialValues={{
+							users: selectedUsers,
+						}}
+						onSubmit={handleSubmit}
+					>
+						{(props: FormikProps<FormProps>) => (
+							<View style={GlobalStyles.form}>
+								<View style={[GlobalStyles.inputFields, GlobalStyles.center]}>
+									<List
+										placeholder={language.SEARCH}
+										onChangeText={handleSearchChange}
+										title={language.USERS}
+										items={selectedUsers.map((user: User) => {
+											if (!user) return
+											return {
+												key: user.id,
+												label: user.name,
+												onPress: () => handleRemoveUser(user.id, user.name),
+											}
+										})}
+										options={options}
+										value={searchValue}
+										onPress={handleSelectUser}
+									/>
+								</View>
+								<View style={GlobalStyles.center}>
+									<MainButton
+										title={language.SAVE}
+										variant={Buttons.PRIMARY}
+										callback={props.submitForm}
+									/>
+									<MainButton
+										title={language.DELETE}
+										variant={Buttons.SECONDARY}
+										callback={props.submitForm}
+									/>
+								</View>
 							</View>
-							<View style={GlobalStyles.center}>
-								<MainButton
-									title={language.SAVE}
-									variant={Buttons.PRIMARY}
-									callback={props.submitForm}
-								/>
-								<MainButton
-									title={language.DELETE}
-									variant={Buttons.SECONDARY}
-									callback={props.submitForm}
-								/>
-							</View>
-						</View>
-					)}
-				</Formik>
+						)}
+					</Formik>
+				</KeyboardAwareScrollView>
 			</LinearGradient>
 		</View>
 	)

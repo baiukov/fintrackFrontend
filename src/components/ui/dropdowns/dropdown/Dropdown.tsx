@@ -11,6 +11,7 @@ export interface DropDownProps {
 	currentValue?: string
 	handleChange?: (value: string) => void
 	error?: string
+	style?: any
 }
 
 export const DropDown = (props: DropDownProps) => {
@@ -22,7 +23,7 @@ export const DropDown = (props: DropDownProps) => {
 	return (
 		<View>
 			<DropDownPicker
-				style={styles.input}
+				style={[styles.input, props.style]}
 				textStyle={styles.text}
 				dropDownContainerStyle={styles.container}
 				open={open}

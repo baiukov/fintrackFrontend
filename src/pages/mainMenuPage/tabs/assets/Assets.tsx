@@ -50,6 +50,7 @@ export const Assets = (props: any) => {
 							icon={Icons.EDIT}
 							title={asset.name || ''}
 							callback={() => transferToAssetEditor(asset)}
+							iconCallback={() => transferToAssetEditor(asset)}
 							emoji={asset.icon as string | ''}
 						/>
 					)

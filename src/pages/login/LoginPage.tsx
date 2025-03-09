@@ -1,7 +1,13 @@
 import { LinearGradient } from 'expo-linear-gradient'
 import { Formik, FormikProps } from 'formik'
 import React from 'react'
-import { ActivityIndicator, Text, View } from 'react-native'
+import {
+	ActivityIndicator,
+	KeyboardAvoidingView,
+	Platform,
+	Text,
+	View,
+} from 'react-native'
 import * as Yup from 'yup'
 import { MainButton } from '../../components/ui/buttons/MainButton/MainButton'
 import { TextField } from '../../components/ui/fields/TextField/TextField'
@@ -39,7 +45,6 @@ export const LoginPage = (props: any) => {
 
 		setLoading(true)
 		try {
-			console.log('try')
 			await service
 				.login(values.login, values.login, values.password)
 				.then(user => {
@@ -71,7 +76,10 @@ export const LoginPage = (props: any) => {
 	}
 
 	return (
-		<View style={GlobalStyles.page}>
+		<KeyboardAvoidingView
+			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+			style={GlobalStyles.page}
+		>
 			<LinearGradient
 				colors={['rgba(55, 63, 128, 1)', 'rgba(0, 0, 0, 1)']}
 				style={[GlobalStyles.background]}
@@ -129,6 +137,6 @@ export const LoginPage = (props: any) => {
 					)}
 				</Formik>
 			</LinearGradient>
-		</View>
+		</KeyboardAvoidingView>
 	)
 }

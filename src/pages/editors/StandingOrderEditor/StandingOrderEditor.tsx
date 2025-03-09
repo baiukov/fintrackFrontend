@@ -3,7 +3,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Formik, FormikProps } from 'formik'
 import React from 'react'
 import { Text, View } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import * as Yup from 'yup'
 import { MainButton } from '../../../components/ui/buttons/MainButton/MainButton'
 import { DatePicker } from '../../../components/ui/datePicker/DatePicker'
@@ -33,13 +33,15 @@ export const StandingOrderEditor = (props: StandingOrderEditorProps) => {
 	const language = useStore((state: any) => state.language)
 	const user = useStore((state: any) => state.user)
 
-	const [standingOrderForm, setStandingOrderForm] = React.useState({} as StandingOrder)
+	const [standingOrderForm, setStandingOrderForm] = React.useState(
+		{} as StandingOrder
+	)
 	const transactionId = props.route.params?.transactionId
 
 	const service = TransactionService.getInstance()
-	React.useEffect(() => { 
+	React.useEffect(() => {
 		const fetchData = () => {
-			service.getStandingOrder(transactionId).then((response) => {
+			service.getStandingOrder(transactionId).then(response => {
 				if (response.data) {
 					setStandingOrderForm(response.data)
 				}
@@ -86,11 +88,10 @@ export const StandingOrderEditor = (props: StandingOrderEditorProps) => {
 					startDate: values.startDate,
 					endDate: values.endDate,
 					daysForRemind: values.daysForRemind,
-				}
+				},
 			})
 		}
 
-		
 		props.navigation.goBack()
 	}
 
@@ -123,7 +124,10 @@ export const StandingOrderEditor = (props: StandingOrderEditorProps) => {
 					onSubmit={handleSubmit}
 				>
 					{(props: FormikProps<FormProps>) => (
-						<ScrollView style={GlobalStyles.form}>
+						<KeyboardAwareScrollView
+							extraScrollHeight={10}
+							style={GlobalStyles.form}
+						>
 							<View style={[GlobalStyles.inputFields, GlobalStyles.center]}>
 								<DropDown
 									placeholder={language.CHOOSE_FREQUENCY}
@@ -174,7 +178,7 @@ export const StandingOrderEditor = (props: StandingOrderEditorProps) => {
 									callback={handleDeletion}
 								/>
 							</View>
-						</ScrollView>
+						</KeyboardAwareScrollView>
 					)}
 				</Formik>
 			</LinearGradient>

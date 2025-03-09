@@ -3,7 +3,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Formik, FormikProps } from 'formik'
 import React from 'react'
 import { Text, View } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import * as Yup from 'yup'
 import { MainButton } from '../../../components/ui/buttons/MainButton/MainButton'
 import { DatePicker } from '../../../components/ui/datePicker/DatePicker'
@@ -237,7 +237,7 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 						receiver: transactionForm.receiver || '',
 						assetId: transactionForm.forAsset?.name || '',
 						type: transactionForm.type || TransactionTypes.EXPENSE,
-						amount: transactionForm.amount || 0,
+						amount: transactionForm.amount || '',
 						category: transactionForm.category?.name || '',
 						currency: (account.currency ||
 							Currencies.CZK.name) as keyof typeof Currencies,
@@ -249,7 +249,10 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 					onSubmit={handleSubmit}
 				>
 					{(props: FormikProps<FormProps>) => (
-						<ScrollView style={GlobalStyles.form}>
+						<KeyboardAwareScrollView
+							extraScrollHeight={10}
+							style={GlobalStyles.form}
+						>
 							<View style={[GlobalStyles.inputFields, GlobalStyles.center]}>
 								<View style={{ width: '90%', height: 75 }}>
 									<Tabs
@@ -335,7 +338,7 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 									callback={handleDeletion}
 								/>
 							</View>
-						</ScrollView>
+						</KeyboardAwareScrollView>
 					)}
 				</Formik>
 			</LinearGradient>

@@ -2,7 +2,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { LinearGradient } from 'expo-linear-gradient'
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { SearchField } from '../../components/ui/fields/SearchField/SearchField'
 import { MenuGroup } from '../../components/ui/groups/MenuGroup'
 import { Tabs } from '../../components/ui/tabs/Tabs'
@@ -167,7 +167,7 @@ export const HomePage = (props: HomePageProps) => {
 	}, [account.id])
 
 	const handleTabChange = (tabName: string) => {
-		if (tabName === language.All_TIME || tabName === language.CUSTOM) {
+		if (tabName === language.ALL_TIME || tabName === language.CUSTOM) {
 			fetchMenuData(account.id)
 			return
 		}
@@ -226,7 +226,10 @@ export const HomePage = (props: HomePageProps) => {
 				start={{ x: -1, y: -1 }}
 				end={{ x: 1, y: 1 }}
 			>
-				<ScrollView contentContainerStyle={{ paddingBottom: 200 }}>
+				<KeyboardAwareScrollView
+					extraScrollHeight={10}
+					contentContainerStyle={{ paddingBottom: 200 }}
+				>
 					<TopMenu navigation={props.navigation} />
 
 					<Title
@@ -239,7 +242,7 @@ export const HomePage = (props: HomePageProps) => {
 							tabs={[
 								...monthTabs,
 								...yearTabs,
-								{ title: language.All_TIME, component: () => <></> },
+								{ title: language.ALL_TIME, component: () => <></> },
 								{ title: language.CUSTOM, component: () => <></> },
 							]}
 							style={{
@@ -312,7 +315,7 @@ export const HomePage = (props: HomePageProps) => {
 							)
 						})}
 					</View>
-				</ScrollView>
+				</KeyboardAwareScrollView>
 				<View style={styles.bottomButton}>
 					<TouchableOpacity onPress={() => transferToEditor(null)}>
 						<FontAwesome name='plus' size={32} color='#3D4CC9' />

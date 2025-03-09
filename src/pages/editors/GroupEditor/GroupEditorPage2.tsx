@@ -2,6 +2,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Formik, FormikProps } from 'formik'
 import React from 'react'
 import { Text, View } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { MainButton } from '../../../components/ui/buttons/MainButton/MainButton'
 import { List } from '../../../components/ui/list/List'
 import { Buttons } from '../../../enums/Buttons'
@@ -102,47 +103,49 @@ export const GroupEditorPage2 = (props: GroupEditorProps) => {
 				start={{ x: -1, y: -1 }}
 				end={{ x: 1, y: 1 }}
 			>
-				<View style={GlobalStyles.headerWrapper}>
-					<Text style={GlobalStyles.header}>{`${language.EDITOR}`}</Text>
-					<Text style={GlobalStyles.subheader}>{`${language.STEP} 2/3`}</Text>
-				</View>
+				<KeyboardAwareScrollView extraScrollHeight={-60}>
+					<View style={GlobalStyles.headerWrapper}>
+						<Text style={GlobalStyles.header}>{`${language.EDITOR}`}</Text>
+						<Text style={GlobalStyles.subheader}>{`${language.STEP} 2/3`}</Text>
+					</View>
 
-				<Formik
-					initialValues={{
-						accountNames: selectedAccounts.map(account => account.name),
-					}}
-					onSubmit={handleSubmit}
-				>
-					{(props: FormikProps<FormProps>) => (
-						<View style={GlobalStyles.form}>
-							<View style={[GlobalStyles.inputFields, GlobalStyles.center]}>
-								<List
-									placeholder={language.SEARCH}
-									onChangeText={handleSearchChange}
-									title={language.ACCOUNTS}
-									items={selectedAccounts.map((account: Account) => {
-										return {
-											key: account.id,
-											label: account.name,
-											onPress: () =>
-												handleRemoveAccount(account.id, account.name),
-										}
-									})}
-									options={options}
-									value={searchValue}
-									onPress={handleSelectAccount}
-								/>
+					<Formik
+						initialValues={{
+							accountNames: selectedAccounts.map(account => account.name),
+						}}
+						onSubmit={handleSubmit}
+					>
+						{(props: FormikProps<FormProps>) => (
+							<View style={GlobalStyles.form}>
+								<View style={[GlobalStyles.inputFields, GlobalStyles.center]}>
+									<List
+										placeholder={language.SEARCH}
+										onChangeText={handleSearchChange}
+										title={language.ACCOUNTS}
+										items={selectedAccounts.map((account: Account) => {
+											return {
+												key: account.id,
+												label: account.name,
+												onPress: () =>
+													handleRemoveAccount(account.id, account.name),
+											}
+										})}
+										options={options}
+										value={searchValue}
+										onPress={handleSelectAccount}
+									/>
+								</View>
+								<View style={GlobalStyles.center}>
+									<MainButton
+										title={language.GO}
+										variant={Buttons.PRIMARY}
+										callback={props.handleSubmit}
+									/>
+								</View>
 							</View>
-							<View style={GlobalStyles.center}>
-								<MainButton
-									title={language.GO}
-									variant={Buttons.PRIMARY}
-									callback={props.handleSubmit}
-								/>
-							</View>
-						</View>
-					)}
-				</Formik>
+						)}
+					</Formik>
+				</KeyboardAwareScrollView>
 			</LinearGradient>
 		</View>
 	)

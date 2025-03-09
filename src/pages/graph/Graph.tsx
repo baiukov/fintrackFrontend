@@ -30,14 +30,19 @@ export const Graph = (props: GraphProps) => {
 	]
 
 	const [currencySymbol, setCurrencySymbol] = React.useState<string>('')
-	const [monthTabs, setMonthTabs] = 
-		React.useState<{title: string, component: React.ComponentType}[]>([])
-	const [yearTabs, setYearTabs] = 
-		React.useState<{title: string, component: React.ComponentType}[]>([])
+	const [monthTabs, setMonthTabs] = React.useState<
+		{ title: string; component: React.ComponentType }[]
+	>([])
+	const [yearTabs, setYearTabs] = React.useState<
+		{ title: string; component: React.ComponentType }[]
+	>([])
 
 	React.useEffect(() => {
-		setCurrencySymbol(Object.values(Currencies)
-			.find(currency => currency.name === account.currency)?.icon || '$')
+		setCurrencySymbol(
+			Object.values(Currencies).find(
+				currency => currency.name === account.currency
+			)?.icon || '$'
+		)
 
 		let start: Date = new Date(account.createdAt)
 		const end = new Date()
@@ -45,11 +50,11 @@ export const Graph = (props: GraphProps) => {
 		const yearTabs = []
 
 		while (start <= end) {
-			const monthId = Months[start.getMonth() + 1 as keyof typeof Months]
+			const monthId = Months[(start.getMonth() + 1) as keyof typeof Months]
 			const monthStr = language[monthId]
-			monthTabs.push({ 
+			monthTabs.push({
 				title: `${monthStr} '${start.getFullYear().toString().slice(2)}`,
-				component: () => <></>
+				component: () => <></>,
 			})
 			start.setMonth(start.getMonth() + 1)
 		}
@@ -59,36 +64,37 @@ export const Graph = (props: GraphProps) => {
 			const year = start.getFullYear()
 			yearTabs.push({
 				title: year.toString(),
-				component: () => <></>
+				component: () => <></>,
 			})
 			start.setFullYear(start.getFullYear() + 1)
 		}
 		setMonthTabs(monthTabs)
 		setYearTabs(yearTabs)
-
 	}, [account])
 
-	const [data, setData] = React.useState<{value: number, color: string}[]>([
-		{value: 1000, color: '#fff'}
+	const [data, setData] = React.useState<{ value: number; color: string }[]>([
+		{ value: 1000, color: '#fff' },
 	])
 	const [total, setTotal] = React.useState(0)
-	const [categories, setCategories] = 
-		React.useState<{category: Category, total: number}[]>([])
+	const [categories, setCategories] = React.useState<
+		{ category: Category; total: number }[]
+	>([])
 
 	const fetchData = (isIncome: boolean, from?: string, to?: string) => {
 		const service = TransactionService.getInstance()
 
-		const handleResponse = 
-		(response: {category: Category, transactions: Transaction[]}[]) => {
-			let total = 0;
-			response.forEach((element) => {
-				element.transactions.forEach((transaction) => {
+		const handleResponse = (
+			response: { category: Category; transactions: Transaction[] }[]
+		) => {
+			let total = 0
+			response.forEach(element => {
+				element.transactions.forEach(transaction => {
 					total += transaction.amount
 				})
 			})
 			setTotal(total)
-	
-			const groupSeries: {value: number, color: string}[] = []
+
+			const groupSeries: { value: number; color: string }[] = []
 			const colors = [
 				'#FF6384',
 				'#36A2EB',
@@ -99,36 +105,35 @@ export const Graph = (props: GraphProps) => {
 				'#FFCD56',
 				'#C9CBCF',
 				'#36A2EB',
-				'#FF6384'
+				'#FF6384',
 			]
-			let kColor = 0;
-			
-			let categories: {category: Category, total: number}[] = []
-			
-			response.forEach((element) => {
-				let totalByTransaction = 0;
-				element.transactions.forEach((transaction) => {
+			let kColor = 0
+
+			let categories: { category: Category; total: number }[] = []
+
+			response.forEach(element => {
+				let totalByTransaction = 0
+				element.transactions.forEach(transaction => {
 					totalByTransaction += transaction.amount
 				})
-	
+
 				const value = (totalByTransaction / total) * 1000
 				groupSeries.push({
 					value: value,
-					color: colors[kColor]
+					color: colors[kColor],
 				})
 				kColor++
-	
+
 				categories.push({
 					category: element.category,
-					total: totalByTransaction
+					total: totalByTransaction,
 				})
 			})
-	
+
 			if (groupSeries.length === 0) {
-				groupSeries.push({value: 1000, color: '#fff'})
+				groupSeries.push({ value: 1000, color: '#fff' })
 			}
-	
-			
+
 			setData(groupSeries)
 
 			categories = categories.sort((a, b) => b.total - a.total)
@@ -144,7 +149,6 @@ export const Graph = (props: GraphProps) => {
 				handleResponse(response)
 			})
 		}
-
 	}
 
 	React.useEffect(() => {
@@ -152,12 +156,16 @@ export const Graph = (props: GraphProps) => {
 	}, [account.id])
 
 	const [typeTab, setTypeTab] = React.useState(language.INCOME)
-	const [timeTab, setTimeTab] = React.useState(language.All_TIME)
+	const [timeTab, setTimeTab] = React.useState(language.ALL_TIME)
+
+	React.useEffect(() => {
+		handleChange()
+	}, [typeTab])
 
 	const handleChange = () => {
 		const isIncome = typeTab === language.INCOME
 
-		if (timeTab === language.All_TIME || timeTab === language.CUSTOM) {
+		if (timeTab === language.ALL_TIME || timeTab === language.CUSTOM) {
 			fetchData(isIncome)
 			return
 		}
@@ -169,15 +177,19 @@ export const Graph = (props: GraphProps) => {
 			return
 		}
 
-		const monthStrId = Object.entries(language)
-			.find(([_, value]) => value === timeTab.split(" ")[0])?.[0]
-		const monthId = Object.entries(Months)
-			.find(([_, value]) => value === monthStrId)?.[0]
+		const monthStrId = Object.entries(language).find(
+			([_, value]) => value === timeTab.split(' ')[0]
+		)?.[0]
+		const monthId = Object.entries(Months).find(
+			([_, value]) => value === monthStrId
+		)?.[0]
 		const startStr = `0${monthId}-01-20${timeTab.slice(-2)} 00:00:00`
 		const end = new Date(`0${monthId}-01-20${timeTab.slice(-2)}`)
 		end.setMonth(end.getMonth() + 1)
 		end.setDate(end.getDate() - 1)
-		const endStr = `0${end.getMonth() + 1}-${end.getDate()}-${end.getFullYear()} 23:59:59`
+		const endStr = `0${
+			end.getMonth() + 1
+		}-${end.getDate()}-${end.getFullYear()} 23:59:59`
 		fetchData(isIncome, startStr, endStr)
 	}
 
@@ -201,7 +213,6 @@ export const Graph = (props: GraphProps) => {
 									tabs={incomeExpenseTabs}
 									callback={(tabName: string) => {
 										setTypeTab(tabName)
-										handleChange()
 									}}
 								/>
 							</View>
@@ -214,16 +225,15 @@ export const Graph = (props: GraphProps) => {
 									tabs={[
 										...monthTabs,
 										...yearTabs,
-										{ title: language.All_TIME, component: () => <></> },
+										{ title: language.ALL_TIME, component: () => <></> },
 										{ title: language.CUSTOM, component: () => <></> },
 									]}
-									
 									style={{
 										width: '90%',
 										tabBarScrollEnabled: true,
 										fontSize: 16,
 										itemWidth: 'auto',
-										tabBarLabelPadding: 10
+										tabBarLabelPadding: 10,
 									}}
 									callback={(tabName: string) => {
 										setTimeTab(tabName)
@@ -237,19 +247,21 @@ export const Graph = (props: GraphProps) => {
 						<PieChart series={data} widthAndHeight={300} cover={0.6} />
 					</View>
 					<View style={styles.items}>
-						<GraphItem title={language.TOTAL} amount={`${total} ${currencySymbol}`} />
+						<GraphItem
+							title={language.TOTAL}
+							amount={`${total} ${currencySymbol}`}
+						/>
 
 						<View style={styles.innerItems}>
-							{
-								categories.map((category) => {
-									return (
-									<GraphItem 
-										emoji={category.category.icon} 
-										title={category.category.name} 
-										amount={`${category.total} ${currencySymbol}`} 
-									/>)
-								})
-							}
+							{categories.map(category => {
+								return (
+									<GraphItem
+										emoji={category.category.icon}
+										title={category.category.name}
+										amount={`${category.total} ${currencySymbol}`}
+									/>
+								)
+							})}
 						</View>
 					</View>
 				</ScrollView>

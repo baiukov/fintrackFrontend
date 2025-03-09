@@ -19,6 +19,7 @@ export const styles = StyleSheet.create({
 	container: {
 		backgroundColor: '#3D4CC9',
 		width: 300,
+		zIndex: 10,
 	},
 
 	icon: {
