@@ -11,6 +11,7 @@ export const Messages = {
 		USERNAME: 'Username',
 		REPEAT_PASSWORD: 'Repeat password',
 		PINCODE: 'Pincode',
+		CODE: 'Code',
 		GO: 'Go',
 		ACCOUNTS: 'Accounts',
 		ASSETS: 'Assets',
@@ -60,6 +61,12 @@ export const Messages = {
 		PINCODE_TOO_SHORT: 'Pincode is too short',
 		PINCODE_NOT_DIGITS: 'Pincode must contain only digits',
 		PINCODE_TOO_LONG: 'Pincode is too long',
+		CODE_TOO_SHORT: 'Code is too short',
+		CODE_NOT_DIGITS: 'Code must contain only digits',
+		CODE_TOO_LONG: 'Code is too long',
+		MISSING_CODE: 'Code is required',
+		WRONG_CODE: 'Wrong code',
+		RECOVERY: 'Recovery',
 		MISSING_TITLE: 'Title is required',
 		MISSING_NAME: 'Name is required',
 		WRONG_ACCOUNT_TYPE: 'Wrong account type',
@@ -148,6 +155,8 @@ export const Messages = {
 		NOVEMBER: 'November',
 		DECEMBER: 'December',
 		ALL_TIME: 'All time',
+
+		FORGOT_PASSWORD: 'Forgot password?',
 	},
 
 	CZ: {
@@ -162,6 +171,7 @@ export const Messages = {
 		USERNAME: 'Uživatelské jméno',
 		REPEAT_PASSWORD: 'Zopakujte heslo',
 		PINCODE: 'PIN kód',
+		CODE: 'Kód',
 		GO: 'Pokračovat',
 		ACCOUNTS: 'Účty',
 		ASSETS: 'Aktiva',
@@ -211,6 +221,12 @@ export const Messages = {
 		PINCODE_TOO_SHORT: 'PIN kód je příliš krátký',
 		PINCODE_NOT_DIGITS: 'PIN kód musí obsahovat pouze číslice',
 		PINCODE_TOO_LONG: 'PIN kód je příliš dlouhý',
+		CODE_TOO_SHORT: 'Kód je příliš krátký',
+		CODE_NOT_DIGITS: 'Kód musí obsahovat pouze číslice',
+		CODE_TOO_LONG: 'Kód je příliš dlouhý',
+		MISSING_CODE: 'Kód je povinný',
+		WRONG_CODE: 'Nesprávný kód',
+		RECOVERY: 'Obnova hesla',
 		MISSING_TITLE: 'Název je povinný',
 		MISSING_NAME: 'Jméno je povinné',
 		WRONG_ACCOUNT_TYPE: 'Nesprávný typ účtu',
@@ -299,5 +315,7 @@ export const Messages = {
 		NOVEMBER: 'Listopad',
 		DECEMBER: 'Prosinec',
 		ALL_TIME: 'Celé období',
+
+		FORGOT_PASSWORD: 'Zapomenuté heslo?',
 	},
 }

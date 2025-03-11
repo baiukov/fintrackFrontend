@@ -6,71 +6,53 @@ import {
 	KeyboardAvoidingView,
 	Platform,
 	Text,
-	TouchableOpacity,
 	View,
 } from 'react-native'
 import * as Yup from 'yup'
-import { MainButton } from '../../components/ui/buttons/MainButton/MainButton'
-import { TextField } from '../../components/ui/fields/TextField/TextField'
-import { ModalWindow } from '../../components/ui/modal/Modal'
-import { Buttons } from '../../enums/Buttons'
-import { Pages } from '../../enums/Pages'
-import { UserService } from '../../services/User.service'
-import { useStore } from '../../storage/store'
-import { GlobalStyles } from '../../styles/GlobalStyles.styles'
-import { styles } from './LoginPage.styles'
+import { MainButton } from '../../../components/ui/buttons/MainButton/MainButton'
+import { TextField } from '../../../components/ui/fields/TextField/TextField'
+import { ModalWindow } from '../../../components/ui/modal/Modal'
+import { Buttons } from '../../../enums/Buttons'
+import { Pages } from '../../../enums/Pages'
+import { UserService } from '../../../services/User.service'
+import { useStore } from '../../../storage/store'
+import { GlobalStyles } from '../../../styles/GlobalStyles.styles'
+import { styles } from './EmailRecovery.styles'
 
-export const LoginPage = (props: any) => {
+export const EmailRecovery = (props: any) => {
 	const language = useStore((state: any) => state.language)
 	const [loading, setLoading] = React.useState(false)
 
 	const validationSchema = Yup.object().shape({
 		login: Yup.string().required(language.MISSING_LOGIN),
-		password: Yup.string().required(language.MISSING_PASSWORD),
 	})
 
-	const transferToSignup = () => {
-		props.navigation.replace(Pages.SIGNUP)
-	}
-
-	const transferToRecovery = () => {
-		props.navigation.replace(Pages.EMAIL_RECOVERY)
-	}
-
 	const handleSubmit = async (
-		values: { login: string; password: string },
+		values: { login: string },
 		{ setFieldError }: any
 	) => {
 		const service = UserService.getInstance()
 
 		const errors = {
 			USER_DOESNT_EXIST: language.USER_DOESNT_EXIST,
-			WRONG_PASSWORD: language.PASSWORD_INCORRECT,
 		}
 
 		setLoading(true)
 		try {
 			await service
-				.login(values.login, values.login, values.password)
-				.then(user => {
-					useStore.setState({ user: user })
-					if (user.hasPincode) {
-						props.navigation.navigate(Pages.PINCODE, {
-							isLogin: true,
-						})
-					} else {
-						props.navigation.reset({
-							index: 0,
-							routes: [{ name: Pages.MAIN_MENU }],
-						})
-					}
+				.sendEmailCode(values.login, language.LANGUAGE_NAME || 'en')
+				.then(response => {
+					console.log
+					props.navigation.navigate(Pages.SMTP_CODE, {
+						login: values.login,
+					})
 				})
 				.catch(error => {
 					const response = error.response.data
 					if (response === 'USER_DOESNT_EXIST') {
 						setFieldError('login', errors[response as keyof typeof errors])
 					} else {
-						setFieldError('password', errors[response as keyof typeof errors])
+						setFieldError('login', errors[response as keyof typeof errors])
 					}
 				})
 		} catch (error) {
@@ -92,14 +74,14 @@ export const LoginPage = (props: any) => {
 				end={{ x: 1, y: 1 }}
 			>
 				<View style={GlobalStyles.headerWrapper}>
-					<Text style={GlobalStyles.header}>{`${language.LOGIN_PAGE}`}</Text>
+					<Text style={GlobalStyles.header}>{`${language.RECOVERY}`}</Text>
 				</View>
 				<Formik
-					initialValues={{ login: '', password: '' }}
+					initialValues={{ login: '' }}
 					validationSchema={validationSchema}
 					onSubmit={handleSubmit}
 				>
-					{(props: FormikProps<{ login: string; password: string }>) => (
+					{(props: FormikProps<{ login: string }>) => (
 						<View style={styles.form}>
 							{loading ? (
 								<ModalWindow
@@ -118,29 +100,12 @@ export const LoginPage = (props: any) => {
 									handleChange={props.handleChange('login')}
 									error={props.errors.login}
 								/>
-								<TextField
-									value={props.values.password}
-									placeholder={language.PASSWORD}
-									handleChange={props.handleChange('password')}
-									secureTextEntry={true}
-									error={props.errors.password}
-								/>
-								<TouchableOpacity onPress={transferToRecovery}>
-									<Text style={styles.forgotPassword}>
-										{language.FORGOT_PASSWORD}
-									</Text>
-								</TouchableOpacity>
 							</View>
 							<View style={GlobalStyles.center}>
 								<MainButton
-									title={language.LOGIN}
+									title={language.GO}
 									variant={Buttons.PRIMARY}
 									callback={props.handleSubmit}
-								/>
-								<MainButton
-									title={language.SIGNUP}
-									variant={Buttons.SECONDARY}
-									callback={transferToSignup}
 								/>
 							</View>
 						</View>

@@ -89,4 +89,41 @@ export class UserService extends Service {
 
 		return response.data
 	}
+
+	public async sendEmailCode(login: string, lang: string) {
+		const uri = this.baseUrl + Endpoints.SEND_EMAIL_CODE
+
+		const response = await this.api.post(
+			uri,
+			{ login, lang },
+			{ timeout: 60000 }
+		)
+
+		return response
+	}
+
+	public async verifyRecoveryPincode(
+		login: string,
+		code: string
+	): Promise<boolean> {
+		const uri = this.baseUrl + Endpoints.VERIFY_RECOVERY_CODE
+		const response = await this.api.post(uri, {
+			login,
+			code,
+		})
+
+		return response.data
+	}
+
+	public async updatePassword(login: string, password: string) {
+		const uri = this.baseUrl + Endpoints.UPDATE_PASSWORD
+		const response = await this.api.post(uri, {
+			login,
+			password,
+		})
+
+		const user = response.data
+
+		return user
+	}
 }

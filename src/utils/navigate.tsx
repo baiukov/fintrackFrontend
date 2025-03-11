@@ -22,6 +22,9 @@ import { LoginPage } from '../pages/login/LoginPage'
 import { MainPage } from '../pages/main/MainPage'
 import { MainMenuPage } from '../pages/mainMenuPage/MainMenuPage'
 import { PincodePage } from '../pages/pincode/PincodePage'
+import { EmailRecovery } from '../pages/recovery/email/EmailRecovery'
+import { PasswordRecovery } from '../pages/recovery/passwordRecovery/PasswordRecovery'
+import { SmtpCode } from '../pages/recovery/smtp code/SmtpCode'
 import { Settings } from '../pages/settings/Settings'
 import { ChooseAccount } from '../pages/settings/chooseAccount/ChooseAccount'
 import { SignupPage } from '../pages/signup/SignupPage'
@@ -88,6 +91,9 @@ export default function navigate() {
 					component={StandingOrderEditor}
 				/>
 				<Stack.Screen name={Pages.CATEGORY_EDITOR} component={CategoryEditor} />
+				<Stack.Screen name={Pages.EMAIL_RECOVERY} component={EmailRecovery} />
+				<Stack.Screen name={Pages.SMTP_CODE} component={SmtpCode} />
+				<Stack.Screen name={Pages.NEW_PASSWORD} component={PasswordRecovery} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	)

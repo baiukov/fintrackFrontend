@@ -40,4 +40,7 @@ export enum Endpoints {
 	GET_GENERAL_STATEMENT = '/general-statement',
 	GET_BANK_ACCOUNTS = '/bankAccounts',
 	SET_ACCOUNT_INITIAL_AMOUNT = '/updateInitialAmount',
+	SEND_EMAIL_CODE = '/sendCode',
+	VERIFY_RECOVERY_CODE = '/verifyRecoveryCode',
+	UPDATE_PASSWORD = '/updatePassword',
 }

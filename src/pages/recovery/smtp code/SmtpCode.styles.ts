@@ -10,9 +10,4 @@ export const styles = StyleSheet.create({
 		alignItems: 'center',
 		gap: 20,
 	},
-
-	forgotPassword: {
-		fontSize: 16,
-		color: '#0645AD',
-	},
 })
