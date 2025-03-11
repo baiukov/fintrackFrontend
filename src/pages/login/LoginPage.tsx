@@ -11,6 +11,7 @@ import {
 } from 'react-native'
 import * as Yup from 'yup'
 import { MainButton } from '../../components/ui/buttons/MainButton/MainButton'
+import { PasswordField } from '../../components/ui/fields/PasswordField/PasswordField'
 import { TextField } from '../../components/ui/fields/TextField/TextField'
 import { ModalWindow } from '../../components/ui/modal/Modal'
 import { Buttons } from '../../enums/Buttons'
@@ -118,7 +119,7 @@ export const LoginPage = (props: any) => {
 									handleChange={props.handleChange('login')}
 									error={props.errors.login}
 								/>
-								<TextField
+								<PasswordField
 									value={props.values.password}
 									placeholder={language.PASSWORD}
 									handleChange={props.handleChange('password')}
