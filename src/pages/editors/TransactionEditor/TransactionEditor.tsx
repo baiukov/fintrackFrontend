@@ -53,10 +53,6 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 
 	let transactionForm =
 		props.route.params?.transactionForm || ({} as Transaction)
-	transactionForm = {
-		...transactionForm,
-		executionDateTime: new Date(transactionForm.executionDateTime),
-	}
 
 	const transactionTypes = [] as {
 		title: string

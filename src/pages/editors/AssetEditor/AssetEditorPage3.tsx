@@ -117,7 +117,9 @@ export const AssetEditorPage3 = (props: AssetEditorProps) => {
 				<Formik
 					initialValues={{
 						startDate: new Date(assetForm.startDate) || new Date(),
-						endDate: new Date(assetForm.endDate) || new Date(),
+						endDate:
+							new Date(assetForm.endDate) ||
+							new Date().setFullYear(new Date().getFullYear() + 1),
 					}}
 					validationSchema={validationSchema}
 					onSubmit={handleSubmit}
