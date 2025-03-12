@@ -1,15 +1,33 @@
 import { LinearGradient } from 'expo-linear-gradient'
+import * as SecureStore from 'expo-secure-store'
 import React from 'react'
 import { Image, View } from 'react-native'
 import { MainButton } from '../../components/ui/buttons/MainButton/MainButton'
 import { Buttons } from '../../enums/Buttons'
 import { Pages } from '../../enums/Pages'
+import { UserService } from '../../services/User.service'
 import { useStore } from '../../storage/store'
 import { GlobalStyles } from '../../styles/GlobalStyles.styles'
 import { styles } from './MainPage.styles'
 
 export const MainPage = (props: any) => {
 	const language = useStore((state: any) => state.language)
+	const [accessToken, setAccessToken] = React.useState(
+		SecureStore.getItem('accessToken')
+	)
+
+	React.useEffect(() => {
+		if (accessToken) {
+			const service = UserService.getInstance()
+			service.loginByToken(accessToken).then(user => {
+				useStore.setState({ user: user })
+				props.navigation.reset({
+					index: 0,
+					routes: [{ name: Pages.MAIN_MENU }],
+				})
+			})
+		}
+	}, [accessToken])
 
 	const transferToLogin = () => {
 		props.navigation.navigate(Pages.LOGIN)

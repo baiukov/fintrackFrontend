@@ -1,4 +1,5 @@
 import Constants from 'expo-constants'
+import * as SecureStore from 'expo-secure-store'
 import { Endpoints } from '../enums/Endpoints'
 import { useStore } from '../storage/store'
 import { Service } from './Service'
@@ -41,21 +42,25 @@ export class UserService extends Service {
 
 	public async login(
 		email: string | null,
-		login: string | null,
+		userName: string | null,
 		password: string
 	) {
-		console.log(Constants.expoConfig)
-		console.log(Constants.expoConfig?.extra)
 		const uri = this.baseUrl + Endpoints.LOGIN
 		const response = await this.api.post(uri, {
 			email,
-			login,
+			userName,
 			password,
 		})
 
+		console.log(response)
 		const user = response.data
 
 		return user
+	}
+
+	public getToken() {
+		console.log(SecureStore.getItem('jwt'))
+		return SecureStore.getItem('jwt')
 	}
 
 	public async setPincode(id: string, pincode: string) {
@@ -121,6 +126,16 @@ export class UserService extends Service {
 			login,
 			password,
 		})
+
+		const user = response.data
+
+		return user
+	}
+
+	public async loginByToken(token: string) {
+		const uri = this.baseUrl + '/info'
+
+		const response = await this.api.get(uri)
 
 		const user = response.data
 

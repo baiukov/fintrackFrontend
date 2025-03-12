@@ -1,4 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient'
+import * as SecureStore from 'expo-secure-store'
 import { Formik, FormikProps } from 'formik'
 import React from 'react'
 import { ActivityIndicator, Text, View } from 'react-native'
@@ -52,67 +53,74 @@ export const SignupPage = (props: any) => {
 	})
 
 	const serverErrors = {
-		email: [{
-			errorName: "EMAIL_EXISTS",
-			errorMessage: language.EMAIL_EXISTS,
-		}],
-		username: [{
-			errorName: "USERNAME_EXISTS",
-			errorMessage: language.USERNAME_EXISTS,
-		}],
+		email: [
+			{
+				errorName: 'EMAIL_EXISTS',
+				errorMessage: language.EMAIL_EXISTS,
+			},
+		],
+		username: [
+			{
+				errorName: 'USERNAME_EXISTS',
+				errorMessage: language.USERNAME_EXISTS,
+			},
+		],
 		password: [
 			{
-				errorName: "PASSWORD_LESS_THAN_8_CHARS",
+				errorName: 'PASSWORD_LESS_THAN_8_CHARS',
 				errorMessage: language.PASSWORD_TOO_SHORT,
 			},
 			{
-				errorName: "PASSWORD_DOESNT_CONTAIN_UPPERCASE_LETTER",
+				errorName: 'PASSWORD_DOESNT_CONTAIN_UPPERCASE_LETTER',
 				errorMessage: language.PASSWORD_NO_UPPERCASE,
 			},
 			{
-				errorName: "PASSWORD_DOESNT_CONTAIN_LOWERCASE_LETTER",
+				errorName: 'PASSWORD_DOESNT_CONTAIN_LOWERCASE_LETTER',
 				errorMessage: language.PASSWORD_NO_LOWERCASE,
 			},
 			{
-				errorName: "PASSWORD_DOESNT_CONTAIN_DIGIT",
+				errorName: 'PASSWORD_DOESNT_CONTAIN_DIGIT',
 				errorMessage: language.PASSWORD_NO_DIGITS,
 			},
 			{
-				errorName: "PASSWORD_CONTAINS_WHITESPACES",
+				errorName: 'PASSWORD_CONTAINS_WHITESPACES',
 				errorMessage: language.PASSWORD_CONTAINS_SPACES,
 			},
-		]
+		],
 	}
 
-
-	const fetchErrors = (error : string, setFieldError: any) => {
-		if (!serverErrors) { return }
-		Object.keys(serverErrors).forEach((key) => {
+	const fetchErrors = (error: string, setFieldError: any) => {
+		if (!serverErrors) {
+			return
+		}
+		Object.keys(serverErrors).forEach(key => {
 			const currentServerError = serverErrors[key as keyof typeof serverErrors]
 
-			currentServerError.forEach((currentError) => { 
+			currentServerError.forEach(currentError => {
 				if (error === currentError.errorName) {
 					setFieldError(key, currentError.errorMessage)
 				}
 			})
-		 })
-		}
+		})
+	}
 
-	const handleSubmit = async (values: FormProps, {setFieldError}: any) => { 
+	const handleSubmit = async (values: FormProps, { setFieldError }: any) => {
 		const service = UserService.getInstance()
 
 		setLoading(true)
 		try {
-			await service.register(
+			const user = await service.register(
 				values.email,
 				values.username,
 				values.password
 			)
+			await SecureStore.setItemAsync('accessToken', user.accessToken)
+			await SecureStore.setItemAsync('refreshToken', user.refreshToken)
 			props.navigation.reset({
 				index: 0,
 				routes: [{ name: Pages.MAIN_MENU }],
 			})
-		} catch (error : any) {
+		} catch (error: any) {
 			if (error && error.response && error.response.data) {
 				fetchErrors(error.response.data, setFieldError)
 			}
@@ -145,15 +153,15 @@ export const SignupPage = (props: any) => {
 					{(props: FormikProps<FormProps>) => (
 						<View style={styles.form}>
 							<View style={[styles.textFields, GlobalStyles.center]}>
-							{loading ? (
-								<ModalWindow
-									isVisible={loading}
-									setModalVisible={setLoading}
-									element={<ActivityIndicator size='large' color='#0000ff' />}
-								/>
-							) : (
-								<></>
-							)}
+								{loading ? (
+									<ModalWindow
+										isVisible={loading}
+										setModalVisible={setLoading}
+										element={<ActivityIndicator size='large' color='#0000ff' />}
+									/>
+								) : (
+									<></>
+								)}
 
 								<TextField
 									value={props.values.email}

@@ -28,12 +28,13 @@ import { SmtpCode } from '../pages/recovery/smtp code/SmtpCode'
 import { Settings } from '../pages/settings/Settings'
 import { ChooseAccount } from '../pages/settings/chooseAccount/ChooseAccount'
 import { SignupPage } from '../pages/signup/SignupPage'
+import { navigationRef } from './RootNavigation'
 
 const Stack = createStackNavigator()
 
 export default function navigate() {
 	return (
-		<NavigationContainer>
+		<NavigationContainer ref={navigationRef}>
 			<Stack.Navigator
 				screenOptions={{
 					headerTransparent: true,

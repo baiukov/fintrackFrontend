@@ -1,4 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient'
+import * as SecureStore from 'expo-secure-store'
 import React from 'react'
 import { Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -53,12 +54,12 @@ export const Settings = (props: any) => {
 	}
 
 	const leave = () => {
+		SecureStore.deleteItemAsync('accessToken')
+		SecureStore.deleteItemAsync('refreshToken')
 		props.navigation.reset({
 			index: 0,
 			routes: [{ name: Pages.MAIN }],
 		})
-		useStore.setState({ user: null })
-		useStore.setState({ account: null })
 	}
 
 	const fetchBankData = () => {

@@ -1,4 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient'
+import * as SecureStore from 'expo-secure-store'
 import { Formik, FormikProps } from 'formik'
 import React from 'react'
 import {
@@ -53,8 +54,11 @@ export const LoginPage = (props: any) => {
 		try {
 			await service
 				.login(values.login, values.login, values.password)
-				.then(user => {
+				.then(async user => {
 					useStore.setState({ user: user })
+					await SecureStore.setItemAsync('accessToken', user.accessToken)
+					await SecureStore.setItemAsync('refreshToken', user.refreshToken)
+
 					if (user.hasPincode) {
 						props.navigation.navigate(Pages.PINCODE, {
 							isLogin: true,
