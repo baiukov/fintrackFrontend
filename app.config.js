@@ -14,12 +14,12 @@ export default () => {
 		expo: {
 			name: 'Fintrack',
 			slug: 'fintrack',
-			owner: 'baiukov',
+			owner: 'baiukov2',
 			extra: {
 				env: ENV_CONFIG[ENV],
 				eas: {
-					projectId: '28d4f87e-a8b0-4a12-8e56-382f78c1607f',
-				},
+					projectId: "bdceb8cf-6aaa-40b9-a5e0-5e2938ae468b"
+				}
 			},
 			android: {
 				package: 'me.vse.fintrack',
@@ -27,7 +27,7 @@ export default () => {
 			},
 			ios: {
 				bundleIdentifier: 'me.vse.fintrack',
-				buildNumber: '1.0.9',
+				buildNumber: '1.0.17',
 			},
 		},
 		name: 'Fintrack',

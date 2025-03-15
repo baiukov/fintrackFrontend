@@ -40,6 +40,7 @@ export const LoginPage = (props: any) => {
 		props.navigation.replace(Pages.EMAIL_RECOVERY)
 	}
 
+
 	const handleSubmit = async (
 		values: { login: string; password: string },
 		{ setFieldError }: any
