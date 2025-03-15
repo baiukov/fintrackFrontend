@@ -23,11 +23,11 @@ export default () => {
 			},
 			android: {
 				package: 'me.vse.fintrack',
-				versionCode: 3,
+				versionCode: 5,
 			},
 			ios: {
 				bundleIdentifier: 'me.vse.fintrack',
-				buildNumber: '1.0.6',
+				buildNumber: '1.0.9',
 			},
 		},
 		name: 'Fintrack',

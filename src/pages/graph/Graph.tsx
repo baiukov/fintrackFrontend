@@ -6,7 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import React from 'react'
 import { Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import PieChart from 'react-native-pie-chart'
+import { PieChart } from 'react-native-gifted-charts'
 import { Tabs } from '../../components/ui/tabs/Tabs'
 import { Currencies } from '../../enums/Currencies'
 import { Months } from '../../enums/Months'
@@ -72,9 +72,9 @@ export const Graph = (props: GraphProps) => {
 		setYearTabs(yearTabs)
 	}, [account])
 
-	const [data, setData] = React.useState<{ value: number; color: string }[]>([
-		{ value: 1000, color: '#fff' },
-	])
+	const [data, setData] = React.useState<
+		{ value: number; color: string; text: string }[]
+	>([{ value: 1000, color: '#fff', text: '' }])
 	const [total, setTotal] = React.useState(0)
 	const [categories, setCategories] = React.useState<
 		{ category: Category; total: number }[]
@@ -94,7 +94,7 @@ export const Graph = (props: GraphProps) => {
 			})
 			setTotal(total)
 
-			const groupSeries: { value: number; color: string }[] = []
+			const groupSeries: { value: number; color: string; text: string }[] = []
 			const colors = [
 				'#FF6384',
 				'#36A2EB',
@@ -121,6 +121,7 @@ export const Graph = (props: GraphProps) => {
 				groupSeries.push({
 					value: value,
 					color: colors[kColor],
+					text: element.category.icon,
 				})
 				kColor++
 
@@ -131,7 +132,7 @@ export const Graph = (props: GraphProps) => {
 			})
 
 			if (groupSeries.length === 0) {
-				groupSeries.push({ value: 1000, color: '#fff' })
+				groupSeries.push({ value: 1000, color: '#fff', text: '' })
 			}
 
 			setData(groupSeries)
@@ -244,18 +245,33 @@ export const Graph = (props: GraphProps) => {
 						</NavigationContainer>
 					</NavigationIndependentTree>
 					<View style={GlobalStyles.center}>
-						<PieChart series={data} widthAndHeight={300} cover={0.6} />
+						<PieChart
+							donut
+							data={data}
+							showText
+							textColor='black'
+							radius={150}
+							textSize={30}
+							innerRadius={80}
+							innerCircleColor={'rgba(15, 23, 88, 1)'}
+							focusOnPress
+							textBackgroundRadius={26}
+							showGradient
+						/>
 					</View>
 					<View style={styles.items}>
 						<GraphItem
+							key={language.TOTAL}
 							title={language.TOTAL}
 							amount={`${total} ${currencySymbol}`}
 						/>
 
 						<View style={styles.innerItems}>
 							{categories.map(category => {
+								console.log('id', category.category.id)
 								return (
 									<GraphItem
+										key={category.category.id}
 										emoji={category.category.icon}
 										title={category.category.name}
 										amount={`${category.total} ${currencySymbol}`}
