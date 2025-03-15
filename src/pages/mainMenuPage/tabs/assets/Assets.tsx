@@ -21,8 +21,19 @@ export const Assets = (props: any) => {
 	React.useEffect(() => {
 		const fetchData = async () => {
 			const service = AssetService.getInstance()
-			const assets = await service.getAll(user.id)
-			setAssets(assets)
+			service.getAll(user.id).then(data => {
+				setAssets(data)
+			})
+			let k = 0
+			const interval = setInterval(() => { 
+				k++
+				if (k > 10) {
+					clearInterval(interval)
+				}
+				service.getAll(user.id).then(data => {
+					setAssets(data)
+				})
+			}, 1000)
 		}
 		fetchData()
 	}, [user.id, rerender])

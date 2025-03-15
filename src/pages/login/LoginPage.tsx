@@ -25,6 +25,7 @@ import { styles } from './LoginPage.styles'
 export const LoginPage = (props: any) => {
 	const language = useStore((state: any) => state.language)
 	const [loading, setLoading] = React.useState(false)
+	const [text, setText] = React.useState('')
 
 	const validationSchema = Yup.object().shape({
 		login: Yup.string().required(language.MISSING_LOGIN),
@@ -54,10 +55,12 @@ export const LoginPage = (props: any) => {
 		try {
 			await service
 				.login(values.login, values.login, values.password)
-				.then(async user => {
+				.then(user => {
 					useStore.setState({ user: user })
-					await SecureStore.setItemAsync('accessToken', user.accessToken)
-					await SecureStore.setItemAsync('refreshToken', user.refreshToken)
+					SecureStore.setItem('accessToken', user.accessToken)
+					SecureStore.setItem('refreshToken', user.refreshToken)
+
+					setText("accessToken: " + user.accessToken + "\naccessTonen2: " + SecureStore.getItem('accessToken'))	
 
 					if (user.hasPincode) {
 						props.navigation.navigate(Pages.PINCODE, {
@@ -136,6 +139,7 @@ export const LoginPage = (props: any) => {
 									</Text>
 								</TouchableOpacity>
 							</View>
+							{/* <Text>{text}</Text> */}
 							<View style={GlobalStyles.center}>
 								<MainButton
 									title={language.LOGIN}

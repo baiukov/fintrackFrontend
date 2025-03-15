@@ -19,7 +19,7 @@ export abstract class Service {
 
 		const refreshToken = async () => {
 			try {
-				const storedRefreshToken = await SecureStore.getItemAsync(
+				const storedRefreshToken = SecureStore.getItem(
 					'refreshToken'
 				)
 				if (!storedRefreshToken) throw new Error('No refresh token')
@@ -32,7 +32,7 @@ export abstract class Service {
 				const newAccessToken = response.data.accessToken
 				const newRefreshToken = response.data.refreshToken
 
-				await SecureStore.setItemAsync('jwt', newAccessToken)
+				await SecureStore.setItemAsync('accessToken', newAccessToken)
 				await SecureStore.setItemAsync('refreshToken', newRefreshToken)
 
 				return newAccessToken
@@ -44,7 +44,7 @@ export abstract class Service {
 
 		this.api.interceptors.request.use(
 			async config => {
-				const token = await SecureStore.getItemAsync('jwt')
+				const token = SecureStore.getItem('accessToken')
 				if (token) {
 					config.headers.Authorization = `Bearer ${token}`
 				}
@@ -56,6 +56,7 @@ export abstract class Service {
 		this.api.interceptors.response.use(
 			response => response,
 			async error => {
+				console.log(error, 'error 2')
 				const originalRequest = error.config
 
 				if (error.response?.status === 401 && !originalRequest._retry) {
@@ -66,6 +67,7 @@ export abstract class Service {
 
 						try {
 							const newAccessToken = await refreshToken()
+							console.log(newAccessToken, 'newAccessToken')
 							isRefreshing = false
 
 							refreshSubscribers.forEach(callback => callback(newAccessToken))
@@ -77,7 +79,6 @@ export abstract class Service {
 							isRefreshing = false
 							refreshSubscribers = []
 
-							console.log('Refresh token is expired')
 							await SecureStore.deleteItemAsync('jwt')
 							await SecureStore.deleteItemAsync('refreshToken')
 							navigate(Pages.LOGIN)

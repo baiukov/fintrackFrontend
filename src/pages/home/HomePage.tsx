@@ -139,6 +139,14 @@ export const HomePage = (props: HomePageProps) => {
 				setShownTransactionGroups(groups)
 			})
 		}
+		let k = 0
+		const interval = setInterval(() => {
+			k++
+			if (k > 10) {
+				clearInterval(interval)
+			}
+			fetchData()
+		 }, 1000)
 		fetchData()
 	}, [rerender, account.id])
 

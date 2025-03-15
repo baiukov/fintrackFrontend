@@ -17,6 +17,7 @@ export const MainPage = (props: any) => {
 	)
 
 	React.useEffect(() => {
+		console.log('accessToken', accessToken)
 		if (accessToken) {
 			const service = UserService.getInstance()
 			service.loginByToken(accessToken).then(user => {
@@ -49,6 +50,8 @@ export const MainPage = (props: any) => {
 					source={require('../../../assets/logo.png')}
 					style={styles.logo}
 				></Image>
+
+				{/* <Text>{accessToken}</Text> */}
 
 				<MainButton
 					variant={Buttons.PRIMARY}

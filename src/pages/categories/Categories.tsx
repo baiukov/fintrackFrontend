@@ -23,9 +23,20 @@ export const Categories = (props: any) => {
 
 	useEffect(() => {
 		const fetchData = () => {
+			const service = CategoryService.getInstance()
 			service.getAll(user.id).then(data => {
 				setCategories(data)
 			})
+			let k = 0
+			const interval = setInterval(() => { 
+				k++
+				if (k > 10) {
+					clearInterval(interval)
+				}
+				service.getAll(user.id).then(data => {
+					setCategories(data)
+				})
+			}, 1000)
 		}
 		fetchData()
 	}, [user.id, rerender])
