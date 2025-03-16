@@ -1,4 +1,4 @@
-import RNDateTimePicker, {
+import DateTimePicker, {
 	DateTimePickerEvent,
 } from '@react-native-community/datetimepicker'
 import React from 'react'
@@ -7,22 +7,20 @@ import { styles } from './DatePicker.style'
 
 export interface DatePickerProps {
 	title: string
-	selectedDate: Date | undefined
+	selectedDate: Date
 	handleChange: (event: DateTimePickerEvent, date?: Date) => void
 	error?: any
 }
 
-export const DatePicker = (props: DatePickerProps) => {
+export const DatePickerElement = (props: DatePickerProps) => {
 	return (
 		<View>
 			<View style={styles.input}>
 				<Text style={styles.text}>{props.title}</Text>
 				{props.selectedDate ? (
-					<RNDateTimePicker
-						value={props.selectedDate}
+					<DateTimePicker
+						value={props.selectedDate || new Date()}
 						mode='date'
-						style={styles.picker}
-						textColor='white'
 						display='default'
 						onChange={props.handleChange}
 					/>

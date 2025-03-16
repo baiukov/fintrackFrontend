@@ -117,11 +117,19 @@ export const HomePage = (props: HomePageProps) => {
 					const existingGroup = groups.find(group => group.title === title)
 
 					if (existingGroup) {
-						existingGroup.transactions.push(transaction)
+						existingGroup.transactions.push({
+							...transaction,
+							executionDateTime: new Date(transaction.executionDateTime),
+						})
 					} else {
 						groups.push({
 							title: title,
-							transactions: [transaction],
+							transactions: [
+								{
+									...transaction,
+									executionDateTime: new Date(transaction.executionDateTime),
+								},
+							],
 						})
 					}
 				})
@@ -146,7 +154,7 @@ export const HomePage = (props: HomePageProps) => {
 				clearInterval(interval)
 			}
 			fetchData()
-		 }, 1000)
+		}, 1000)
 		fetchData()
 	}, [rerender, account.id])
 

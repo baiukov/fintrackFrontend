@@ -6,7 +6,7 @@ import { Text, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import * as Yup from 'yup'
 import { MainButton } from '../../../components/ui/buttons/MainButton/MainButton'
-import { DatePicker } from '../../../components/ui/datePicker/DatePicker'
+import { DatePickerElement } from '../../../components/ui/datePicker/DatePickerElement'
 import { DropDown } from '../../../components/ui/dropdowns/dropdown/Dropdown'
 import { TextField } from '../../../components/ui/fields/TextField/TextField'
 import { Tabs } from '../../../components/ui/tabs/Tabs'
@@ -300,14 +300,16 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 									handleChange={props.handleChange('assetId')}
 								/>
 
-								<DatePicker
+								<DatePickerElement
 									title={language.TRANSACTION_DATE}
-									selectedDate={props.values.date}
+									selectedDate={props.values.date || new Date()}
 									handleChange={function (
-										_: DateTimePickerEvent,
-										date?: Date | undefined
+										event: DateTimePickerEvent,
+										date?: Date | null
 									): void {
-										props.setFieldValue('date', date)
+										if (date) {
+											props.setFieldValue('date', date)
+										}
 									}}
 								/>
 

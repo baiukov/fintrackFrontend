@@ -5,7 +5,7 @@ import React from 'react'
 import { Text, View } from 'react-native'
 import * as Yup from 'yup'
 import { MainButton } from '../../../components/ui/buttons/MainButton/MainButton'
-import { DatePicker } from '../../../components/ui/datePicker/DatePicker'
+import { DatePickerElement } from '../../../components/ui/datePicker/DatePickerElement'
 import { Buttons } from '../../../enums/Buttons'
 import { DepreciationBasis } from '../../../enums/DepreciationBasis'
 import { Pages } from '../../../enums/Pages'
@@ -101,6 +101,13 @@ export const AssetEditorPage3 = (props: AssetEditorProps) => {
 		})
 	}
 
+	const startDate = assetForm.startDate
+		? new Date(assetForm.startDate)
+		: new Date()
+	const endDate = assetForm.endDate
+		? new Date(assetForm.endDate)
+		: new Date(new Date().setFullYear(new Date().getFullYear() + 1))
+
 	return (
 		<View style={GlobalStyles.page}>
 			<LinearGradient
@@ -116,10 +123,8 @@ export const AssetEditorPage3 = (props: AssetEditorProps) => {
 
 				<Formik
 					initialValues={{
-						startDate: new Date(assetForm.startDate) || new Date(),
-						endDate:
-							new Date(assetForm.endDate) ||
-							new Date().setFullYear(new Date().getFullYear() + 1),
+						startDate: startDate,
+						endDate: endDate,
 					}}
 					validationSchema={validationSchema}
 					onSubmit={handleSubmit}
@@ -127,7 +132,7 @@ export const AssetEditorPage3 = (props: AssetEditorProps) => {
 					{(props: FormikProps<FormProps>) => (
 						<View style={GlobalStyles.form}>
 							<View style={[GlobalStyles.inputFields, GlobalStyles.center]}>
-								<DatePicker
+								<DatePickerElement
 									title={language.ACQUISITION_DATE}
 									selectedDate={props.values.startDate || new Date()}
 									handleChange={(
@@ -140,7 +145,7 @@ export const AssetEditorPage3 = (props: AssetEditorProps) => {
 									}}
 									error={props.errors.startDate as string}
 								/>
-								<DatePicker
+								<DatePickerElement
 									title={language.DEPRECIATION_DATE}
 									selectedDate={props.values.endDate || new Date()}
 									handleChange={(

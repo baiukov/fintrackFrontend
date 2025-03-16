@@ -18,8 +18,8 @@ export default () => {
 			extra: {
 				env: ENV_CONFIG[ENV],
 				eas: {
-					projectId: "bdceb8cf-6aaa-40b9-a5e0-5e2938ae468b"
-				}
+					projectId: 'bdceb8cf-6aaa-40b9-a5e0-5e2938ae468b',
+				},
 			},
 			android: {
 				package: 'me.vse.fintrack',
@@ -27,7 +27,7 @@ export default () => {
 			},
 			ios: {
 				bundleIdentifier: 'me.vse.fintrack',
-				buildNumber: '1.0.17',
+				buildNumber: '1.0.18',
 			},
 		},
 		name: 'Fintrack',

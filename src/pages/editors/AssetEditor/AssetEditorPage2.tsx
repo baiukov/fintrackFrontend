@@ -68,8 +68,8 @@ export const AssetEditorPage2 = (props: AccountEditorProps) => {
 		currency: Yup.string().required(language.MISSING_CURRENCY),
 	})
 
-	const acquisitionPrice = assetForm.acquisitionPrice
-	const deprecitationPrice = assetForm.depreciationPrice
+	const acquisitionPrice = assetForm.acquisitionPrice || 0
+	const deprecitationPrice = assetForm.depreciationPrice || 0
 	const showAcquisitionPriceError: string =
 		acquisitionPrice === 0 ? '' : acquisitionPrice.toString()
 	const shownDepreciationPriceError: string =
