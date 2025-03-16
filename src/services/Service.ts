@@ -19,21 +19,18 @@ export abstract class Service {
 
 		const refreshToken = async () => {
 			try {
-				const storedRefreshToken = SecureStore.getItem(
-					'refreshToken'
-				)
+				const storedRefreshToken = SecureStore.getItem('refreshToken')
 				if (!storedRefreshToken) throw new Error('No refresh token')
 
-				const uri = this.baseUrl + '/auth/refresh'
+				const uri =
+					Constants.expoConfig?.extra?.env?.API_URL + '/user/auth/refresh'
 				const response = await axios.post(uri, {
 					refreshToken: storedRefreshToken,
 				})
 
 				const newAccessToken = response.data.accessToken
-				const newRefreshToken = response.data.refreshToken
 
-				await SecureStore.setItemAsync('accessToken', newAccessToken)
-				await SecureStore.setItemAsync('refreshToken', newRefreshToken)
+				SecureStore.setItem('accessToken', newAccessToken)
 
 				return newAccessToken
 			} catch (error) {
@@ -56,10 +53,9 @@ export abstract class Service {
 		this.api.interceptors.response.use(
 			response => response,
 			async error => {
-				console.log(error, 'error 2')
 				const originalRequest = error.config
 
-				if (error.response?.status === 401 && !originalRequest._retry) {
+				if (error.response?.status === 403 && !originalRequest._retry) {
 					originalRequest._retry = true
 
 					if (!isRefreshing) {
@@ -67,7 +63,6 @@ export abstract class Service {
 
 						try {
 							const newAccessToken = await refreshToken()
-							console.log(newAccessToken, 'newAccessToken')
 							isRefreshing = false
 
 							refreshSubscribers.forEach(callback => callback(newAccessToken))
@@ -79,8 +74,8 @@ export abstract class Service {
 							isRefreshing = false
 							refreshSubscribers = []
 
-							await SecureStore.deleteItemAsync('jwt')
 							await SecureStore.deleteItemAsync('refreshToken')
+							await SecureStore.deleteItemAsync('accessToken')
 							navigate(Pages.LOGIN)
 
 							return Promise.reject(err)
