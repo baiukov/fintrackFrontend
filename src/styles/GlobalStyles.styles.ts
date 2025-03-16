@@ -26,7 +26,7 @@ export const GlobalStyles = StyleSheet.create({
 	},
 
 	header: {
-		fontSize: 54,
+		fontSize: 50,
 		textAlign: 'center',
 		color: 'white',
 		textTransform: 'uppercase',

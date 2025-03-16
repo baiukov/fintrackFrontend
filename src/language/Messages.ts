@@ -1,6 +1,7 @@
 export const Messages = {
 	EN: {
 		LANGUAGE_NAME: 'en',
+		label: 'English',
 
 		LOGIN_PAGE: 'Login',
 		SIGNUP_PAGE: 'Sign up',
@@ -161,6 +162,7 @@ export const Messages = {
 
 	CZ: {
 		LANGUAGE_NAME: 'cz',
+		label: 'Čeština',
 
 		LOGIN_PAGE: 'Přihlášení',
 		SIGNUP_PAGE: 'Registrace',

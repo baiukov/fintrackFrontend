@@ -1,4 +1,4 @@
-const ENV = 'production'
+const ENV = 'local'
 
 const ENV_CONFIG = {
 	production: {
@@ -27,7 +27,7 @@ export default () => {
 			},
 			ios: {
 				bundleIdentifier: 'me.vse.fintrack',
-				buildNumber: '1.0.18',
+				buildNumber: '1.0.20',
 			},
 		},
 		name: 'Fintrack',

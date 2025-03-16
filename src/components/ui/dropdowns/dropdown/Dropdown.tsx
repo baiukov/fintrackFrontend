@@ -21,7 +21,7 @@ export const DropDown = (props: DropDownProps) => {
 	const [value, setValue] = useState(props.currentValue || null)
 
 	return (
-		<View>
+		<View style={{ zIndex: open ? 1000 : 1, position: 'relative' }}>
 			<DropDownPicker
 				style={[styles.input, props.style]}
 				textStyle={styles.text}

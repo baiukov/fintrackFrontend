@@ -74,7 +74,7 @@ export const Settings = (props: any) => {
 				start={{ x: -1, y: -1 }}
 				end={{ x: 1, y: 1 }}
 			>
-				<ScrollView>
+				<ScrollView showsVerticalScrollIndicator={false}>
 					<View style={GlobalStyles.headerWrapper}>
 						<Text style={GlobalStyles.header}>{`${language.SETTINGS}`}</Text>
 					</View>
@@ -83,6 +83,17 @@ export const Settings = (props: any) => {
 						items={currencies}
 						handleChange={() => {}}
 						style={{ zIndex: 100 }}
+					/>
+					<DropDown
+						placeholder={language.label}
+						items={languages}
+						style={{ zIndex: -1 }}
+						handleChange={(newValue: string) => {
+							setLanguage(Messages[newValue as keyof typeof Messages])
+							useStore.setState({
+								language: Messages[newValue as keyof typeof Messages],
+							})
+						}}
 					/>
 					<View style={{ gap: 20 }}>
 						<NarrowButton
@@ -100,17 +111,6 @@ export const Settings = (props: any) => {
 						<NarrowButton
 							title={language.FETCH_BANK_DATA}
 							onPress={fetchBankData}
-						/>
-						<DropDown
-							placeholder={language.label}
-							items={languages}
-							style={{ zIndex: -1 }}
-							handleChange={(newValue: string) => {
-								setLanguage(Messages[newValue as keyof typeof Messages])
-								useStore.setState({
-									language: Messages[newValue as keyof typeof Messages],
-								})
-							}}
 						/>
 						<View style={styles.list}>
 							<Text style={styles.listTitle}>
