@@ -25,4 +25,6 @@ export enum Pages {
 	EMAIL_RECOVERY = 'emailRecovery',
 	SMTP_CODE = 'smtpCode',
 	NEW_PASSWORD = 'newPassword',
+	USER_ACCOUNT_SETTNGS = 'userAccountSettings',
+	ACCOUNT_REMOVE_PAGE = 'accountRemovePage',
 }

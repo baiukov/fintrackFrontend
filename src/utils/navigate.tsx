@@ -21,11 +21,13 @@ import { HomePage } from '../pages/home/HomePage'
 import { LoginPage } from '../pages/login/LoginPage'
 import { MainPage } from '../pages/main/MainPage'
 import { MainMenuPage } from '../pages/mainMenuPage/MainMenuPage'
+import { AccountRemovePage } from '../pages/password/AccountRemovePage'
 import { PincodePage } from '../pages/pincode/PincodePage'
 import { EmailRecovery } from '../pages/recovery/email/EmailRecovery'
 import { PasswordRecovery } from '../pages/recovery/passwordRecovery/PasswordRecovery'
 import { SmtpCode } from '../pages/recovery/smtp code/SmtpCode'
 import { Settings } from '../pages/settings/Settings'
+import { UserAccountSettings } from '../pages/settings/UserAccountSettings'
 import { ChooseAccount } from '../pages/settings/chooseAccount/ChooseAccount'
 import { SignupPage } from '../pages/signup/SignupPage'
 import { navigationRef } from './RootNavigation'
@@ -95,6 +97,14 @@ export default function navigate() {
 				<Stack.Screen name={Pages.EMAIL_RECOVERY} component={EmailRecovery} />
 				<Stack.Screen name={Pages.SMTP_CODE} component={SmtpCode} />
 				<Stack.Screen name={Pages.NEW_PASSWORD} component={PasswordRecovery} />
+				<Stack.Screen
+					name={Pages.USER_ACCOUNT_SETTNGS}
+					component={UserAccountSettings}
+				/>
+				<Stack.Screen
+					name={Pages.ACCOUNT_REMOVE_PAGE}
+					component={AccountRemovePage}
+				/>
 			</Stack.Navigator>
 		</NavigationContainer>
 	)

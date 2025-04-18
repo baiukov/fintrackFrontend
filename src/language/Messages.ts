@@ -158,6 +158,7 @@ export const Messages = {
 		ALL_TIME: 'All time',
 
 		FORGOT_PASSWORD: 'Forgot password?',
+		DELETE_ACCOUNT: 'Delete account',
 	},
 
 	CZ: {
@@ -319,5 +320,6 @@ export const Messages = {
 		ALL_TIME: 'Celé období',
 
 		FORGOT_PASSWORD: 'Zapomenuté heslo?',
+		DELETE_ACCOUNT: 'Smazat účet',
 	},
 }

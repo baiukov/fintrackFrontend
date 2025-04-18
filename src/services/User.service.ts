@@ -141,4 +141,19 @@ export class UserService extends Service {
 
 		return user
 	}
+
+	public async deleteAccount(
+		userId: string,
+		password: string
+	): Promise<boolean | string> {
+		const uri = this.baseUrl + Endpoints.DELETE_USER_ACCOUNT
+		const response = await this.api.delete(uri, {
+			params: {
+				userId: userId,
+				password: password,
+			},
+		})
+
+		return response.data
+	}
 }

@@ -2,8 +2,10 @@ import { LinearGradient } from 'expo-linear-gradient'
 import React, { useState } from 'react'
 import { Text, View } from 'react-native'
 import { Tabs } from '../../components/ui/tabs/Tabs'
+import { Pages } from '../../enums/Pages'
 import { useStore } from '../../storage/store'
 import { GlobalStyles } from '../../styles/GlobalStyles.styles'
+import { TopMenu } from '../home/components/TopMenu'
 import { Accounts } from './tabs/accounts/Accounts'
 import { Assets } from './tabs/assets/Assets'
 
@@ -31,6 +33,13 @@ export const MainMenuPage = (props: any) => {
 				start={{ x: -1, y: -1 }}
 				end={{ x: 1, y: 1 }}
 			>
+				<TopMenu
+					navigation={props.navigation}
+					isHidden={{ menu: true, graph: true }}
+					transfers={{
+						settings: Pages.USER_ACCOUNT_SETTNGS,
+					}}
+				/>
 				<View style={GlobalStyles.headerWrapper}>
 					<Text style={GlobalStyles.header}>{`${pageName}`}</Text>
 				</View>

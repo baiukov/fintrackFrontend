@@ -43,4 +43,5 @@ export enum Endpoints {
 	SEND_EMAIL_CODE = '/sendCode',
 	VERIFY_RECOVERY_CODE = '/verifyRecoveryCode',
 	UPDATE_PASSWORD = '/updatePassword',
+	DELETE_USER_ACCOUNT = '/delete',
 }
