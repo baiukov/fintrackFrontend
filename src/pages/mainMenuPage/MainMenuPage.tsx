@@ -1,7 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { LinearGradient } from 'expo-linear-gradient'
 import React, { useState } from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
+import { Pressable, Text, View } from 'react-native'
 import { Tabs } from '../../components/ui/tabs/Tabs'
 import { Pages } from '../../enums/Pages'
 import { useStore } from '../../storage/store'
@@ -27,6 +27,7 @@ export const MainMenuPage = (props: any) => {
 	}
 
 	const transferToSettings = () => {
+		console.log('Pressed')
 		props.navigation.navigate(
 			props.transfers?.settings
 				? props.transfers.settings
@@ -42,15 +43,15 @@ export const MainMenuPage = (props: any) => {
 				start={{ x: -1, y: -1 }}
 				end={{ x: 1, y: 1 }}
 			>
-				<View style={styles.topMenu}>
-					<View></View>
-					<TouchableOpacity onPress={transferToSettings}>
-						<Ionicons name='settings-sharp' size={32} color='white' />
-					</TouchableOpacity>
-				</View>
-
 				<View style={GlobalStyles.headerWrapper}>
 					<Text style={GlobalStyles.header}>{`${pageName}`}</Text>
+					<View style={styles.topMenu}>
+					<Pressable
+						hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+						onPress={transferToSettings}>		
+						<Ionicons name='settings-sharp' size={32} color='white' />
+					</Pressable>
+				</View>
 				</View>
 				<Tabs style={{ width: '60%' }} tabs={tabs} callback={handleChange} />
 			</LinearGradient>

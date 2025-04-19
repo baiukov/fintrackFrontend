@@ -17,7 +17,6 @@ export const MainPage = (props: any) => {
 	)
 
 	React.useEffect(() => {
-		console.log('accessToken', accessToken)
 		if (accessToken) {
 			const service = UserService.getInstance()
 			service.loginByToken(accessToken).then(user => {
