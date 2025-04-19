@@ -44,20 +44,35 @@ export const TopMenu = (props: TopMenuProps) => {
 				onPress={transferToMainMenu}
 				style={props.isHidden?.menu ? styles.hidden : null}
 			>
-				<Ionicons name='menu' size={32} color='white' />
+				<Ionicons
+					name='menu'
+					size={32}
+					color='white'
+					style={props.isHidden?.menu ? styles.hidden : null}
+				/>
 			</TouchableOpacity>
 			<View style={styles.topLeftMenu}>
 				<TouchableOpacity
 					onPress={transferToSettings}
 					style={props.isHidden?.settings ? styles.hidden : null}
 				>
-					<Ionicons name='settings-sharp' size={32} color='white' />
+					<Ionicons
+						name='settings-sharp'
+						size={32}
+						color='white'
+						style={props.isHidden?.settings ? styles.hidden : null}
+					/>
 				</TouchableOpacity>
 				<TouchableOpacity
 					onPress={transferToGraph}
 					style={props.isHidden?.graph ? styles.hidden : null}
 				>
-					<AntDesign name='piechart' size={32} color='white' />
+					<AntDesign
+						name='piechart'
+						size={32}
+						color='white'
+						style={props.isHidden?.graph ? styles.hidden : null}
+					/>
 				</TouchableOpacity>
 			</View>
 		</View>

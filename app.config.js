@@ -1,8 +1,8 @@
-const ENV = 'local'
+const ENV = 'production'
 
 const ENV_CONFIG = {
 	production: {
-		API_URL: 'https://fintrackserver.ru:8080/api/v1',
+		API_URL: 'https://fintrackserver.ru/api/v1',
 	},
 	local: {
 		API_URL: 'http://192.168.1.83:8080/api/v1',
@@ -15,6 +15,10 @@ export default () => {
 			name: 'Fintrack',
 			slug: 'fintrack',
 			owner: 'baiukovandroid',
+			version: '1.1.1',
+			icon: './assets/icon.png',
+			description:
+				'Fintrack - finance management app. Manage your money smarter and easier! Our app provides a comprehensive overview of your financial health.',
 			extra: {
 				env: ENV_CONFIG[ENV],
 				eas: {
@@ -23,15 +27,23 @@ export default () => {
 			},
 			android: {
 				package: 'me.vse.fintrack2',
-				versionCode: 7,
+				versionCode: 8,
 			},
 			ios: {
 				bundleIdentifier: 'me.vse.fintrack',
-				buildNumber: '1.1.0',
+				buildNumber: '1.1.2',
+				supportsTablet: true,
+				infoPlist: {
+					NSUserTrackingUsageDescription:
+						'This identifier will be used to deliver personalized ads to you.',
+				},
 			},
 		},
-		name: 'Fintrack',
-		slug: 'fintrack',
-		version: '1.0.1',
+		orientation: 'portrait',
+		splash: {
+			image: './assets/splash_icon.png',
+			resizeMode: 'contain',
+			backgroundColor: '#ffffff',
+		},
 	}
 }
