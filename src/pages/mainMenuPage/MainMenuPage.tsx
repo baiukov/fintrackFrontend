@@ -44,14 +44,15 @@ export const MainMenuPage = (props: any) => {
 				end={{ x: 1, y: 1 }}
 			>
 				<View style={GlobalStyles.headerWrapper}>
-					<Text style={GlobalStyles.header}>{`${pageName}`}</Text>
 					<View style={styles.topMenu}>
-					<Pressable
-						hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-						onPress={transferToSettings}>		
-						<Ionicons name='settings-sharp' size={32} color='white' />
-					</Pressable>
-				</View>
+						<Pressable
+							hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+							onPress={transferToSettings}
+						>
+							<Ionicons name='settings-sharp' size={32} color='white' />
+						</Pressable>
+					</View>
+					<Text style={GlobalStyles.header}>{`${pageName}`}</Text>
 				</View>
 				<Tabs style={{ width: '60%' }} tabs={tabs} callback={handleChange} />
 			</LinearGradient>

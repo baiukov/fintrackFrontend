@@ -1,4 +1,4 @@
-const ENV = 'production'
+const ENV = 'local'
 
 const ENV_CONFIG = {
 	production: {
@@ -31,7 +31,7 @@ export default () => {
 			},
 			ios: {
 				bundleIdentifier: 'me.vse.fintrack',
-				buildNumber: '1.1.2',
+				buildNumber: '1.1.4',
 				supportsTablet: true,
 				infoPlist: {
 					NSUserTrackingUsageDescription:

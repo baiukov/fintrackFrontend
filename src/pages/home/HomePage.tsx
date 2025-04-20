@@ -107,9 +107,21 @@ export const HomePage = (props: HomePageProps) => {
 			const service = TransactionService.getInstance()
 
 			let groups: TransactionGroup[] = []
+
 			service.getAll(account.id).then(data => {
-				data.forEach(transaction => {
-					const date = new Date(transaction.executionDateTime)
+				const sortedTransactions = data
+					.map(transaction => ({
+						...transaction,
+						executionDateTime: new Date(transaction.executionDateTime),
+					}))
+					.sort(
+						(a, b) =>
+							new Date(b.executionDateTime).getTime() -
+							new Date(a.executionDateTime).getTime()
+					)
+
+				sortedTransactions.forEach(transaction => {
+					const date = transaction.executionDateTime
 					const monthId = date.getMonth() + 1
 					const monthStr = language[Months[monthId as keyof typeof Months]]
 					const year = date.getFullYear().toString().slice(2)
@@ -117,30 +129,13 @@ export const HomePage = (props: HomePageProps) => {
 					const existingGroup = groups.find(group => group.title === title)
 
 					if (existingGroup) {
-						existingGroup.transactions.push({
-							...transaction,
-							executionDateTime: new Date(transaction.executionDateTime),
-						})
+						existingGroup.transactions.push(transaction)
 					} else {
 						groups.push({
-							title: title,
-							transactions: [
-								{
-									...transaction,
-									executionDateTime: new Date(transaction.executionDateTime),
-								},
-							],
+							title,
+							transactions: [transaction],
 						})
 					}
-				})
-
-				groups = groups.map(group => {
-					group.transactions.sort(
-						(a, b) =>
-							new Date(b.executionDateTime).getTime() -
-							new Date(a.executionDateTime).getTime()
-					)
-					return group
 				})
 
 				setTransactionGroups(groups)
@@ -148,13 +143,16 @@ export const HomePage = (props: HomePageProps) => {
 			})
 		}
 		let k = 0
+		let timeout = 0
 		const interval = setInterval(() => {
 			k++
-			if (k > 10) {
+			if (k > 4) {
 				clearInterval(interval)
 			}
+
+			timeout = timeout + 1000 * k
 			fetchData()
-		}, 1000)
+		}, timeout)
 		fetchData()
 	}, [rerender, account.id])
 
@@ -275,19 +273,19 @@ export const HomePage = (props: HomePageProps) => {
 						boxes={{
 							leftTop: {
 								title: language.TOTAL,
-								data: total?.toString() + currencySymbol,
+								data: total?.toFixed(2) + currencySymbol,
 							},
 							rightTop: {
 								title: language.NET_WORTH,
-								data: networth?.toString() + currencySymbol,
+								data: networth?.toFixed(2) + currencySymbol,
 							},
 							leftBottom: {
 								title: language.INCOMES,
-								data: incomes?.toString() + currencySymbol,
+								data: incomes?.toFixed(2) + currencySymbol,
 							},
 							rightBottom: {
 								title: language.EXPENSES,
-								data: Math.abs(expenses || 0)?.toString() + currencySymbol,
+								data: Math.abs(expenses || 0)?.toFixed(2) + currencySymbol,
 							},
 						}}
 					/>

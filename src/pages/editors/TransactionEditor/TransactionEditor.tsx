@@ -206,6 +206,7 @@ export const TransactionEditor = (props: TransactionEditorProps) => {
 			.required(language.AMOUNT_REQUIRED),
 		type: Yup.string().required(language.TYPE_REQUIRED),
 		currency: Yup.string().required(language.MISSING_CURRENCY),
+		category: Yup.string().required(language.MISSING_CATEGORY),
 		description: Yup.string().max(1024, language.TOO_LONG),
 	})
 
