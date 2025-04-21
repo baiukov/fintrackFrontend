@@ -31,7 +31,7 @@ export default () => {
 			},
 			ios: {
 				bundleIdentifier: 'me.vse.fintrack',
-				buildNumber: '1.1.4',
+				buildNumber: '1.1.6',
 				supportsTablet: true,
 				infoPlist: {
 					NSUserTrackingUsageDescription:

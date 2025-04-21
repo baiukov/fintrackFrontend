@@ -13,20 +13,14 @@ export default function App() {
 	React.useEffect(() => {
 		const checkTrackingConsent = async () => {
 			try {
-				const savedConsent = await SecureStore.getItemAsync(
-					TRACKING_CONSENT_KEY
-				)
+				const { status } = await Tracking.requestTrackingPermissionsAsync()
 
-				if (savedConsent === null) {
-					const { status } = await Tracking.requestTrackingPermissionsAsync()
-					await SecureStore.setItemAsync(TRACKING_CONSENT_KEY, status)
-
-					if (status === 'granted') {
-						// User granted tracking permission
-					}
-				} else if (savedConsent === 'granted') {
-					// User previously granted tracking permission
+				if (status === 'granted' || status === 'denied') {
+					// User granted tracking permission
+					return
 				}
+
+				await SecureStore.setItemAsync(TRACKING_CONSENT_KEY, status)
 			} catch (error) {
 				console.error('Tracking consent error:', error)
 			}
