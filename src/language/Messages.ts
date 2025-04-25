@@ -160,6 +160,9 @@ export const Messages = {
 
 		FORGOT_PASSWORD: 'Forgot password?',
 		DELETE_ACCOUNT: 'Delete account',
+		OR: 'Or',
+		SIGNUP_WITH_GOOGLE: 'Continue with Google',
+		SIGNUP_WITH_FACEBOOK: 'Continue with Facebook',
 	},
 
 	CZ: {
@@ -323,5 +326,8 @@ export const Messages = {
 
 		FORGOT_PASSWORD: 'Zapomenuté heslo?',
 		DELETE_ACCOUNT: 'Smazat účet',
+		OR: 'Nebo',
+		SIGNUP_WITH_GOOGLE: 'Pokračovat s Googlem',
+		SIGNUP_WITH_FACEBOOK: 'Pokračovat s Facebookem',
 	},
 }

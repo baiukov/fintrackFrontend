@@ -1,3 +1,6 @@
+import * as AppleAuthentication from 'expo-apple-authentication'
+import * as Google from 'expo-auth-session/providers/google'
+import Constants from 'expo-constants'
 import { LinearGradient } from 'expo-linear-gradient'
 import * as SecureStore from 'expo-secure-store'
 import { Formik, FormikProps } from 'formik'
@@ -11,6 +14,9 @@ import {
 	View,
 } from 'react-native'
 import * as Yup from 'yup'
+import { AppleButton } from '../../components/ui/buttons/AuthServiceButtons/AppleButton'
+import { FacebookButton } from '../../components/ui/buttons/AuthServiceButtons/FacebookButton'
+import { GoogleButton } from '../../components/ui/buttons/AuthServiceButtons/GoogleButton'
 import { MainButton } from '../../components/ui/buttons/MainButton/MainButton'
 import { PasswordField } from '../../components/ui/fields/PasswordField/PasswordField'
 import { TextField } from '../../components/ui/fields/TextField/TextField'
@@ -25,7 +31,34 @@ import { styles } from './LoginPage.styles'
 export const LoginPage = (props: any) => {
 	const language = useStore((state: any) => state.language)
 	const [loading, setLoading] = React.useState(false)
-	const [text, setText] = React.useState('')
+
+	const [_, googleResponse, googlePromptAsync] = Google.useIdTokenAuthRequest({
+		clientId: Platform.select({
+			ios: Constants.expoConfig?.extra?.env?.AUTH?.GOOGLE_IOS_CLIENT_ID,
+			android: Constants.expoConfig?.extra?.env?.AUTH?.GOOGLE_ANDROID_CLIENT_ID,
+		}),
+	})
+
+	React.useEffect(() => {
+		if (googleResponse?.type === 'success') {
+			const { id_token } = googleResponse.params
+			const service = UserService.getInstance()
+			service.loginGoogle(id_token, Platform.OS).then(successLogin)
+		}
+	}, [googleResponse])
+
+	const appleLogin = async () => {
+		try {
+			const credential = await AppleAuthentication.signInAsync({
+				requestedScopes: [
+					AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+					AppleAuthentication.AppleAuthenticationScope.EMAIL,
+				],
+			})
+		} catch (e) {
+			console.log('Apple login error: ', e)
+		}
+	}
 
 	const validationSchema = Yup.object().shape({
 		login: Yup.string().required(language.MISSING_LOGIN),
@@ -40,52 +73,52 @@ export const LoginPage = (props: any) => {
 		props.navigation.replace(Pages.EMAIL_RECOVERY)
 	}
 
-
 	const handleSubmit = async (
 		values: { login: string; password: string },
 		{ setFieldError }: any
 	) => {
 		const service = UserService.getInstance()
 
+		setLoading(true)
+		try {
+			await service
+				.login(values.login, values.login, values.password)
+				.then(successLogin)
+				.catch(error => failLogin(error.response.data, setFieldError))
+		} catch (error) {
+			console.error('Login failed:', error)
+		} finally {
+			setLoading(false)
+		}
+	}
+
+	const successLogin = (user: any) => {
+		useStore.setState({ user: user })
+		SecureStore.setItem('accessToken', user.accessToken)
+		SecureStore.setItem('refreshToken', user.refreshToken)
+
+		if (user.hasPincode) {
+			props.navigation.navigate(Pages.PINCODE, {
+				isLogin: true,
+			})
+		} else {
+			props.navigation.reset({
+				index: 0,
+				routes: [{ name: Pages.MAIN_MENU }],
+			})
+		}
+	}
+
+	const failLogin = (error: string, setFieldError: any) => {
 		const errors = {
 			USER_DOESNT_EXIST: language.USER_DOESNT_EXIST,
 			WRONG_PASSWORD: language.PASSWORD_INCORRECT,
 		}
 
-		setLoading(true)
-		try {
-			await service
-				.login(values.login, values.login, values.password)
-				.then(user => {
-					useStore.setState({ user: user })
-					SecureStore.setItem('accessToken', user.accessToken)
-					SecureStore.setItem('refreshToken', user.refreshToken)
-
-					setText("accessToken: " + user.accessToken + "\naccessTonen2: " + SecureStore.getItem('accessToken'))	
-
-					if (user.hasPincode) {
-						props.navigation.navigate(Pages.PINCODE, {
-							isLogin: true,
-						})
-					} else {
-						props.navigation.reset({
-							index: 0,
-							routes: [{ name: Pages.MAIN_MENU }],
-						})
-					}
-				})
-				.catch(error => {
-					const response = error.response.data
-					if (response === 'USER_DOESNT_EXIST') {
-						setFieldError('login', errors[response as keyof typeof errors])
-					} else {
-						setFieldError('password', errors[response as keyof typeof errors])
-					}
-				})
-		} catch (error) {
-			console.error('Login failed:', error)
-		} finally {
-			setLoading(false)
+		if (error === 'USER_DOESNT_EXIST') {
+			setFieldError('login', errors[error as keyof typeof errors])
+		} else {
+			setFieldError('password', errors[error as keyof typeof errors])
 		}
 	}
 
@@ -140,7 +173,6 @@ export const LoginPage = (props: any) => {
 									</Text>
 								</TouchableOpacity>
 							</View>
-							{/* <Text>{text}</Text> */}
 							<View style={GlobalStyles.center}>
 								<MainButton
 									title={language.LOGIN}
@@ -152,6 +184,32 @@ export const LoginPage = (props: any) => {
 									variant={Buttons.SECONDARY}
 									callback={transferToSignup}
 								/>
+								<View>
+									<Text style={styles.orText}>{language.OR}</Text>
+								</View>
+
+								<GoogleButton
+									title={language.SIGNUP_WITH_GOOGLE}
+									callback={() => {
+										console.log('clicked')
+										googlePromptAsync()
+									}}
+								/>
+
+								<FacebookButton
+									title={language.SIGNUP_WITH_FACEBOOK}
+									callback={function () {
+										throw new Error('Function not implemented.')
+									}}
+								/>
+
+								{Platform.OS === 'ios' ? (
+									<AppleButton
+										callback={function () {
+											throw new Error('Function not implemented.')
+										}}
+									/>
+								) : null}
 							</View>
 						</View>
 					)}

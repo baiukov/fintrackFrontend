@@ -3,9 +3,21 @@ const ENV = 'local'
 const ENV_CONFIG = {
 	production: {
 		API_URL: 'https://fintrackserver.ru/api/v1',
+		AUTH: {
+			GOOGLE_ANDROID_CLIENT_ID:
+				'642618161357-vhtgvvmuh7aja2jmufa4mp8i8omqp0it.apps.googleusercontent.com',
+			GOOGLE_IOS_CLIENT_ID:
+				'642618161357-d471hggj8fq7uv8jmarp7srde72q8hms.apps.googleusercontent.com',
+		},
 	},
 	local: {
 		API_URL: 'http://192.168.1.83:8080/api/v1',
+		AUTH: {
+			GOOGLE_ANDROID_CLIENT_ID:
+				'642618161357-vhtgvvmuh7aja2jmufa4mp8i8omqp0it.apps.googleusercontent.com',
+			GOOGLE_IOS_CLIENT_ID:
+				'642618161357-d471hggj8fq7uv8jmarp7srde72q8hms.apps.googleusercontent.com',
+		},
 	},
 }
 
@@ -31,11 +43,16 @@ export default () => {
 			},
 			ios: {
 				bundleIdentifier: 'me.vse.fintrack',
-				buildNumber: '1.1.6',
+				buildNumber: '1.1.8',
 				supportsTablet: true,
 				infoPlist: {
-					NSUserTrackingUsageDescription:
-						'This identifier will be used to deliver personalized ads to you.',
+					CFBundleURLTypes: [
+						{
+							CFBundleURLSchemes: [
+								'com.googleusercontent.apps.642618161357-d471hggj8fq7uv8jmarp7srde72q8hms',
+							],
+						},
+					],
 				},
 			},
 		},

@@ -45,7 +45,6 @@ export const MainPage = (props: any) => {
 				start={{ x: -1, y: -1 }}
 				end={{ x: 1, y: 1 }}
 			>
-			
 				<Image
 					source={require('../../../assets/logo.png')}
 					style={styles.logo}

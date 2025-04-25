@@ -15,4 +15,15 @@ export const styles = StyleSheet.create({
 		fontSize: 16,
 		color: '#0645AD',
 	},
+
+	orText: {
+		color: '#fff',
+		opacity: 0.5,
+		fontSize: 12,
+		fontWeight: '800',
+		textAlign: 'center',
+		marginBottom: 10,
+		textTransform: 'uppercase',
+		fontStyle: 'italic',
+	},
 })

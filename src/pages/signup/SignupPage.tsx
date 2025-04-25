@@ -2,8 +2,11 @@ import { LinearGradient } from 'expo-linear-gradient'
 import * as SecureStore from 'expo-secure-store'
 import { Formik, FormikProps } from 'formik'
 import React from 'react'
-import { ActivityIndicator, Text, View } from 'react-native'
+import { ActivityIndicator, Platform, Text, View } from 'react-native'
 import * as Yup from 'yup'
+import { AppleButton } from '../../components/ui/buttons/AuthServiceButtons/AppleButton'
+import { FacebookButton } from '../../components/ui/buttons/AuthServiceButtons/FacebookButton'
+import { GoogleButton } from '../../components/ui/buttons/AuthServiceButtons/GoogleButton'
 import { MainButton } from '../../components/ui/buttons/MainButton/MainButton'
 import { TextField } from '../../components/ui/fields/TextField/TextField'
 import { ModalWindow } from '../../components/ui/modal/Modal'
@@ -190,7 +193,7 @@ export const SignupPage = (props: any) => {
 									error={props.errors.repeatPassword}
 								/>
 							</View>
-							<View style={GlobalStyles.center}>
+							<View style={[GlobalStyles.center, { bottom: 25 }]}>
 								<MainButton
 									title={language.SIGNUP}
 									variant={Buttons.PRIMARY}
@@ -201,6 +204,30 @@ export const SignupPage = (props: any) => {
 									variant={Buttons.SECONDARY}
 									callback={transferToLogin}
 								/>
+
+								<View>
+									<Text style={styles.orText}>{language.OR}</Text>
+								</View>
+
+								<GoogleButton
+									title={language.SIGNUP_WITH_GOOGLE}
+									callback={() => {}}
+								/>
+
+								<FacebookButton
+									title={language.SIGNUP_WITH_FACEBOOK}
+									callback={function () {
+										throw new Error('Function not implemented.')
+									}}
+								/>
+
+								{Platform.OS === 'ios' ? (
+									<AppleButton
+										callback={function () {
+											throw new Error('Function not implemented.')
+										}}
+									/>
+								) : null}
 							</View>
 						</View>
 					)}

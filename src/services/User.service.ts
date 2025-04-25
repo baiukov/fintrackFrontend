@@ -58,6 +58,18 @@ export class UserService extends Service {
 		return user
 	}
 
+	public async loginGoogle(token: string, platform: string) {
+		const uri = this.baseUrl + Endpoints.LOGIN_GOOGLE
+		const response = await this.api.post(uri, {
+			token,
+			platform,
+		})
+
+		const user = response.data
+
+		return user
+	}
+
 	public getToken() {
 		console.log(SecureStore.getItem('jwt'))
 		return SecureStore.getItem('jwt')
