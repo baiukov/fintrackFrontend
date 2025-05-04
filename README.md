@@ -76,4 +76,4 @@ Pokud narazíte na problém při spuštění, ověřte:
 Pokud chcete přispět do tohoto projektu, neváhejte vytvořit pull request nebo nahlásit chybu v sekci Issues.
 
 ### Licence
-Tento projekt je licencován pod licencí [MIT](LICENSE).
+Tento projekt je licencován pod licencí MIT
