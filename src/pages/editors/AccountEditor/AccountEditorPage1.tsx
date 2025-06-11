@@ -4,7 +4,6 @@ import React from 'react'
 import { Text, View } from 'react-native'
 import * as Yup from 'yup'
 import { MainButton } from '../../../components/ui/buttons/MainButton/MainButton'
-import { Checkbox } from '../../../components/ui/checkbox/Checkbox'
 import { DropDown } from '../../../components/ui/dropdowns/dropdown/Dropdown'
 import { TextField } from '../../../components/ui/fields/TextField/TextField'
 import { Picker } from '../../../components/ui/picker/Picker'
@@ -114,11 +113,6 @@ export const AccountEditorPage1 = (props: AccountEditorProps) => {
 									selectedId={props.values.emoji}
 									onSelect={props.handleChange('emoji')}
 									error={props.errors.emoji}
-								/>
-								<Checkbox
-									title={language.BUSINESS_ACCOUNT}
-									onPress={props.handleChange('isBusiness')}
-									description={language.BUSINESS_ACCOUNT_DESCRIPTION}
 								/>
 							</View>
 							<View style={GlobalStyles.center}>
