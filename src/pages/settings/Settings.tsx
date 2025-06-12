@@ -7,6 +7,7 @@ import { Pages } from '../../enums/Pages'
 import { AccountService } from '../../services/Account.service'
 import { useStore } from '../../storage/store'
 import { GlobalStyles } from '../../styles/GlobalStyles.styles'
+import NotificationService from '../../services/NotificationService'
 
 export const Settings = (props: any) => {
 	const [language, setLanguage] = React.useState(
@@ -16,9 +17,12 @@ export const Settings = (props: any) => {
 		useStore((state: any) => state.account)
 	)
 
-	const transferToGeneralStatement = () => {
-		// props.navigation.navigate(Pages.GENERAL_STATEMENT)
+	React.useEffect(() => {
+		const notificationService = NotificationService.getInstance();
+		notificationService.registerForPushNotifications();
+	}, []);
 
+	const transferToGeneralStatement = () => {
 		AccountService.getInstance().getGeneralStatement(
 			account.id,
 			language.LANGUAGE_NAME
@@ -27,6 +31,26 @@ export const Settings = (props: any) => {
 
 	const fetchBankData = () => {
 		props.navigation.navigate(Pages.FETCH_BANKS)
+	}
+
+	const testNotification = async () => {
+		const notificationService = NotificationService.getInstance();
+		await notificationService.sendLocalNotification(
+			'Welcome to FinTrack!',
+			'This is a test notification.'
+		);
+	}
+
+	const enableDailyAnalytics = async () => {
+		if (account && account.id) {
+			const notificationService = NotificationService.getInstance();
+			await notificationService.scheduleDailyAnalytics(account.id);
+		}
+	}
+
+	const disableDailyNotifications = async () => {
+		const notificationService = NotificationService.getInstance();
+		await notificationService.cancelAllNotifications();
 	}
 
 	return (
@@ -49,6 +73,18 @@ export const Settings = (props: any) => {
 						<NarrowButton
 							title={language.FETCH_BANK_DATA}
 							onPress={fetchBankData}
+						/>
+						<NarrowButton
+							title="Test Notification"
+							onPress={testNotification}
+						/>
+						<NarrowButton
+							title="Enable Daily Analytics (12:00 & 16:41)"
+							onPress={enableDailyAnalytics}
+						/>
+						<NarrowButton
+							title="Disable Daily Analytics"
+							onPress={disableDailyNotifications}
 						/>
 					</View>
 				</ScrollView>

@@ -1,4 +1,4 @@
-const ENV = 'production'
+const ENV = 'local'
 
 const ENV_CONFIG = {
 	production: {
@@ -28,12 +28,39 @@ export default () => {
 			android: {
 				package: 'me.vse.fintrack2',
 				versionCode: 8,
+				permissions: ["NOTIFICATIONS"],
+				adaptiveIcon: {
+					foregroundImage: "./assets/adaptive-icon.png",
+					backgroundColor: "#ffffff"
+				},
 			},
 			ios: {
 				bundleIdentifier: 'me.vse.fintrack',
 				buildNumber: '1.1.11',
 				supportsTablet: false,
 			},
+			userInterfaceStyle: "light",
+			splash: {
+				image: './assets/splash_icon.png',
+				resizeMode: 'contain',
+				backgroundColor: '#ffffff',
+			},
+			assetBundlePatterns: [
+				"**/*"
+			],
+			web: {
+				favicon: "./assets/favicon.png"
+			},
+			plugins: [
+				[
+					"expo-notifications",
+					{
+						icon: "./assets/notification-icon.png",
+						color: "#ffffff",
+						sounds: ["./assets/notification-sound.wav"]
+					}
+				]
+			],
 		},
 		orientation: 'portrait',
 		splash: {
